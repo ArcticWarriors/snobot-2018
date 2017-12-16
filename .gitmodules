@@ -1,0 +1,9 @@
+[submodule "RobotCode/SnobotRobotLibs"]
+	path = RobotCode/SnobotRobotLibs
+	url = https://github.com/ArcticWarriors/SnobotRobotLibs.git
+[submodule "NetworkTableViewer/CoordinateViewerGui"]
+	path = NetworkTableViewer/CoordinateViewerGui
+	url = https://github.com/ArcticWarriors/CoordinateGui.git
+[submodule "NetworkTableViewer/SmartDashboardLibs"]
+	path = NetworkTableViewer/SmartDashboardLibs
+	url = https://github.com/ArcticWarriors/SnobotSmartDashboardExtensions.git

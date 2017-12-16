@@ -1,0 +1,106 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+}
+plugins {
+    id "java"
+    id "eclipse"
+    id "idea"
+    id "jacoco"
+    id "jaci.openrio.gradle.GradleRIO" version "2018-beta-3a"
+    id "com.snobot.simulator.plugin.SnobotSimulatorPlugin" version "2017.12.13"
+}
+
+apply plugin: com.snobot.simulator.plugin.SnobotSimulatorPlugin
+snobotSimVersions {
+    snobotSimVersion = "0.5"
+}
+
+
+/////////////////////////////////////////////////////////////////////////////////
+// GradleRIO setup
+/////////////////////////////////////////////////////////////////////////////////
+
+def TEAM = 174
+def ROBOT_CLASS = "org.snobot.Snobot2018"
+
+// Define my targets (RoboRIO) and artifacts (deployable files)
+// This is added by GradleRIO's backing project EmbeddedTools.
+deploy {
+    targets {
+        target("roborio", jaci.openrio.gradle.frc.RoboRIO) {
+            team = TEAM
+        }
+    }
+    artifacts {
+        artifact('frcJava', jaci.openrio.gradle.frc.FRCJavaArtifact) {
+            targets << "roborio"
+        }
+    }
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ["src", "../SnobotRobotLibs/src"]
+        }
+    }
+}
+
+configurations {
+    native3rdPartyDeps
+    testRuntime.extendsFrom(native3rdPartyDeps)
+}
+
+dependencies {
+
+    // GradleRIO
+    compile wpilib()
+    
+    // Third Party without maven
+    compile files('../SnobotRobotLibs/dependencies/RIOdroid.jar')
+    
+    // Simulator
+    testCompile snobotSimCompile()
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled true
+    }
+    
+    afterEvaluate {
+        classDirectories = files(classDirectories.files.collect {
+            fileTree(dir: it,  exclude: 
+                ['com/team254/lib/trajectory/gen/**',
+                 'com/snobot2017/xtrajectory_gen/**'
+                ])
+        })
+    }
+}
+
+
+// GradleRIO setup.  Must be after dependencies
+jar {
+    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    manifest jaci.openrio.gradle.GradleRIOPlugin.javaManifest(ROBOT_CLASS)
+}
+
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.2.1'
+}
