@@ -12,13 +12,13 @@ plugins {
     id "eclipse"
     id "idea"
     id "jacoco"
-    id "jaci.openrio.gradle.GradleRIO" version "2018-beta-3a"
-    id "com.snobot.simulator.plugin.SnobotSimulatorPlugin" version "2017.12.13"
+    id "jaci.openrio.gradle.GradleRIO" version "2018.01.07"
+    id "com.snobot.simulator.plugin.SnobotSimulatorPlugin" version "2018.01.01"
 }
 
 apply plugin: com.snobot.simulator.plugin.SnobotSimulatorPlugin
 snobotSimVersions {
-    snobotSimVersion = "0.5"
+    snobotSimVersion = "0.7.1"
 }
 
 
@@ -56,6 +56,8 @@ sourceSets {
     main {
         java {
             srcDirs = ["src", "../SnobotRobotLibs/src"]
+            println new File("../SnobotRobotLibs/src").getAbsolutePath()
+            println new File("../SnobotRobotLibs/src").exists()
         }
     }
 }
@@ -69,12 +71,14 @@ dependencies {
 
     // GradleRIO
     compile wpilib()
+    compile ctre()
     
     // Third Party without maven
     compile files('../SnobotRobotLibs/dependencies/RIOdroid.jar')
     
     // Simulator
     testCompile snobotSimCompile()
+    testCompile snobotSimJavaCompile()
 }
 
 jacocoTestReport {
@@ -104,3 +108,5 @@ jar {
 task wrapper(type: Wrapper) {
     gradleVersion = '4.2.1'
 }
+
+build.dependsOn snobotSimUnzipNativeTools
