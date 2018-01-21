@@ -12,13 +12,18 @@ plugins {
     id "eclipse"
     id "idea"
     id "jacoco"
-    id "jaci.openrio.gradle.GradleRIO" version "2018.01.07"
+    id "jaci.openrio.gradle.GradleRIO" version "2018.01.21"
     id "com.snobot.simulator.plugin.SnobotSimulatorPlugin" version "2018.01.01"
 }
 
 apply plugin: com.snobot.simulator.plugin.SnobotSimulatorPlugin
 snobotSimVersions {
-    snobotSimVersion = "0.7.1"
+    snobotSimVersion = "0.7.3"
+}
+
+wpi {
+    wpilibVersion = '2018.2.1'
+    shuffleboardVersion = '1.1.0'
 }
 
 
@@ -110,3 +115,13 @@ task wrapper(type: Wrapper) {
 }
 
 build.dependsOn snobotSimUnzipNativeTools
+
+eclipse.classpath.file {
+    withXml {
+        provider ->
+        provider.asNode().findAll { it.@path.contains("jinput") && !it.@path.contains("natives") }.each {
+                def container = it
+                container.appendNode('attributes').appendNode('attribute', [name: 'org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY', value:project.name + "/build/native_libs"])
+        }
+    }
+}
