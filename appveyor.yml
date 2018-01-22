@@ -24,9 +24,25 @@ build_script:
     
     dir RobotCode\SnobotRobotLibs\src
 
-    # Build Library
+    # Build Robot Code
     
     cd RobotCode\snobot2018
+    
+    dir
+    
+    cmd /c gradlew.bat build jacocoTestReport
+
+    # Build Shuffleboard plugin
+    
+    cd ..\..\NetworkTableViewer\2018ShuffleboardWidgets
+    
+    dir
+    
+    cmd /c gradlew.bat build
+
+    # Build SmartDashboard extension
+    
+    cd ..\..\NetworkTableViewer\2018SmartDashboardWidgets
     
     dir
     

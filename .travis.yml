@@ -21,7 +21,17 @@ cache:
 script:
 
 
-# Build Library
+# Build Robot
 - cd RobotCode/snobot2018
+- ls
+- "./gradlew build -x test"
+
+# Build Shuffleboard plugins
+- cd ../../NetworkTableViewer/2018ShuffleboardWidgets
+- ls
+- "./gradlew build"
+
+# Build SmartDashboard plugins
+- cd ../../NetworkTableViewer/2018SmartDashboardWidgets
 - ls
 - "./gradlew build"

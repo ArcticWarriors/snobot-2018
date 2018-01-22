@@ -13,7 +13,7 @@ plugins {
     id "idea"
     id "jacoco"
     id "jaci.openrio.gradle.GradleRIO" version "2018.01.21"
-    id "com.snobot.simulator.plugin.SnobotSimulatorPlugin" version "2018.01.01"
+    id "com.snobot.simulator.plugin.SnobotSimulatorPlugin" version "2018.01.10"
 }
 
 apply plugin: com.snobot.simulator.plugin.SnobotSimulatorPlugin
@@ -65,6 +65,11 @@ sourceSets {
             println new File("../SnobotRobotLibs/src").exists()
         }
     }
+    test {
+        java {
+            srcDirs = ["tests"]
+        }
+    }
 }
 
 configurations {
@@ -82,6 +87,7 @@ dependencies {
     compile files('../SnobotRobotLibs/dependencies/RIOdroid.jar')
     
     // Simulator
+    testCompile 'junit:junit:4.12'
     testCompile snobotSimCompile()
     testCompile snobotSimJavaCompile()
 }
@@ -95,8 +101,8 @@ jacocoTestReport {
     afterEvaluate {
         classDirectories = files(classDirectories.files.collect {
             fileTree(dir: it,  exclude: 
-                ['com/team254/lib/trajectory/gen/**',
-                 'com/snobot2017/xtrajectory_gen/**'
+                ['com/team254/lib/trajectory/**',
+                 'com/snobot/lib/**',
                 ])
         })
     }

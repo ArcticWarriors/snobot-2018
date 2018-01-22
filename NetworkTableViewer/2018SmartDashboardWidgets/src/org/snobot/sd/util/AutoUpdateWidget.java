@@ -1,4 +1,4 @@
-package com.snobot.sd.util;
+package org.snobot.sd.util;
 
 import edu.wpi.first.smartdashboard.gui.StaticWidget;
 
@@ -52,6 +52,7 @@ public abstract class AutoUpdateWidget extends StaticWidget
 
         }
 
+        @SuppressWarnings("deprecation")
         @Override
         public void destroy()
         {
