@@ -25,18 +25,19 @@ public class BaseSimulatorTest
 
         DataAccessorFactory.getInstance().getSimulatorDataAccessor().reset();
         RobotBase.initializeHardwareConfiguration();
+        
     }
 
-    protected void simulateForTime(double aSeconds, Runnable task)
+    protected void simulateForTime(double aSeconds, Runnable aTask)
     {
-        simulateForTime(aSeconds, .02, task);
+        simulateForTime(aSeconds, .02, aTask);
     }
 
     protected void simulateForTime(double aSeconds, double aUpdatePeriod, Runnable aTask)
     {
-        double update_frequency = 1 / aUpdatePeriod;
+        double updateFrequency = 1 / aUpdatePeriod;
 
-        for (int i = 0; i < update_frequency * aSeconds; ++i)
+        for (int i = 0; i < updateFrequency * aSeconds; ++i)
         {
             aTask.run();
             DataAccessorFactory.getInstance().getSimulatorDataAccessor().updateSimulatorComponents(aUpdatePeriod);

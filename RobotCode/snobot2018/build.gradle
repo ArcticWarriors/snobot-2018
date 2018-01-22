@@ -12,6 +12,7 @@ plugins {
     id "eclipse"
     id "idea"
     id "jacoco"
+    id "checkstyle"
     id "jaci.openrio.gradle.GradleRIO" version "2018.01.21"
     id "com.snobot.simulator.plugin.SnobotSimulatorPlugin" version "2018.01.10"
 }
@@ -26,6 +27,10 @@ wpi {
     shuffleboardVersion = '1.1.0'
 }
 
+checkstyle {
+    toolVersion = "8.1"
+    configFile = new File(rootDir, "../../styleguide/checkstyle.xml")
+}
 
 /////////////////////////////////////////////////////////////////////////////////
 // GradleRIO setup
