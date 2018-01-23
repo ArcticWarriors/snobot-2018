@@ -2,6 +2,9 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
+apply plugin: 'checkstyle'
+apply plugin: 'pmd'
+apply plugin: 'findbugs'
 
 repositories {
     maven {
@@ -48,6 +51,31 @@ dependencies {
     compile 'edu.wpi.first.wpilib:SmartDashboard:3.0.0'
 }
 
+/////////////////////////////////////////////////////////////////////////////////
+// Style/Formatting stuff
+checkstyle {
+    toolVersion = "8.1"
+    configFile = new File(rootDir, "../styleguide/checkstyle.xml")
+}
+
+pmd {
+    consoleOutput  = true
+    reportsDir = file("${project.buildDir}/reports/pmd")
+    ruleSetFiles = files(file("../styleguide/pmd-ruleset.xml"))
+    ruleSets = []
+}
+
+findbugs {
+    excludeFilter = file("../styleguide/findbugs_suppressions.xml")
+    effort = "max"
+}
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled false
+        html.enabled true
+    }
+}
+/////////////////////////////////////////////////////////////////////////////////
 
 task wrapper(type: Wrapper) {
     gradleVersion = '4.1'

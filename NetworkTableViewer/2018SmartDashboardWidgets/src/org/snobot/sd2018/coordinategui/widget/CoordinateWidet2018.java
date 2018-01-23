@@ -17,17 +17,15 @@ public class CoordinateWidet2018 extends AutoUpdateWidget
                                                      // UPDATE_PERIOD) before
                                                      // you re-render
     
-    private CoordinateGui2018 mCoordinateGui;
+    private final CoordinateGui2018 mCoordinateGui;
     private int mRenderCtr;
 
+    /**
+     * Constructor.
+     */
     public CoordinateWidet2018()
     {
-        this(false);
-    }
-
-    public CoordinateWidet2018(boolean aDebug)
-    {
-        super(aDebug, UPDATE_PERIOD);
+        super(UPDATE_PERIOD);
 
         mCoordinateGui = new CoordinateGui2018();
 
@@ -45,9 +43,9 @@ public class CoordinateWidet2018 extends AutoUpdateWidget
     }
 
     @Override
-    public void propertyChanged(Property property)
+    public void propertyChanged(Property aProperty)
     {
-
+        // Nothing to do
     }
 
 

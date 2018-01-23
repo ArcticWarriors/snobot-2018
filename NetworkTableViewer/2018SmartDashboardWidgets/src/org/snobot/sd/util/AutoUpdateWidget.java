@@ -3,31 +3,33 @@ package org.snobot.sd.util;
 import edu.wpi.first.smartdashboard.gui.StaticWidget;
 
 /**
- *
+ * Base class for a widget that updates periodically.
+ * 
  * @author PJ
  */
 public abstract class AutoUpdateWidget extends StaticWidget
 {
     private static final long serialVersionUID = -5324757383577336302L;
 
-    private final BGThread mBgThread;
     private final long mUpdateMs;
 
-    protected final boolean mDebug;
-
-    public AutoUpdateWidget(boolean aDebug, long update_ms)
+    /**
+     * Constructor.
+     * 
+     * @param aUpdateMs
+     *            The update period, in ms
+     */
+    public AutoUpdateWidget(long aUpdateMs)
     {
-        mDebug = aDebug;
-        mUpdateMs = update_ms;
+        mUpdateMs = aUpdateMs;
 
-        mBgThread = new BGThread();
-        mBgThread.start();
+        BGThread bgThread = new BGThread();
+        bgThread.start();
     }
 
     public class BGThread extends Thread
     {
-
-        boolean destroyed = false;
+        boolean mDestroyed = false;
 
         public BGThread()
         {
@@ -37,7 +39,7 @@ public abstract class AutoUpdateWidget extends StaticWidget
         @Override
         public void run()
         {
-            while (!destroyed)
+            while (!mDestroyed)
             {
                 try
                 {
@@ -46,7 +48,7 @@ public abstract class AutoUpdateWidget extends StaticWidget
                 }
                 catch (Exception ex)
                 {
-                    ex.printStackTrace();
+                    ex.printStackTrace(); // NOPMD
                 }
             }
 
@@ -56,7 +58,7 @@ public abstract class AutoUpdateWidget extends StaticWidget
         @Override
         public void destroy()
         {
-            destroyed = true;
+            mDestroyed = true;
         }
     }
 

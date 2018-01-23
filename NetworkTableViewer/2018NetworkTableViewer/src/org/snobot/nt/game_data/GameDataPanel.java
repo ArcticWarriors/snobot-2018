@@ -13,6 +13,9 @@ public class GameDataPanel extends JPanel
     private Color mTheirColor;
     private String mPositions;
 
+    /**
+     * Constructor.
+     */
     public GameDataPanel()
     {
         setPreferredSize(new Dimension(100, 100));
@@ -23,7 +26,7 @@ public class GameDataPanel extends JPanel
     }
 
     @Override
-    public void paint(Graphics g)
+    public void paint(Graphics aGraphics)
     {
         if (mPositions == null || mPositions.length() != 3)
         {
@@ -34,27 +37,27 @@ public class GameDataPanel extends JPanel
         int boxWidths = getWidth() / 2;
         int boxHeights = getHeight() / 3;
 
-        drawBox(g, mPositions.charAt(0), 0 * boxHeights, boxWidths, boxHeights);
-        drawBox(g, mPositions.charAt(1), 1 * boxHeights, boxWidths, boxHeights);
-        drawBox(g, mPositions.charAt(2), 2 * boxHeights, boxWidths, boxHeights);
+        drawBox(aGraphics, mPositions.charAt(0), 0 * boxHeights, boxWidths, boxHeights);
+        drawBox(aGraphics, mPositions.charAt(1), 1 * boxHeights, boxWidths, boxHeights);
+        drawBox(aGraphics, mPositions.charAt(2), 2 * boxHeights, boxWidths, boxHeights);
     }
 
-    private void drawBox(Graphics g, char direction, int startY, int boxWidth, int boxHeight)
+    private void drawBox(Graphics aGraphics, char aDirection, int aStartY, int aBoxWidth, int aBoxHeight)
     {
-        g.setColor(getColor(direction == 'l'));
-        g.fillRect(0, startY, boxWidth, boxHeight);
-        g.setColor(Color.black);
-        g.drawRect(0, startY, boxWidth, boxHeight);
+        aGraphics.setColor(getColor(aDirection == 'l'));
+        aGraphics.fillRect(0, aStartY, aBoxWidth, aBoxHeight);
+        aGraphics.setColor(Color.black);
+        aGraphics.drawRect(0, aStartY, aBoxWidth, aBoxHeight);
 
-        g.setColor(getColor(direction == 'r'));
-        g.fillRect(boxWidth, startY, boxWidth, boxHeight);
-        g.setColor(Color.black);
-        g.drawRect(boxWidth, startY, boxWidth, boxHeight);
+        aGraphics.setColor(getColor(aDirection == 'r'));
+        aGraphics.fillRect(aBoxWidth, aStartY, aBoxWidth, aBoxHeight);
+        aGraphics.setColor(Color.black);
+        aGraphics.drawRect(aBoxWidth, aStartY, aBoxWidth, aBoxHeight);
     }
 
-    private Color getColor(boolean isOurs)
+    private Color getColor(boolean aIsOurs)
     {
-        return isOurs ? mOurColor : mTheirColor;
+        return aIsOurs ? mOurColor : mTheirColor;
     }
 
     public void setColors(Color aOurColor, Color aTheirColor)
@@ -63,6 +66,12 @@ public class GameDataPanel extends JPanel
         mTheirColor = aTheirColor;
     }
 
+    /**
+     * Sets the position data.
+     * 
+     * @param aData
+     *            The data
+     */
     public void setPositionData(String aData)
     {
         boolean repaint = !aData.equals(mPositions);

@@ -13,6 +13,9 @@ public class GameDataContainer extends JPanel
     private final JTextField mAllianceField;
     private final JTextField mGameDataField;
 
+    /**
+     * Constructor.
+     */
     public GameDataContainer()
     {
         setLayout(new BorderLayout());
@@ -36,6 +39,16 @@ public class GameDataContainer extends JPanel
         mIndicatorPanel.add(mAllianceField);
     }
 
+    /**
+     * Sets the data from the game specific message.
+     * 
+     * @param aMatchNumber
+     *            The match number
+     * @param aAlliance
+     *            The alliance color
+     * @param aGameData
+     *            The game specific data
+     */
     public void setPositionData(String aMatchNumber, String aAlliance, String aGameData)
     {
         mDataDrawerPanel.setPositionData(aGameData.toLowerCase());
@@ -43,6 +56,11 @@ public class GameDataContainer extends JPanel
         mGameDataField.setText(aGameData);
         mMatchNumberField.setText(aMatchNumber);
         mAllianceField.setText(aAlliance);
+    }
+
+    public void setIndicatorsVisible(boolean aIsVisible)
+    {
+        mIndicatorPanel.setVisible(aIsVisible);
     }
 
 }

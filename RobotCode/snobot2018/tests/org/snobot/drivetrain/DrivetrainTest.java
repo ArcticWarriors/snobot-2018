@@ -10,7 +10,7 @@ public class DrivetrainTest extends BaseSimulatorTest
     {
         simulateForTime(30, () ->
         {
-            System.out.println("Running");
+            System.out.println("Running"); // NOPMD
         });
     }
 

@@ -5,7 +5,13 @@ import javax.swing.JFrame;
 public class StandaloneGameDataPanelTester
 {
 
-    public static void main(String[] args)
+    /**
+     * Main runner.
+     * 
+     * @param aArgs
+     *            Arguments
+     */
+    public static void main(String[] aArgs)
     {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

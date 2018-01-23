@@ -14,15 +14,18 @@ public class SmartDashboardGameDataWidget extends AutoUpdateWidget
 {
     public static final String NAME = "2018 Game Data Widget";
 
-    private GameDataContainer mPanel;
+    private final GameDataContainer mPanel;
 
     private final NetworkTableEntry mGameMessageEntry;
     private final NetworkTableEntry mIsRedAllianceEntry;
     private final NetworkTableEntry mMatchNumberEntry;
 
+    /**
+     * Constructor.
+     */
     public SmartDashboardGameDataWidget()
     {
-        super(false, 100);
+        super(100);
 
         System.out.println("Adding widget");
 
@@ -38,9 +41,9 @@ public class SmartDashboardGameDataWidget extends AutoUpdateWidget
     }
 
     @Override
-    public void propertyChanged(Property arg0)
+    public void propertyChanged(Property aProperty)
     {
-
+        // Nothing to do
     }
 
     @Override

@@ -1,6 +1,6 @@
 package org.snobot;
 
-import com.snobot.lib.ASnobot;
+import org.snobot.lib.ASnobot;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 

@@ -8,9 +8,9 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.embed.swing.SwingNode?>
 
-<StackPane fx:id="root" minHeight="200" minWidth="200" prefHeight="200" prefWidth="200" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.snobot.shuffleboard2018.coordinategui.CoordinateGuiWidget">
+<StackPane fx:id="mRoot" minHeight="200" minWidth="200" prefHeight="200" prefWidth="200" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.snobot.shuffleboard2018.coordinategui.CoordinateGuiWidget">
 
          <children>
-            <SwingNode fx:id="swingNode" />
+            <SwingNode fx:id="mSwingNode" />
          </children>
 </StackPane>

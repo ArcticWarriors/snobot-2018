@@ -16,6 +16,16 @@ public class FmsInfoData extends ComplexData<FmsInfoData>
         this("", false, -1);
     }
 
+    /**
+     * Constructor.
+     * 
+     * @param aGameSpecificMessage
+     *            The game specific data
+     * @param aIsRedAlliance
+     *            True if you are the red alliance
+     * @param aMatchNumber
+     *            The current match number
+     */
     public FmsInfoData(String aGameSpecificMessage, boolean aIsRedAlliance, int aMatchNumber)
     {
         this.mGameSpecificMessage = aGameSpecificMessage;

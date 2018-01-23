@@ -30,17 +30,17 @@ public class CoordinateGuiWidget extends SingleSourceWidget implements Annotated
                                                      // you re-render
 
     @FXML
-    private Pane root;
+    private Pane mRoot;
 
     @FXML
-    private SwingNode swingNode;
+    private SwingNode mSwingNode;
 
     private CoordinateGui2018 mCoordinateGui;
     private DataSource<?> mXProperty;
     private DataSource<?> mYProperty;
     private DataSource<?> mAngleProperty;
 
-    private int renderCtr;
+    private int mRenderCtr;
 
     @FXML
     private void initialize()
@@ -56,7 +56,7 @@ public class CoordinateGuiWidget extends SingleSourceWidget implements Annotated
             @Override
             public void run()
             {
-                swingNode.setContent((JPanel) mCoordinateGui.getComponent());
+                mSwingNode.setContent((JPanel) mCoordinateGui.getComponent());
             }
         });
 
@@ -70,9 +70,9 @@ public class CoordinateGuiWidget extends SingleSourceWidget implements Annotated
                 {
                     handleUpdate();
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    e.printStackTrace();
+                    ex.printStackTrace(); // NOPMD
                 }
             }
         };
@@ -103,18 +103,18 @@ public class CoordinateGuiWidget extends SingleSourceWidget implements Annotated
             mAngleProperty = NetworkTableSource.forKey("SmartDashboard/Angle");
         }
 
-        if (renderCtr % RENDER_FREQUENCY == 0)
+        if (mRenderCtr % RENDER_FREQUENCY == 0)
         {
             mCoordinateGui.getLayerManager().render();
         }
 
-        ++renderCtr;
+        ++mRenderCtr;
     }
 
     @Override
     public Pane getView()
     {
-        return root;
+        return mRoot;
     }
 
 }

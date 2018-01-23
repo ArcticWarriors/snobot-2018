@@ -13,6 +13,8 @@ plugins {
     id "idea"
     id "jacoco"
     id "checkstyle"
+    id "pmd"
+    id "findbugs"
     id "jaci.openrio.gradle.GradleRIO" version "2018.01.21"
     id "com.snobot.simulator.plugin.SnobotSimulatorPlugin" version "2018.01.10"
 }
@@ -26,11 +28,31 @@ wpi {
     wpilibVersion = '2018.2.1'
     shuffleboardVersion = '1.1.0'
 }
-
+/////////////////////////////////////////////////////////////////////////////////
+// Style/Formatting stuff
 checkstyle {
     toolVersion = "8.1"
-    configFile = new File(rootDir, "../../styleguide/checkstyle.xml")
+    configFile = new File(rootDir, "styleguide/checkstyle.xml")
 }
+
+pmd {
+    consoleOutput  = true
+    reportsDir = file("${project.buildDir}/reports/pmd")
+    ruleSetFiles = files(file("styleguide/pmd-ruleset.xml"))
+    ruleSets = []
+}
+
+findbugs {
+    excludeFilter = file("styleguide/findbugs_suppressions.xml")
+    effort = "max"
+}
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled false
+        html.enabled true
+    }
+}
+/////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////
 // GradleRIO setup
@@ -87,6 +109,8 @@ dependencies {
     // GradleRIO
     compile wpilib()
     compile ctre()
+    
+    compile 'log4j:log4j:1.2.16'
     
     // Third Party without maven
     compile files('../SnobotRobotLibs/dependencies/RIOdroid.jar')

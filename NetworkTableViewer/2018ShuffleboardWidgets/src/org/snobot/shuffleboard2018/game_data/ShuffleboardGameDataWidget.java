@@ -16,10 +16,10 @@ import javafx.scene.layout.Pane;
 public class ShuffleboardGameDataWidget extends SimpleAnnotatedWidget<FmsInfoData>
 {
     @FXML
-    private Pane root;
+    private Pane mRoot;
 
     @FXML
-    private SwingNode swingNode;
+    private SwingNode mSwingNode;
 
     private GameDataContainer mPanel;
 
@@ -33,13 +33,13 @@ public class ShuffleboardGameDataWidget extends SimpleAnnotatedWidget<FmsInfoDat
             @Override
             public void run()
             {
-                swingNode.setContent(mPanel);
+                mSwingNode.setContent(mPanel);
             }
         });
 
-        dataOrDefault.addListener((__, prev, cur) ->
+        dataOrDefault.addListener((aUnused, aPrev, aCur) ->
         {
-            mPanel.setPositionData("" + cur.getMatchNumber(), "" + cur.isIsRedAlliance(), cur.getGameSpecificMessage());
+            mPanel.setPositionData(Integer.toString(aCur.getMatchNumber()), Boolean.toString(aCur.isIsRedAlliance()), aCur.getGameSpecificMessage());
             mPanel.invalidate();
             mPanel.revalidate();
         });
@@ -48,6 +48,6 @@ public class ShuffleboardGameDataWidget extends SimpleAnnotatedWidget<FmsInfoDat
     @Override
     public Pane getView()
     {
-        return root;
+        return mRoot;
     }
 }
