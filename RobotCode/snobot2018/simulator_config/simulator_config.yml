@@ -38,7 +38,7 @@ mPwm:
     mGearReduction: 12.0
     mGearboxEfficiency: 1.0
     mHasBrake: false
-    mInverted: false
+    mInverted: true
     mMotorType: CIM
     mNumMotors: 2
   mMotorSimConfig: !!com.snobot.simulator.motor_sim.StaticLoadMotorSimulationConfig

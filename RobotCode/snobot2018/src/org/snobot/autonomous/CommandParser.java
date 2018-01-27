@@ -1,0 +1,147 @@
+package org.snobot.autonomous;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.util.List;
+
+import org.apache.log4j.Level;
+import org.snobot.SmartDashboardNames;
+import org.snobot.Snobot2018;
+import org.snobot.autonomous.AutonomousFactory.StartingPositions;
+import org.snobot.lib.autonomous.ACommandParser;
+
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitCommand;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+
+/**
+ * Creates commands from a file path and adds them to a CommandGroup.
+ * 
+ * @author Nora/Josh
+ *
+ */
+public class CommandParser extends ACommandParser
+{
+    private final AutonomousCommandCreator mCommandCreator = new AutonomousCommandCreator();
+    protected final Snobot2018 mSnobot;
+    protected final NetworkTableEntry mAutonFilenameEntry;
+
+    private static final NetworkTable sAUTON_TABLE = NetworkTableInstance.getDefault().getTable(SmartDashboardNames.sAUTON_TABLE_NAME);
+
+    /**
+     * Creates a CommandParser object.
+     * 
+     * @param aSnobot
+     *            The robot using the CommandParser.
+     * @param aPositionChooser
+     *            The chooser which indicates the starting position
+     */
+    public CommandParser(Snobot2018 aSnobot, SendableChooser<StartingPositions> aPositionChooser)
+    {
+        super(sAUTON_TABLE.getEntry(SmartDashboardNames.sROBOT_COMMAND_TEXT), sAUTON_TABLE.getEntry(SmartDashboardNames.sSUCCESFULLY_PARSED_AUTON),
+                " ", "#");
+
+        mSnobot = aSnobot;
+
+        mAutonFilenameEntry = sAUTON_TABLE.getEntry(SmartDashboardNames.sAUTON_FILENAME);
+    }
+
+    /**
+     * Takes a list of Strings and creates a Command.
+     * 
+     * @param args
+     *            The command's name and parameters.
+     */
+    @Override
+    protected Command parseCommand(List<String> aCommandArgs)
+    {
+        String commandName = aCommandArgs.get(0);
+        Command newCommand = null;
+        try
+        {
+            // Generic from base class
+            switch (commandName)
+            {
+            case AutonomousCommandNames.sPARALLEL_COMMAND:
+            {
+                newCommand = parseParallelCommand(aCommandArgs);
+                break;
+            }
+            case AutonomousCommandNames.sWAIT_COMMAND:
+            {
+                newCommand = parseWaitCommand(aCommandArgs);
+                break;
+            }
+            default:
+            {
+                // Subsystems from AuotonomousoCommandCreator
+                newCommand = mCommandCreator.createCommand(commandName, aCommandArgs, mSnobot);
+                if (null == newCommand)
+                {
+                    addError("Received unexpected command name '" + commandName + "'");
+                }
+                break;
+            }
+            }
+        }
+        catch (IndexOutOfBoundsException ex)
+        {
+            addError("You have not specified enough aguments for the command: " + commandName + ". " + ex.getMessage());
+        }
+        catch (Exception ex)
+        {
+            addError("Failed to parse the command: " + commandName + ". " + ex.getMessage());
+            sLOGGER.log(Level.ERROR, "Failed to parse the command: " + commandName + ". ", ex);
+        }
+        return newCommand;
+    }
+
+    protected Command parseWaitCommand(List<String> aArgs)
+    {
+        double time = Double.parseDouble(aArgs.get(1));
+        return new WaitCommand(time);
+    }
+
+    @Override
+    public CommandGroup readFile(String aFilePath) // NOPMD
+    {
+        if (aFilePath == null)
+        {
+            aFilePath = "NOT FOUND!";
+        }
+
+        mAutonFilenameEntry.setString(aFilePath);
+        return super.readFile(aFilePath);
+    }
+
+    /**
+     * Saves the autonomous mode to the RoboRio.
+     */
+    public void saveAutonMode()
+    {
+        String newText = mAutonSdTableTextName.getString("");
+        String filename = mAutonFilenameEntry.getString("auton_file.txt");
+
+        sLOGGER.log(Level.INFO, "\n"
+                + "*****************************************\n"
+                + "Saving auton mode to " + filename + "\n"
+                + "*****************************************");
+
+        try
+        {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(new File(filename)));
+            bw.write(newText);
+            bw.close();
+        }
+        catch (Exception ex)
+        {
+            sLOGGER.log(Level.INFO, ex);
+        }
+
+    }
+}
