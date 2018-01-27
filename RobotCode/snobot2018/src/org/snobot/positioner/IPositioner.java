@@ -25,11 +25,18 @@ public interface IPositioner extends ISubsystem
      * @return The angle
      */
     public double getOrientationDegrees();
+    
+    /**
+     * Gets the robot's current angle, in radians.
+     * 
+     * @return The angle
+     */
+    public double getOrientationRadians();
 
     /**
      * The total distance traversed by the robot since the last reset.
      * 
-     * @return The distanec traveled, in inches
+     * @return The distance traveled, in inches
      */
     public double getTotalDistance();
 

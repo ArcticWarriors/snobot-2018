@@ -15,5 +15,8 @@ public class PortMappings2018
     public static final int sLEFT_DRIVE_ENCODER_PORT_B = 7;
     public static final int sRIGHT_DRIVE_ENCODER_PORT_A = 8;
     public static final int sRIGHT_DRIVE_ENCODER_PORT_B = 9;
+    
+    //Analog
+    public static final int sGYRO_PORT = 0;
 
 }

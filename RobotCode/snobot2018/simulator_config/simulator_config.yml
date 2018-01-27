@@ -1,8 +1,15 @@
 !!com.snobot.simulator.config.SimulatorConfig
 mAccelerometers: []
 mAnalogIO: []
-mDefaultI2CWrappers: {}
-mDefaultSpiWrappers: {}
+mDefaultI2CWrappers:
+  0: None
+  1: None
+mDefaultSpiWrappers:
+  0: ADXRS450
+  1: null
+  2: null
+  3: null
+  4: null
 mDigitalIO:
 - mHandle: 6
   mName: Digital Source6
@@ -19,7 +26,9 @@ mEncoders:
 - mConnectedSpeedControllerHandle: 1
   mHandle: 1
   mName: drive left
-mGyros: []
+mGyros:
+- mHandle: 100
+  mName: SPI ADXRS450
 mPwm:
 - mHandle: 0
   mMotorModelConfig:
@@ -46,5 +55,10 @@ mPwm:
     mLoad: 0.6
   mName: Drive Left
 mRelays: []
-mSimulatorComponents: []
+mSimulatorComponents:
+- !!com.snobot.simulator.simulator_components.TankDriveGyroSimulator$TankDriveConfig
+  mGyroHandle: 100
+  mLeftEncoderHandle: 1
+  mRightEncoderHandle: 0
+  mTurnKp: 33.33
 mSolenoids: []

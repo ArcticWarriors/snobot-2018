@@ -8,9 +8,10 @@ import org.snobot2018.joystick.IDriveJoystick;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class SnobotDriveTrain implements IDriveTrain 
+public class SnobotDriveTrain implements IDriveTrain
 {
     private final Encoder mLeftDriveEncoder;
     private final Encoder mRightDriveEncoder;
@@ -30,6 +31,7 @@ public class SnobotDriveTrain implements IDriveTrain
 
     protected final IDriveJoystick mDriverJoystick;
 
+    private final Gyro mGyro;
 
     /**
      * This class is where all the motors stuff are set so that they work.
@@ -48,11 +50,8 @@ public class SnobotDriveTrain implements IDriveTrain
      *            The logger
      * 
      */
-    public SnobotDriveTrain(
-            SpeedController aLeftMotor, 
-            SpeedController aRightMotor, 
-            Encoder aLeftDriveEncoder, 
-            Encoder aRightDriveEncoder, IDriveJoystick aDriverJoystick, ILogger aLogger)
+    public SnobotDriveTrain(SpeedController aLeftMotor, SpeedController aRightMotor, Encoder aLeftDriveEncoder, Encoder aRightDriveEncoder,
+            IDriveJoystick aDriverJoystick, ILogger aLogger, Gyro aGyro)
     {
         mLeftMotor = aLeftMotor;
         mRightMotor = aRightMotor;
@@ -61,6 +60,7 @@ public class SnobotDriveTrain implements IDriveTrain
         mLeftDriveEncoder = aLeftDriveEncoder;
         mRightDriveEncoder = aRightDriveEncoder;
         mRobotDrive = new DifferentialDrive(aLeftMotor, aRightMotor);
+        mGyro = aGyro;
 
     }
 
@@ -85,7 +85,6 @@ public class SnobotDriveTrain implements IDriveTrain
 
         mLeftMotorDistance = mLeftDriveEncoder.getDistance();
         mRightMotorDistance = mRightDriveEncoder.getDistance();
-
 
     }
 
@@ -154,5 +153,15 @@ public class SnobotDriveTrain implements IDriveTrain
         mRightDriveEncoder.reset();
     }
 
+    @Override
+    public void resetHeading()
+    {
+        mGyro.reset();
+    }
 
+    @Override
+    public double getHeading()
+    {
+        return mGyro.getAngle();
+    }
 }
