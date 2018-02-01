@@ -41,7 +41,7 @@ mPwm:
   mMotorSimConfig: !!com.snobot.simulator.motor_sim.StaticLoadMotorSimulationConfig
     mConversionFactor: 1.0
     mLoad: 0.6
-  mName: Drive Right
+  mName: Drive Left
 - mHandle: 1
   mMotorModelConfig:
     mGearReduction: 12.0
@@ -53,12 +53,12 @@ mPwm:
   mMotorSimConfig: !!com.snobot.simulator.motor_sim.StaticLoadMotorSimulationConfig
     mConversionFactor: 1.0
     mLoad: 0.6
-  mName: Drive Left
+  mName: Drive Right
 mRelays: []
 mSimulatorComponents:
 - !!com.snobot.simulator.simulator_components.TankDriveGyroSimulator$TankDriveConfig
   mGyroHandle: 100
-  mLeftEncoderHandle: 1
-  mRightEncoderHandle: 0
+  mLeftEncoderHandle: 0
+  mRightEncoderHandle: 1
   mTurnKp: 33.33
 mSolenoids: []

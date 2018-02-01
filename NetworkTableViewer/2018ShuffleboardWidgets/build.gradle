@@ -82,3 +82,18 @@ tasks.withType(FindBugs) {
 task wrapper(type: Wrapper) {
     gradleVersion = '4.1'
 }
+
+
+////////////////////////////////////////////////////////////////////////////////
+import org.gradle.plugins.ide.eclipse.model.AccessRule
+eclipse {
+    classpath {
+        file {
+            whenMerged {
+                def jre = entries.find { it.path.contains 'org.eclipse.jdt.launching.JRE_CONTAINER' }
+                jre.accessRules.add(new AccessRule('accessible', 'javafx/**'))
+            }
+        }
+    }
+}
+////////////////////////////////////////////////////////////////////////////////
