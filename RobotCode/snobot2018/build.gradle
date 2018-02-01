@@ -87,9 +87,10 @@ repositories {
 sourceSets {
     main {
         java {
-            srcDirs = ["src", "../SnobotRobotLibs/src"]
-            println new File("../SnobotRobotLibs/src").getAbsolutePath()
-            println new File("../SnobotRobotLibs/src").exists()
+            srcDirs = ["src", 
+                       "../SnobotRobotLibs/src",
+                       "../SnobotRobotLibs/CheesyPoofsLibs"
+                      ]
         }
     }
     test {
