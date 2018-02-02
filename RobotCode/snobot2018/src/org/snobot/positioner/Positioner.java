@@ -1,11 +1,10 @@
-package org.snobot2018.positioner;
+package org.snobot.positioner;
 
 import org.snobot.SmartDashboardNames;
+import org.snobot.drivetrain.IDriveTrain;
 import org.snobot.lib.Utilities;
 import org.snobot.lib.logging.ILogger;
 import org.snobot.lib.modules.ISubsystem;
-import org.snobot.positioner.IPositioner;
-import org.snobot2018.drivetrain.IDriveTrain;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -130,12 +129,12 @@ public class Positioner implements ISubsystem, IPositioner
     @Override
     public void setPosition(double aX, double aY, double aAngle)
     {
-        mDriveTrain.restEncoders();
+        mDriveTrain.resetEncoders();
         mXPosition = aX;
         mYPosition = aY;
         mStartAngle = aAngle;
         mDriveTrain.resetHeading();
-        mDriveTrain.restEncoders();
+        mDriveTrain.resetEncoders();
 
         mTotalDistance = 0;
         mLastDistance = 0;

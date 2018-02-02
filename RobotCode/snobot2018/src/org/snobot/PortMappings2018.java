@@ -11,6 +11,12 @@ public class PortMappings2018
     public static final int sDRIVE_PWM_LEFT_A_PORT = 0;
     public static final int sELEVATOR_PWM_A_PORT = 2;
 
+    // PWM
+    public static final int sDRIVE_CTRE_RIGHT_A_PORT = 0;
+    public static final int sDRIVE_CTRE_RIGHT_B_PORT = 1;
+    public static final int sDRIVE_CTRE_LEFT_A_PORT = 2;
+    public static final int sDRIVE_CTRE_LEFT_B_PORT = 3;
+
     // Digital
     public static final int sLEFT_DRIVE_ENCODER_PORT_A = 6;
     public static final int sLEFT_DRIVE_ENCODER_PORT_B = 7;

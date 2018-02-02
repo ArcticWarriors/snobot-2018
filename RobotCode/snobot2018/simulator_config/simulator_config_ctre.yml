@@ -1,0 +1,85 @@
+!!com.snobot.simulator.config.SimulatorConfig
+mAccelerometers: []
+mAnalogIO: []
+mDefaultI2CWrappers:
+  0: None
+  1: None
+mDefaultSpiWrappers:
+  0: ADXRS450
+  1: null
+  2: null
+  3: null
+  4: null
+mDigitalIO: []
+mEncoders: []
+mGyros:
+- mHandle: 100
+  mName: SPI ADXRS450
+mPwm:
+- mHandle: 2
+  mMotorModelConfig:
+    mGearReduction: 1.0
+    mGearboxEfficiency: 1.0
+    mHasBrake: false
+    mInverted: false
+    mMotorType: CIM
+    mNumMotors: 2
+  mMotorSimConfig: !!com.snobot.simulator.motor_sim.GravityLoadMotorSimulationConfig
+    mLoad: 1.0
+  mName: Elevator
+- mHandle: 100
+  mMotorModelConfig:
+    mGearReduction: 12.0
+    mGearboxEfficiency: 1.0
+    mHasBrake: false
+    mInverted: true
+    mMotorType: CIM
+    mNumMotors: 2
+  mMotorSimConfig: !!com.snobot.simulator.motor_sim.StaticLoadMotorSimulationConfig
+    mConversionFactor: 1.0
+    mLoad: 0.6
+  mName: Drive Right (A)
+- mHandle: 101
+  mMotorModelConfig:
+    mGearReduction: 12.0
+    mGearboxEfficiency: 1.0
+    mHasBrake: false
+    mInverted: false
+    mMotorType: CIM
+    mNumMotors: 2
+  mMotorSimConfig: !!com.snobot.simulator.motor_sim.StaticLoadMotorSimulationConfig
+    mConversionFactor: 1.0
+    mLoad: 0.6
+  mName: Drive Right (B)
+- mHandle: 102
+  mMotorModelConfig:
+    mGearReduction: 12.0
+    mGearboxEfficiency: 1.0
+    mHasBrake: false
+    mInverted: false
+    mMotorType: CIM
+    mNumMotors: 2
+  mMotorSimConfig: !!com.snobot.simulator.motor_sim.StaticLoadMotorSimulationConfig
+    mConversionFactor: 1.0
+    mLoad: 0.6
+  mName: Drive Left (A)
+- mHandle: 103
+  mMotorModelConfig:
+    mGearReduction: 12.0
+    mGearboxEfficiency: 1.0
+    mHasBrake: false
+    mInverted: false
+    mMotorType: CIM
+    mNumMotors: 2
+  mMotorSimConfig: !!com.snobot.simulator.motor_sim.StaticLoadMotorSimulationConfig
+    mConversionFactor: 1.0
+    mLoad: 0.6
+  mName: Drive Left (B)
+mRelays: []
+mSimulatorComponents:
+- !!com.snobot.simulator.simulator_components.TankDriveGyroSimulator$TankDriveConfig
+  mGyroHandle: 100
+  mLeftEncoderHandle: 102
+  mRightEncoderHandle: 100
+  mTurnKp: 33.33
+mSolenoids: []

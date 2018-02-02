@@ -1,4 +1,4 @@
-package org.snobot2018.drivetrain;
+package org.snobot.drivetrain;
 
 import org.snobot.lib.modules.ISubsystem;
 
@@ -45,7 +45,7 @@ public interface IDriveTrain extends ISubsystem
     /**
      * Resets left and right encoders.
      */
-    void restEncoders();
+    void resetEncoders();
     
     /**
      * Resets gyro.

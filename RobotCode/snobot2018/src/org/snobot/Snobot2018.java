@@ -1,27 +1,24 @@
 package org.snobot;
 
 import org.snobot.autonomous.AutonomousFactory;
+import org.snobot.drivetrain.DrivetrainFactory;
+import org.snobot.drivetrain.IDriveTrain;
+import org.snobot.elevator.ElevatorFactory;
 import org.snobot.elevator.IElevator;
-import org.snobot.elevator.SnobotElevator;
+import org.snobot.joystick.SnobotDriveOperatorJoystick;
+import org.snobot.joystick.SnobotDriveXbaxJoystick;
 import org.snobot.lib.ASnobot;
 import org.snobot.lib.logging.ILogger;
 import org.snobot.positioner.IPositioner;
-import org.snobot2018.drivetrain.IDriveTrain;
-import org.snobot2018.drivetrain.SnobotDriveTrain;
-import org.snobot2018.joystick.SnobotDriveOperatorJoystick;
-import org.snobot2018.joystick.SnobotDriveXbaxJoystick;
-import org.snobot2018.positioner.Positioner;
+import org.snobot.positioner.Positioner;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 
 public class Snobot2018 extends ASnobot
 {
+    private final boolean mUseCan;
+
     // RoboSubsystems
     private IDriveTrain mDriveTrain;
     private IElevator mElevator;
@@ -31,6 +28,16 @@ public class Snobot2018 extends ASnobot
 
     // Positioner
     private Positioner mPositioner;
+
+    public Snobot2018()
+    {
+        this(true); // TODO read a file on the robot to determine this
+    }
+
+    public Snobot2018(boolean aUseCan)
+    {
+        mUseCan = aUseCan;
+    }
 
     /**
      * This is where all of the different subsystems are brought together so
@@ -51,20 +58,13 @@ public class Snobot2018 extends ASnobot
         addModule(operatorJoystick);
 
         // DriveTrain
-        SpeedController driveLeftMotor = new VictorSP(PortMappings2018.sDRIVE_PWM_LEFT_A_PORT);
-        SpeedController driveRightMotor = new VictorSP(PortMappings2018.sDRIVE_PWM_RIGHT_A_PORT);
-        Encoder leftDriveEncoder = new Encoder(PortMappings2018.sLEFT_DRIVE_ENCODER_PORT_A, PortMappings2018.sLEFT_DRIVE_ENCODER_PORT_B);
-        Encoder rightDriveEncoder = new Encoder(PortMappings2018.sRIGHT_DRIVE_ENCODER_PORT_A, PortMappings2018.sRIGHT_DRIVE_ENCODER_PORT_B);
-        Gyro gyro = new ADXRS450_Gyro();
-
-        mDriveTrain = new SnobotDriveTrain(driveLeftMotor, driveRightMotor, leftDriveEncoder, rightDriveEncoder, driverJoystick, logger, gyro);
+        DrivetrainFactory drivetrainFactory = new DrivetrainFactory();
+        mDriveTrain = drivetrainFactory.createDrivetrain(mUseCan, driverJoystick, logger);
         addModule(mDriveTrain);
 
         // Elevator
-        SpeedController elevatorMotor = new VictorSP(PortMappings2018.sELEVATOR_PWM_A_PORT);
-        Encoder elevatorEncoder = new Encoder(PortMappings2018.sELEVATOR_ENCODER_PORT_A, PortMappings2018.sELEVATOR_ENCODER_PORT_B);
-
-        mElevator = new SnobotElevator(elevatorMotor, elevatorEncoder, operatorJoystick, logger);
+        ElevatorFactory elevatorFactory = new ElevatorFactory();
+        mElevator = elevatorFactory.createDrivetrain(mUseCan, operatorJoystick, logger);
         addModule(mElevator);
 
         // Position

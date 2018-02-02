@@ -1,9 +1,9 @@
 package org.snobot.elevator;
 
 import org.snobot.SmartDashboardNames;
+import org.snobot.joystick.IOperatorJoystick;
 import org.snobot.lib.logging.ILogger;
 import org.snobot.lib.modules.ISubsystem;
-import org.snobot2018.joystick.IOperatorJoystick;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;

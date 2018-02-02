@@ -1,4 +1,4 @@
-package org.snobot2018.joystick;
+package org.snobot.joystick;
 
 import org.snobot.lib.logging.ILogger;
 import org.snobot.lib.ui.XboxButtonMap;

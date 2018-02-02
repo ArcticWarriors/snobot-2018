@@ -3,7 +3,7 @@ package org.snobot.commands;
 import java.util.List;
 
 import org.snobot.Snobot2018;
-import org.snobot2018.drivetrain.IDriveTrain;
+import org.snobot.drivetrain.IDriveTrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.TimedCommand;

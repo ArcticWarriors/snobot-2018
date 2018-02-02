@@ -132,7 +132,7 @@ jacocoTestReport {
         classDirectories = files(classDirectories.files.collect {
             fileTree(dir: it,  exclude: 
                 ['com/team254/lib/trajectory/**',
-                 'com/snobot/lib/**',
+                 'org/snobot/lib/**',
                 ])
         })
     }
@@ -160,4 +160,8 @@ eclipse.classpath.file {
                 container.appendNode('attributes').appendNode('attribute', [name: 'org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY', value:project.name + "/build/native_libs"])
         }
     }
+}
+
+tasks.withType(Test) {
+    systemProperty "java.library.path", "$rootDir/build/native_libs"
 }
