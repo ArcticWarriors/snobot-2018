@@ -3,6 +3,8 @@ package org.snobot.shuffleboard2018;
 import java.util.List;
 
 import org.snobot.shuffleboard2018.coordinategui.CoordinateGuiWidget;
+import org.snobot.shuffleboard2018.dotstar_sim.DotstarDataType;
+import org.snobot.shuffleboard2018.dotstar_sim.ShuffleboardDotstarSimWidget;
 import org.snobot.shuffleboard2018.game_data.FmsInfoDataType;
 import org.snobot.shuffleboard2018.game_data.ShuffleboardGameDataWidget;
 
@@ -23,6 +25,7 @@ public class ShuffleboardPlugin2018 extends Plugin
     {
         return ImmutableList.of(
                 WidgetType.forAnnotatedWidget(ShuffleboardGameDataWidget.class),
+                WidgetType.forAnnotatedWidget(ShuffleboardDotstarSimWidget.class),
                 WidgetType.forAnnotatedWidget(CoordinateGuiWidget.class));
 
     }
@@ -30,7 +33,9 @@ public class ShuffleboardPlugin2018 extends Plugin
     @Override
     public List<DataType> getDataTypes()
     {
-        return ImmutableList.of(new FmsInfoDataType());
+        return ImmutableList.of(
+                new FmsInfoDataType(),
+                new DotstarDataType());
     }
 
 }

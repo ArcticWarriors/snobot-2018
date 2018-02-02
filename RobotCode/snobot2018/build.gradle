@@ -95,7 +95,7 @@ sourceSets {
     }
     test {
         java {
-            srcDirs = ["tests"]
+            srcDirs = ["tests", "simulator_extensions"]
         }
     }
 }

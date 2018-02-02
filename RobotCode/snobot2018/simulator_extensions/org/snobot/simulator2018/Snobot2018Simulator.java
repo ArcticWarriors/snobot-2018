@@ -1,10 +1,16 @@
-package org.snobot.test.utilities;
+package org.snobot.simulator2018;
 
 import com.snobot.simulator.ASimulator;
+import com.snobot.simulator.jni.standard_components.SpiCallbackJni;
 
-public class SimulatorMock extends ASimulator
+public class Snobot2018Simulator extends ASimulator
 {
     private final boolean mUseCan;
+
+    public Snobot2018Simulator()
+    {
+        this(true);
+    }
 
     /**
      * Constructor.
@@ -13,9 +19,11 @@ public class SimulatorMock extends ASimulator
      *            If CTRE modules are being used. Used to specify which
      *            simulator config to read
      */
-    public SimulatorMock(boolean aUseCan)
+    public Snobot2018Simulator(boolean aUseCan)
     {
         mUseCan = aUseCan;
+
+        SpiCallbackJni.setSpiFactory(new SnobotSpiFactory());
     }
 
     @Override
@@ -34,4 +42,3 @@ public class SimulatorMock extends ASimulator
         return super.loadConfig(actualConfigFile);
     }
 }
-

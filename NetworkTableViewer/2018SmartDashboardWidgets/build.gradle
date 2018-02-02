@@ -39,7 +39,7 @@ jar {
    }
 }
 
-task copy_to_plugin_dir(type: Copy) {
+task install_to_plugin_dir(type: Copy) {
     from jar.outputs
     into System.getProperty("user.home") + "/SmartDashboard/extensions"
 }

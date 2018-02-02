@@ -1,6 +1,7 @@
 package org.snobot.test.utilities;
 
 import org.snobot.Snobot2018;
+import org.snobot.simulator2018.Snobot2018Simulator;
 
 import com.snobot.simulator.ASimulator;
 import com.snobot.simulator.DefaultDataAccessorFactory;
@@ -27,7 +28,7 @@ public class BaseSimulatorTest
     {
         setup();
 
-        mSimulator = new SimulatorMock(aUseCan);
+        mSimulator = new Snobot2018Simulator(aUseCan);
         mSimulator.loadConfig("DoesntMatter");
 
         mSnobot = new Snobot2018(aUseCan);
