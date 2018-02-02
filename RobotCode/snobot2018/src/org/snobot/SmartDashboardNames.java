@@ -5,6 +5,10 @@ public class SmartDashboardNames
     // DriveTrain
     public static final String sLEFT_DRIVE_ENCODER_DISTANCE = "Left Drive Motor Encoder";
     public static final String sRIGHT_DRIVE_ENCODER_DISTANCE = "Right Drive Motor Encoder";
+
+    // Elevator
+    public static final String sELEVATOR_HEIGHT = "Elevator Height";
+    public static final String sELEVATOR_MOTOR_SPEED = "Elevator Motor Speed";
     
     // Positioner
     public static final String sX_POSITION = "X Position";
