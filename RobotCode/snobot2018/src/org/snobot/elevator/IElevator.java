@@ -24,10 +24,13 @@ public interface IElevator
      */
     void setMotorSpeed(double aSpeed);
 
-    void goUp();
-
-    void goDown();
-
+    /**
+     * This sets the height of the elevator.
+     * 
+     * @param aHeight
+     *            is the height that we want to go to in inches.
+     * 
+     */
     void setHeight(double aHeight);
 
 }

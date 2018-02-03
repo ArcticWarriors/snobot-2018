@@ -22,6 +22,8 @@ public class SnobotElevator implements IElevator, ISubsystem
     private boolean mGotoHeight;
     private final double mKp;
     private final double mDeadband;
+    private final double mMaxHeight;
+    private final double mMinHeight;
 
     /**
      * This is the constructor for the SnobotElevator.
@@ -47,6 +49,8 @@ public class SnobotElevator implements IElevator, ISubsystem
         mGotoHeight = false;
         mKp = 0.1;
         mDeadband = 3;
+        mMaxHeight = 74;
+        mMinHeight = 1;
     }
 
     /**
@@ -127,22 +131,38 @@ public class SnobotElevator implements IElevator, ISubsystem
     @Override
     public void setMotorSpeed(double aSpeed)
     {
-        mElevatorMotor.set(aSpeed);
-
+        if (canMove(aSpeed))
+        {
+            mElevatorMotor.set(aSpeed);
+        }
+        else
+        {
+            stop();
+        }
     }
 
-    @Override
-    public void goUp()
+    /**
+     * Decides if the elevator can or can't move.
+     * 
+     * @param aDirection
+     *            is the direction the elevator wants to move.
+     * @return If true the elevator can move and if false then the elevator
+     *         can't move.
+     */
+    protected boolean canMove(double aDirection)
     {
-        // TODO Auto-generated method stub
+        boolean canMove = true;
 
-    }
-
-    @Override
-    public void goDown()
-    {
-        // TODO Auto-generated method stub
-
+        if (aDirection > 0 && (mMaxHeight <= mActualHeight))
+        {   
+            canMove = false;
+        }
+        else if (aDirection < 0 && (mMinHeight >= mActualHeight))
+        {
+            canMove = false;
+        }
+        
+        return canMove;
     }
 
     @Override
@@ -158,7 +178,7 @@ public class SnobotElevator implements IElevator, ISubsystem
      * program finishes but if it is not then it sets the motor speed using Kp.
      * and the delta Distance
      */
-    void gotoHeight()
+    private void gotoHeight()
     {
         double deltaHeight = mTargetHeight - mActualHeight;
         InDeadbandHelper deadBandHelper = new InDeadbandHelper(3);
