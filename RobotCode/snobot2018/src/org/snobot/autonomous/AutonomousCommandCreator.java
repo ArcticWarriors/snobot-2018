@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.snobot.Snobot2018;
+import org.snobot.commands.GoToHeightCommand;
 import org.snobot.commands.StupidDriveStraight;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -44,6 +45,7 @@ public class AutonomousCommandCreator
         mCommandCreatorMap = new HashMap<String, AutonomousCommandCreator.ICommandCreator>();
         mCommandCreatorMap.put(
                 AutonomousCommandNames.sSTUPID_DRIVE_STRAIGHT_COMMAND, StupidDriveStraight::parseCommand);
+        mCommandCreatorMap.put(AutonomousCommandNames.sGO_TO_HEIGHT_COMMAND, GoToHeightCommand::parseCommand);
     }
 
     /**

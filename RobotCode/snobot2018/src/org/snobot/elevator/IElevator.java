@@ -33,4 +33,14 @@ public interface IElevator
      */
     void setHeight(double aHeight);
 
+    /**
+     * This calculates the deltaHeight and sets the InDeadbandHelper with 3
+     * loops and if the deltaHeight is in between -Deadband and Deadband the
+     * program finishes but if it is not then it sets the motor speed using Kp.
+     * and the delta Distance
+     * 
+     * @return True if height reached.
+     */
+    boolean gotoHeight();
+
 }

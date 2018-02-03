@@ -81,8 +81,8 @@ public class SnobotElevator implements IElevator, ISubsystem
     @Override
     public void stop()
     {
+        mGotoHeight = false;
         setMotorSpeed(0);
-
     }
 
     @Override
@@ -172,28 +172,23 @@ public class SnobotElevator implements IElevator, ISubsystem
         mGotoHeight = true;
     }
 
-    /**
-     * This calculates the deltaHeight and sets the InDeadbandHelper with 3
-     * loops and if the deltaHeight is in between -Deadband and Deadband the
-     * program finishes but if it is not then it sets the motor speed using Kp.
-     * and the delta Distance
-     */
-    private void gotoHeight()
+    @Override
+    public boolean gotoHeight()
     {
         double deltaHeight = mTargetHeight - mActualHeight;
         InDeadbandHelper deadBandHelper = new InDeadbandHelper(3);
 
         boolean isFinished = -1 * mDeadband < deltaHeight && deltaHeight < mDeadband;
-
-        if (deadBandHelper.isFinished(isFinished))
+        boolean isAtHeight = deadBandHelper.isFinished(isFinished);
+        if (isAtHeight)
         {
-            mGotoHeight = false;
-            setMotorSpeed(0);
+            stop();
         }
         else
         {
             setMotorSpeed(deltaHeight * mKp);
         }
+        return isAtHeight;
     }
     
 }

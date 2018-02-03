@@ -12,5 +12,6 @@ public class AutonomousCommandNames
     // Stupid
     public static final String sSTUPID_DRIVE_STRAIGHT_COMMAND = "StupidDriveStraight";
 
-
+    // GoToHeight
+    public static final String sGO_TO_HEIGHT_COMMAND = "GoToHeightCommand";
 }

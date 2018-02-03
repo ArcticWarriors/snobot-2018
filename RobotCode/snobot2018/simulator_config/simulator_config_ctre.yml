@@ -11,21 +11,24 @@ mDefaultSpiWrappers:
   3: null
   4: null
 mDigitalIO: []
-mEncoders: []
+mEncoders:
+- mConnectedSpeedControllerHandle: 2
+  mHandle: 0
+  mName: Elevator
+- mConnectedSpeedControllerHandle: 100
+  mHandle: 100
+  mName: CAN Encoder (0)
+- mConnectedSpeedControllerHandle: 102
+  mHandle: 102
+  mName: CAN Encoder (2)
 mGyros:
 - mHandle: 100
   mName: SPI ADXRS450
 mPwm:
 - mHandle: 2
-  mMotorModelConfig:
-    mGearReduction: 1.0
-    mGearboxEfficiency: 1.0
-    mHasBrake: false
-    mInverted: false
-    mMotorType: CIM
-    mNumMotors: 2
-  mMotorSimConfig: !!com.snobot.simulator.motor_sim.GravityLoadMotorSimulationConfig
-    mLoad: 1.0
+  mMotorModelConfig: null
+  mMotorSimConfig: !!com.snobot.simulator.motor_sim.SimpleMotorSimulationConfig
+    mMaxSpeed: 20.0
   mName: Elevator
 - mHandle: 100
   mMotorModelConfig:
