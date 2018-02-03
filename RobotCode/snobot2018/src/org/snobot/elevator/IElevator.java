@@ -28,4 +28,6 @@ public interface IElevator
 
     void goDown();
 
+    void setHeight(double aHeight);
+
 }
