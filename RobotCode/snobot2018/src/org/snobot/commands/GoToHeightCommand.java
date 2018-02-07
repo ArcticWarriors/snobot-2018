@@ -14,6 +14,7 @@ public class GoToHeightCommand extends Command
     private boolean mFinished;
 
     /**
+     * Moves the elevator to desired height.
      * 
      * @param aHeight
      *            is height of the elevator.
