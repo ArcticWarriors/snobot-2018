@@ -21,6 +21,13 @@ public class Properties2018
     public static final DoubleProperty sLEFT_ENCODER_DIST_PER_PULSE = new DoubleProperty("DriveEncoderLeftDPP", -0.074223);
     public static final DoubleProperty sRIGHT_ENCODER_DIST_PER_PULSE = new DoubleProperty("DriveEncoderRightDPP", 0.0530035);
 
+    // Elevator
+    public static final DoubleProperty sELEVATOR_K_P = new DoubleProperty("ElevatorKP", 0.1);
+    public static final DoubleProperty sELEVATOR_HEIGHT_DEADBAND = new DoubleProperty("ElevatorHeightDeadband", 3);
+    public static final DoubleProperty sELEVATOR_MAX_HEIGHT = new DoubleProperty("ElevatorMaxHeight", 74);
+    public static final DoubleProperty sELEVATOR_MIN_HEIGHT = new DoubleProperty("ElevatorMinHeight", 1);
+    public static final DoubleProperty sELEVATOR_DEADBAND = new DoubleProperty("ElevatorDeadband", 0.1);
+
     static
     {
         String resourcesDir;

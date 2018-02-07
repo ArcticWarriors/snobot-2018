@@ -14,7 +14,11 @@ public class GoToHeightCommand extends Command
     private boolean mFinished;
 
     /**
-     * TODO Constructor comments.
+     * 
+     * @param aHeight
+     *            is height of the elevator.
+     * @param aElevator
+     *            is the elevator used.
      */
     public GoToHeightCommand(double aHeight, IElevator aElevator)
     {
@@ -39,19 +43,14 @@ public class GoToHeightCommand extends Command
     }
 
     @Override
-
     protected void initialize()
 
     {
-
         mElevator.setHeight(mHeight);
-
         // System.out.println("GoToHeight: " + mHeight);
-
     }
 
     @Override
-
     protected void execute()
 
     {

@@ -1,5 +1,6 @@
 package org.snobot.elevator;
 
+import org.snobot.Properties2018;
 import org.snobot.SmartDashboardNames;
 import org.snobot.joystick.IOperatorJoystick;
 import org.snobot.lib.InDeadbandHelper;
@@ -21,9 +22,10 @@ public class SnobotElevator implements IElevator, ISubsystem
     private double mTargetHeight;
     private boolean mGotoHeight;
     private final double mKp;
-    private final double mDeadband;
+    private final double mHeightDeadband;
     private final double mMaxHeight;
     private final double mMinHeight;
+    private final double mDeadband;
 
     /**
      * This is the constructor for the SnobotElevator.
@@ -47,10 +49,11 @@ public class SnobotElevator implements IElevator, ISubsystem
         mActualHeight = 0;
         mJoystickSpeed = 0;
         mGotoHeight = false;
-        mKp = 0.1;
-        mDeadband = 3;
-        mMaxHeight = 74;
-        mMinHeight = 1;
+        mKp = Properties2018.sELEVATOR_K_P.getValue();
+        mHeightDeadband = Properties2018.sELEVATOR_HEIGHT_DEADBAND.getValue();
+        mMaxHeight = Properties2018.sELEVATOR_MAX_HEIGHT.getValue();
+        mMinHeight = Properties2018.sELEVATOR_MIN_HEIGHT.getValue();
+        mDeadband = Properties2018.sELEVATOR_DEADBAND.getValue();
     }
 
     /**
@@ -91,7 +94,7 @@ public class SnobotElevator implements IElevator, ISubsystem
         caluculateHeight();
         mJoystickSpeed = mJoystick.getElevatorSpeed();
 
-        if (mJoystickSpeed != 0)
+        if (-mDeadband < mJoystickSpeed && mJoystickSpeed < mDeadband)
         {
             mGotoHeight = false;
         }
@@ -178,7 +181,7 @@ public class SnobotElevator implements IElevator, ISubsystem
         double deltaHeight = mTargetHeight - mActualHeight;
         InDeadbandHelper deadBandHelper = new InDeadbandHelper(3);
 
-        boolean isFinished = -1 * mDeadband < deltaHeight && deltaHeight < mDeadband;
+        boolean isFinished = -mHeightDeadband < deltaHeight && deltaHeight < mHeightDeadband;
         boolean isAtHeight = deadBandHelper.isFinished(isFinished);
         if (isAtHeight)
         {
