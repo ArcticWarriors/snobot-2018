@@ -1,18 +1,18 @@
 
 cd RobotCode/snobot2018
-call gradlew cleanIde
+call gradlew cleanEclipse
 call gradlew eclipse
 cd ../..
 
 
 cd NetworkTableViewer/2018SmartDashboardWidgets
-call gradlew cleanIde
+call gradlew cleanEclipse
 call gradlew eclipse
 cd ../..
 
 
 cd NetworkTableViewer/2018ShuffleboardWidgets
-call gradlew cleanIde
+call gradlew cleanEclipse
 call gradlew eclipse
 cd ../..
 
