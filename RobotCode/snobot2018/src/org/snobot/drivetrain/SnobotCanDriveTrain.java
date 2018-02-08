@@ -49,6 +49,9 @@ public class SnobotCanDriveTrain extends ASnobotDrivetrain<WPI_TalonSRX>
     @Override
     public void resetEncoders()
     {
+        mLeftMotorDistance = 0;
+        mRightMotorDistance = 0;
+
         mRightMotor.setSelectedSensorPosition(0, 0, 0);
         mLeftMotor.setSelectedSensorPosition(0, 0, 0);
     }

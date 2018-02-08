@@ -4,9 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.snobot.Snobot2018;
 import org.snobot.commands.GoToHeightCommand;
+import org.snobot.commands.GoToXY;
 import org.snobot.commands.StupidDriveStraight;
+import org.snobot.commands.StupidGoToXY;
+import org.snobot.commands.StupidTurn;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -19,6 +24,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class AutonomousCommandCreator
 {
+    protected static final Logger sLOGGER = Logger.getLogger(AutonomousCommandCreator.class);
 
     /**
      * This is the map that holds all our autonomous command create references
@@ -45,6 +51,9 @@ public class AutonomousCommandCreator
         mCommandCreatorMap = new HashMap<String, AutonomousCommandCreator.ICommandCreator>();
         mCommandCreatorMap.put(
                 AutonomousCommandNames.sSTUPID_DRIVE_STRAIGHT_COMMAND, StupidDriveStraight::parseCommand);
+        mCommandCreatorMap.put(AutonomousCommandNames.sSTUPID_TURN_COMMAND, StupidTurn::parseCommand);
+        mCommandCreatorMap.put(AutonomousCommandNames.sSTUPID_GO_TO_XY_COMMAND, StupidGoToXY::parseCommand);
+        mCommandCreatorMap.put(AutonomousCommandNames.sGO_TO_XY_COMMAND, GoToXY::parseCommand);
         mCommandCreatorMap.put(AutonomousCommandNames.sGO_TO_HEIGHT_COMMAND, GoToHeightCommand::parseCommand);
     }
 
@@ -66,6 +75,7 @@ public class AutonomousCommandCreator
         if (commandCreator == null)
         {
             newCommand = null;
+            sLOGGER.log(Level.ERROR, "No creater registered for command '" + aCommandName + "'");
         }
         else
         {

@@ -56,6 +56,9 @@ public class SnobotStandardDriveTrain extends ASnobotDrivetrain<SpeedController>
     @Override
     public void resetEncoders()
     {
+        mLeftMotorDistance = 0;
+        mRightMotorDistance = 0;
+
         mLeftDriveEncoder.reset();
         mRightDriveEncoder.reset();
     }

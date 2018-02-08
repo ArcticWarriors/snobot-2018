@@ -16,6 +16,8 @@ public class Properties2018
     public static final StringProperty sAUTON_FILE_FILTER = new StringProperty("AutonFileFilter", "");
     public static final StringProperty sAUTON_DIRECTORY;
     public static final StringProperty sAUTON_DEFAULT_FILE = new StringProperty("AutonDefault", "");
+    public static final DoubleProperty sGO_TO_XY_KPD = new DoubleProperty("GoToXYKPD", -.05);
+    public static final DoubleProperty sGO_TO_XY_KPA = new DoubleProperty("GoToXYKPA", .05);
 
     // DriveTrain
     public static final DoubleProperty sLEFT_ENCODER_DIST_PER_PULSE = new DoubleProperty("DriveEncoderLeftDPP", -0.074223);

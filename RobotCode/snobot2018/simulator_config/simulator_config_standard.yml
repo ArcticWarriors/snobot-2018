@@ -39,7 +39,7 @@ mPwm:
     mMotorType: CIM
     mNumMotors: 2
   mMotorSimConfig: !!com.snobot.simulator.motor_sim.StaticLoadMotorSimulationConfig
-    mConversionFactor: 1.0
+    mConversionFactor: 3
     mLoad: 0.6
   mName: Drive Left
 - mHandle: 1
@@ -51,7 +51,7 @@ mPwm:
     mMotorType: CIM
     mNumMotors: 2
   mMotorSimConfig: !!com.snobot.simulator.motor_sim.StaticLoadMotorSimulationConfig
-    mConversionFactor: 1.0
+    mConversionFactor: 3
     mLoad: 0.6
   mName: Drive Right
 mRelays: []

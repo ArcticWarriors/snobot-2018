@@ -9,7 +9,7 @@ public class Snobot2018Simulator extends ASimulator
 
     public Snobot2018Simulator()
     {
-        this(true);
+        this(false);
     }
 
     /**

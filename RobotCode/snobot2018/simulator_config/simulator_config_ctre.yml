@@ -39,20 +39,10 @@ mPwm:
     mMotorType: CIM
     mNumMotors: 2
   mMotorSimConfig: !!com.snobot.simulator.motor_sim.StaticLoadMotorSimulationConfig
-    mConversionFactor: 1.0
+    mConversionFactor: 0.16666666666
     mLoad: 0.6
   mName: Drive Right (A)
 - mHandle: 101
-  mMotorModelConfig:
-    mGearReduction: 12.0
-    mGearboxEfficiency: 1.0
-    mHasBrake: false
-    mInverted: false
-    mMotorType: CIM
-    mNumMotors: 2
-  mMotorSimConfig: !!com.snobot.simulator.motor_sim.StaticLoadMotorSimulationConfig
-    mConversionFactor: 1.0
-    mLoad: 0.6
   mName: Drive Right (B)
 - mHandle: 102
   mMotorModelConfig:
@@ -63,20 +53,10 @@ mPwm:
     mMotorType: CIM
     mNumMotors: 2
   mMotorSimConfig: !!com.snobot.simulator.motor_sim.StaticLoadMotorSimulationConfig
-    mConversionFactor: 1.0
+    mConversionFactor: 0.16666666666
     mLoad: 0.6
   mName: Drive Left (A)
 - mHandle: 103
-  mMotorModelConfig:
-    mGearReduction: 12.0
-    mGearboxEfficiency: 1.0
-    mHasBrake: false
-    mInverted: false
-    mMotorType: CIM
-    mNumMotors: 2
-  mMotorSimConfig: !!com.snobot.simulator.motor_sim.StaticLoadMotorSimulationConfig
-    mConversionFactor: 1.0
-    mLoad: 0.6
   mName: Drive Left (B)
 mRelays: []
 mSimulatorComponents:

@@ -129,7 +129,6 @@ public class Positioner implements ISubsystem, IPositioner
     @Override
     public void setPosition(double aX, double aY, double aAngle)
     {
-        mDriveTrain.resetEncoders();
         mXPosition = aX;
         mYPosition = aY;
         mStartAngle = aAngle;
