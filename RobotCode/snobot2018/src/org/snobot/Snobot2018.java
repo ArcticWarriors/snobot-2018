@@ -35,7 +35,7 @@ public class Snobot2018 extends ASnobot
 
     public Snobot2018()
     {
-        this(false); // TODO read a file on the robot to determine this
+        this(RobotTypeDetector.isCan());
     }
 
     public Snobot2018(boolean aUseCan)

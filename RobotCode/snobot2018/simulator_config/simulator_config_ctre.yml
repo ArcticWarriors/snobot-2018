@@ -43,6 +43,8 @@ mPwm:
     mLoad: 0.6
   mName: Drive Right (A)
 - mHandle: 101
+  mMotorModelConfig: null
+  mMotorSimConfig: null
   mName: Drive Right (B)
 - mHandle: 102
   mMotorModelConfig:
@@ -57,6 +59,8 @@ mPwm:
     mLoad: 0.6
   mName: Drive Left (A)
 - mHandle: 103
+  mMotorModelConfig: null
+  mMotorSimConfig: null
   mName: Drive Left (B)
 mRelays: []
 mSimulatorComponents:
@@ -65,4 +69,8 @@ mSimulatorComponents:
   mLeftEncoderHandle: 102
   mRightEncoderHandle: 100
   mTurnKp: 33.33
-mSolenoids: []
+mSolenoids:
+- mHandle: 1
+  mName: Claw (A)
+- mHandle: 2
+  mName: Claw (B)

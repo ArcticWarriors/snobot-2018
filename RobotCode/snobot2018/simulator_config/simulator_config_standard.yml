@@ -26,6 +26,9 @@ mEncoders:
 - mConnectedSpeedControllerHandle: 1
   mHandle: 1
   mName: drive left
+- mConnectedSpeedControllerHandle: 2
+  mHandle: 2
+  mName: Elevator
 mGyros:
 - mHandle: 100
   mName: SPI ADXRS450
@@ -39,7 +42,7 @@ mPwm:
     mMotorType: CIM
     mNumMotors: 2
   mMotorSimConfig: !!com.snobot.simulator.motor_sim.StaticLoadMotorSimulationConfig
-    mConversionFactor: 3
+    mConversionFactor: 3.0
     mLoad: 0.6
   mName: Drive Left
 - mHandle: 1
@@ -51,9 +54,14 @@ mPwm:
     mMotorType: CIM
     mNumMotors: 2
   mMotorSimConfig: !!com.snobot.simulator.motor_sim.StaticLoadMotorSimulationConfig
-    mConversionFactor: 3
+    mConversionFactor: 3.0
     mLoad: 0.6
   mName: Drive Right
+- mHandle: 2
+  mMotorModelConfig: null
+  mMotorSimConfig: !!com.snobot.simulator.motor_sim.SimpleMotorSimulationConfig
+    mMaxSpeed: 20.0
+  mName: Elevator
 mRelays: []
 mSimulatorComponents:
 - !!com.snobot.simulator.simulator_components.TankDriveGyroSimulator$TankDriveConfig
@@ -61,4 +69,8 @@ mSimulatorComponents:
   mLeftEncoderHandle: 0
   mRightEncoderHandle: 1
   mTurnKp: 33.33
-mSolenoids: []
+mSolenoids:
+- mHandle: 1
+  mName: Claw (A)
+- mHandle: 2
+  mName: Claw (B)

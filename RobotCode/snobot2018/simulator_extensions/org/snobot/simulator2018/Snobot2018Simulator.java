@@ -1,5 +1,7 @@
 package org.snobot.simulator2018;
 
+import org.snobot.RobotTypeDetector;
+
 import com.snobot.simulator.ASimulator;
 import com.snobot.simulator.jni.standard_components.SpiCallbackJni;
 
@@ -9,7 +11,7 @@ public class Snobot2018Simulator extends ASimulator
 
     public Snobot2018Simulator()
     {
-        this(false);
+        this(RobotTypeDetector.isCan());
     }
 
     /**

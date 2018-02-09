@@ -12,6 +12,9 @@ public class Properties2018
     // Logger
     private static final Logger sLOGGER = Logger.getLogger(Properties2018.class);
 
+    // CTRE Detector
+    public static final StringProperty sCTRE_FILE;
+
     // Autonomous
     public static final StringProperty sAUTON_FILE_FILTER = new StringProperty("AutonFileFilter", "");
     public static final StringProperty sAUTON_DIRECTORY;
@@ -51,18 +54,24 @@ public class Properties2018
     static
     {
         String resourcesDir;
+        String homeDirectory;
+
         if (RobotBase.isSimulation())
         {
+            homeDirectory = "./";
             resourcesDir = "resources/";
 
             sLOGGER.log(Level.INFO, "Using simulation constants");
         }
         else
         {
-            resourcesDir = "/home/lvuser/2017Resources/";
+            homeDirectory = "/home/lvuser/";
+            resourcesDir = homeDirectory + "/2017Resources/";
 
             sLOGGER.log(Level.INFO, "Using tactical constants");
         }
+
+        sCTRE_FILE = new StringProperty("CtreFile", homeDirectory + "isCan.properties");
 
         sAUTON_DIRECTORY = new StringProperty("AutonDir", resourcesDir + "autonomous/");
         sAUTON_PATH_DIRECTORY = new StringProperty("AutonDirPaths", resourcesDir + "trajectories");
