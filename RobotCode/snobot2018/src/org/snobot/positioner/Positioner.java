@@ -81,8 +81,7 @@ public class Positioner implements ISubsystem, IPositioner
         double orientationRadians = Math.toRadians(mOrientation);
 
         // ChangeInDistance and X/Y
-        // mDriveTrain.getLeftDistance()
-        mTotalDistance = mDriveTrain.getRightDistance();
+        mTotalDistance = (mDriveTrain.getRightDistance() + mDriveTrain.getLeftDistance()) / 2;
         double deltaDistance = mTotalDistance - mLastDistance;
         mXPosition += deltaDistance * Math.sin(orientationRadians);
         mYPosition += deltaDistance * Math.cos(orientationRadians);

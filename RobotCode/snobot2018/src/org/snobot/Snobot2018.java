@@ -95,5 +95,4 @@ public class Snobot2018 extends ASnobot
     {
         return mElevator;
     }
-
 }

@@ -1,7 +1,9 @@
 package org.snobot.autonomous;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.List;
 
@@ -30,6 +32,20 @@ public class CommandParser extends ACommandParser
     private final AutonomousCommandCreator mCommandCreator = new AutonomousCommandCreator();
     protected final Snobot2018 mSnobot;
     protected final NetworkTableEntry mAutonFilenameEntry;
+    /**
+     * Variable that keeps track of the value of Switch triggers for each file parsed. 
+     * Null if none seen
+     * R if the parser sees R after "Switch"
+     * L if the parser sees L after "Switch"
+     */
+    private String mSwitchTrigger;
+    /**
+     * Variable that keeps track of the value of Switch triggers for each file parsed. 
+     * Null if none seen
+     * R if the parser sees R after "Scale"
+     * L if the parser sees L after "Scale"
+     */
+    private String mScaleTrigger;
 
     private static final NetworkTable sAUTON_TABLE = NetworkTableInstance.getDefault().getTable(SmartDashboardNames.sAUTON_TABLE_NAME);
 
@@ -108,15 +124,59 @@ public class CommandParser extends ACommandParser
     }
 
     @Override
-    public CommandGroup readFile(String aFilePath) // NOPMD
+    public CommandGroup readFile(String aFilePath)
     {
-        if (aFilePath == null)
+        mSwitchTrigger = null;
+        mScaleTrigger = null;
+        mAutonFilenameEntry.setString(aFilePath);
+
+        initReading();
+
+        CommandGroup output = createNewCommandGroup(aFilePath);
+
+        StringBuilder fileContents = new StringBuilder();
+
+        File file = new File(aFilePath);
+
+        if (file.exists())
         {
-            aFilePath = "NOT FOUND!";
+            try
+            {
+                BufferedReader br = new BufferedReader(new FileReader(aFilePath));
+
+                String line;
+                while ((line = br.readLine()) != null)
+                {
+                    if (line.startsWith(AutonomousCommandNames.sSWITCH_TRIGGER_COMMAND))
+                    {
+                        mSwitchTrigger = String.valueOf(line.charAt(7));
+                    }
+                    else if (line.startsWith(AutonomousCommandNames.sSCALE_TRIGGER_COMMAND))
+                    {
+                        mScaleTrigger = String.valueOf(line.charAt(6));
+                    }
+                    else
+                    {
+                        this.parseLine(output, line, false);
+                        fileContents.append(line).append('\n');
+                    }
+                }
+
+                br.close();
+            }
+            catch (Exception ex)
+            {
+                sLOGGER.log(Level.ERROR, "", ex);
+            }
+        }
+        else
+        {
+            addError("File " + aFilePath + " not found!");
         }
 
-        mAutonFilenameEntry.setString(aFilePath);
-        return super.readFile(aFilePath);
+        publishParsingResults(fileContents.toString());
+
+        return output;
     }
 
     /**
@@ -127,9 +187,7 @@ public class CommandParser extends ACommandParser
         String newText = mAutonSdTableTextName.getString("");
         String filename = mAutonFilenameEntry.getString("auton_file.txt");
 
-        sLOGGER.log(Level.INFO, "\n"
-                + "*****************************************\n"
-                + "Saving auton mode to " + filename + "\n"
+        sLOGGER.log(Level.INFO, "\n" + "*****************************************\n" + "Saving auton mode to " + filename + "\n"
                 + "*****************************************");
 
         try
@@ -143,5 +201,25 @@ public class CommandParser extends ACommandParser
             sLOGGER.log(Level.INFO, ex);
         }
 
+    }
+
+    /**
+     * Gives the value of scale trigger word for a command- n,r, or l.
+     * 
+     * @return Switch trigger string
+     */
+    public String getScaleTrigger()
+    {
+        return mScaleTrigger;
+    }
+
+    /**
+     * Gives the value of switch trigger word for a command- n,r, or l.
+     * 
+     * @return Switch trigger string
+     */
+    public String getSwitchTrigger()
+    {
+        return mSwitchTrigger;
     }
 }
