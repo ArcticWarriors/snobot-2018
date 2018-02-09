@@ -7,6 +7,10 @@ import java.util.Map;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.snobot.Snobot2018;
+import org.snobot.autonomous.path.DriveStraightPath;
+import org.snobot.autonomous.path.DriveStraightPathWithGyro;
+import org.snobot.autonomous.path.DriveTurnPath;
+import org.snobot.autonomous.trajectory.TrajectoryPathCommand;
 import org.snobot.commands.GoToHeightCommand;
 import org.snobot.commands.GoToXY;
 import org.snobot.commands.StupidDriveStraight;
@@ -49,6 +53,11 @@ public class AutonomousCommandCreator
     public AutonomousCommandCreator()
     {
         mCommandCreatorMap = new HashMap<String, AutonomousCommandCreator.ICommandCreator>();
+        mCommandCreatorMap.put(AutonomousCommandNames.sSTUPID_DRIVE_STRAIGHT_COMMAND, StupidDriveStraight::parseCommand);
+        mCommandCreatorMap.put(AutonomousCommandNames.sTRAJECTORY_PATH_AUTONOMOUS, TrajectoryPathCommand::parseCommand);
+        mCommandCreatorMap.put(AutonomousCommandNames.sDRIVE_STRAIGHT_PATH, DriveStraightPath::parseCommand);
+        mCommandCreatorMap.put(AutonomousCommandNames.sDRIVE_STRAIGHT_PATH_WITH_GYRO, DriveStraightPathWithGyro::parseCommand);
+        mCommandCreatorMap.put(AutonomousCommandNames.sDRIVE_TURN_PATH, DriveTurnPath::parseCommand);
         mCommandCreatorMap.put(
                 AutonomousCommandNames.sSTUPID_DRIVE_STRAIGHT_COMMAND, StupidDriveStraight::parseCommand);
         mCommandCreatorMap.put(AutonomousCommandNames.sSTUPID_TURN_COMMAND, StupidTurn::parseCommand);

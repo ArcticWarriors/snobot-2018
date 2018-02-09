@@ -6,9 +6,13 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
 public class GameDataPanel extends JPanel
 {
+    private static final Logger sLOGGER = Logger.getLogger(GameDataPanel.class);
+
     private Color mOurColor;
     private Color mTheirColor;
     private String mPositions;
@@ -30,7 +34,7 @@ public class GameDataPanel extends JPanel
     {
         if (mPositions == null || mPositions.length() != 3)
         {
-            System.out.println("Invalid positions string '" + mPositions + "'");
+            sLOGGER.log(Level.WARN, "Invalid positions string '" + mPositions + "'");
             return;
         }
 

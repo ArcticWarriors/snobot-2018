@@ -2,8 +2,12 @@ package org.snobot.nt.game_data;
 
 import javax.swing.JFrame;
 
-public class StandaloneGameDataPanelTester
+public final class StandaloneGameDataPanelTester
 {
+    private StandaloneGameDataPanelTester()
+    {
+
+    }
 
     /**
      * Main runner.

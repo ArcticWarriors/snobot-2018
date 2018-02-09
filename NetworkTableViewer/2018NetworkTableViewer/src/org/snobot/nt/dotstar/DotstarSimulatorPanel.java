@@ -12,7 +12,7 @@ public class DotstarSimulatorPanel extends JPanel
 {
     private static final int sPIXEL_SIZE = 10;
 
-    private List<Integer> mLedValues;
+    private final List<Integer> mLedValues;
     private int mNumLeds;
 
     /**

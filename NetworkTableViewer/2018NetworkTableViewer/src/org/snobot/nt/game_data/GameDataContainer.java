@@ -1,6 +1,7 @@
 package org.snobot.nt.game_data;
 
 import java.awt.BorderLayout;
+import java.util.Locale;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -51,7 +52,7 @@ public class GameDataContainer extends JPanel
      */
     public void setPositionData(String aMatchNumber, String aAlliance, String aGameData)
     {
-        mDataDrawerPanel.setPositionData(aGameData.toLowerCase());
+        mDataDrawerPanel.setPositionData(aGameData.toLowerCase(Locale.getDefault()));
 
         mGameDataField.setText(aGameData);
         mMatchNumberField.setText(aMatchNumber);

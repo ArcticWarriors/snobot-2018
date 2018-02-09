@@ -38,9 +38,22 @@ jar {
    from("../CoordinateViewerGui/src/2018Gui/") {
       include  "**/*.png"
    }
+   from("../CoordinateViewerGui/src/lib/") {
+      include  "**/*.png"
+   }
+   from("src/") {
+      include  "**/*.properties"
+   }
 }
 
-task install_to_plugin_dir(type: Copy) {
+task install_depencies_to_plugin_dir(type: Copy) {
+    from configurations.compile {
+        include "log4j*.jar"
+    }
+    into System.getProperty("user.home") + "/SmartDashboard/extensions"
+}
+
+task install_to_plugin_dir(type: Copy, dependsOn: install_depencies_to_plugin_dir) {
     from jar.outputs
     into System.getProperty("user.home") + "/SmartDashboard/extensions"
 }

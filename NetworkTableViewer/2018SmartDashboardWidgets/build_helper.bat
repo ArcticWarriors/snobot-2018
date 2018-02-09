@@ -1,3 +1,3 @@
 @cd /D %~dp0
-call gradlew.bat install_to_plugin_dir
+call gradlew.bat clean install_to_plugin_dir
 pause

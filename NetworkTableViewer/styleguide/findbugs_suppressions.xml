@@ -7,9 +7,6 @@
         <Class name="org.snobot.coordinate_gui.ui.layers.LayerManager"/>
         <Bug pattern="SE_BAD_FIELD_STORE" />
     </Match>
-    <Match>
-        <Class name="~org\.snobot\.nt.*"/>
-    </Match>
 		
     <Match>
         <Class name="org.snobot.sd.util.AutoUpdateWidget"/>

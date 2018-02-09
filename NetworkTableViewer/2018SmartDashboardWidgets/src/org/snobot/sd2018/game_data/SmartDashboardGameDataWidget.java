@@ -27,8 +27,6 @@ public class SmartDashboardGameDataWidget extends AutoUpdateWidget
     {
         super(100);
 
-        System.out.println("Adding widget");
-
         mPanel = new GameDataContainer();
 
         setLayout(new BorderLayout());

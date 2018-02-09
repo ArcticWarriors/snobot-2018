@@ -25,6 +25,22 @@ public class Properties2018
     public static final DoubleProperty sLEFT_ENCODER_DIST_PER_PULSE = new DoubleProperty("DriveEncoderLeftDPP", -0.074223);
     public static final DoubleProperty sRIGHT_ENCODER_DIST_PER_PULSE = new DoubleProperty("DriveEncoderRightDPP", 0.0530035);
 
+    // Turn Path
+    public static final DoubleProperty sDRIVE_PATH_KP = new DoubleProperty("TurnPathKP", 0.05);
+    public static final DoubleProperty sDRIVE_PATH_KD = new DoubleProperty("TurnPathKD", 0.05);
+    public static final DoubleProperty sDRIVE_PATH_KV = new DoubleProperty("TurnPathKV", 0.05);
+    public static final DoubleProperty sDRIVE_PATH_KA = new DoubleProperty("sDRIVE_PATH_KA", 0.05);
+    
+    public static final DoubleProperty sTURN_PATH_KP = new DoubleProperty("TurnPathKP", 0.05);
+    public static final DoubleProperty sTURN_PATH_KD = new DoubleProperty("TurnPathKD", 0.05);
+    public static final DoubleProperty sTURN_PATH_KV = new DoubleProperty("TurnPathKV", 0.05);
+    public static final DoubleProperty sTURN_PATH_KA = new DoubleProperty("sDRIVE_PATH_KA", 0.05);
+    
+    public static final StringProperty sAUTON_PATH_DIRECTORY;
+    public static final DoubleProperty sDRIVE_PATH_WITH_GYRO_KP = new DoubleProperty("DrivePathWithGyro", 0.01);
+    
+    public static final DoubleProperty sSPLINE_TURN_FACTOR = new DoubleProperty("SplineTurnFactor", 0.05);
+    
     // Elevator
     public static final DoubleProperty sELEVATOR_K_P = new DoubleProperty("ElevatorKP", 0.1);
     public static final DoubleProperty sELEVATOR_HEIGHT_DEADBAND = new DoubleProperty("ElevatorHeightDeadband", 3);
@@ -49,6 +65,7 @@ public class Properties2018
         }
 
         sAUTON_DIRECTORY = new StringProperty("AutonDir", resourcesDir + "autonomous/");
+        sAUTON_PATH_DIRECTORY = new StringProperty("AutonDirPaths", resourcesDir + "trajectories");
     }
 
 }

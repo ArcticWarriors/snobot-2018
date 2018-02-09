@@ -38,11 +38,12 @@ jar {
    from("../CoordinateViewerGui/src/2018Gui/") {
       include  "**/*.png"
    }
-}
-
-task install_to_plugin_dir(type: Copy) {
-    from jar.outputs
-    into System.getProperty("user.home") + "/Shuffleboard/plugins"
+   from("../CoordinateViewerGui/src/lib/") {
+      include  "**/*.png"
+   }
+   from("src/") {
+      include  "**/*.properties"
+   }
 }
 
 dependencies {
@@ -52,6 +53,39 @@ dependencies {
     
 	compile 'edu.wpi.first.shuffleboard:api:1.1.0'
 	compile 'edu.wpi.first.shuffleboard.plugin:networktables:1.1.0'
+}
+
+task customFatJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'com.baeldung.fatjar.Application'
+    }
+    baseName = '2018ShuffleboardWidgets-fat'
+    
+    from configurations.compile.collect {
+        if(it.toString().contains("log4j")) {
+            FileTree filtered = zipTree(it).matching { unused ->
+                exclude "org/apache/log4j/or/jms/**/*.class"
+                exclude "org/apache/log4j/net/**/*.class"
+            }
+            
+            filtered
+        }
+        else if(it.toString().contains("jcommon") || it.toString().contains("jfreechart")) {
+            FileTree filtered = zipTree(it).matching { unused ->
+                exclude "org/jfree/chart/servlet/**/*.class"
+            }
+            
+            filtered
+        }
+        else { [] }
+    }
+    
+    with jar
+}
+
+task install_to_plugin_dir(type: Copy) {
+    from customFatJar.outputs
+    into System.getProperty("user.home") + "/Shuffleboard/plugins"
 }
 
 

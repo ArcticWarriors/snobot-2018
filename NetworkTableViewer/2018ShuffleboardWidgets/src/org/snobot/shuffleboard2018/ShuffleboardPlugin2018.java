@@ -3,10 +3,15 @@ package org.snobot.shuffleboard2018;
 import java.util.List;
 
 import org.snobot.shuffleboard2018.coordinategui.CoordinateGuiWidget;
+import org.snobot.shuffleboard2018.coordinategui.GoToPositionDataType;
 import org.snobot.shuffleboard2018.dotstar_sim.DotstarDataType;
 import org.snobot.shuffleboard2018.dotstar_sim.ShuffleboardDotstarSimWidget;
 import org.snobot.shuffleboard2018.game_data.FmsInfoDataType;
 import org.snobot.shuffleboard2018.game_data.ShuffleboardGameDataWidget;
+import org.snobot.shuffleboard2018.path.PathDataType;
+import org.snobot.shuffleboard2018.path.ShuffleboardPathPlotsWidget;
+import org.snobot.shuffleboard2018.trajectory.ShuffleboardTrajectoryPlotsWidget;
+import org.snobot.shuffleboard2018.trajectory.TrajectoryDataType;
 
 import com.google.common.collect.ImmutableList;
 
@@ -25,7 +30,9 @@ public class ShuffleboardPlugin2018 extends Plugin
     {
         return ImmutableList.of(
                 WidgetType.forAnnotatedWidget(ShuffleboardGameDataWidget.class),
-                WidgetType.forAnnotatedWidget(ShuffleboardDotstarSimWidget.class),
+                WidgetType.forAnnotatedWidget(ShuffleboardDotstarSimWidget.class), 
+                WidgetType.forAnnotatedWidget(ShuffleboardTrajectoryPlotsWidget.class), 
+                WidgetType.forAnnotatedWidget(ShuffleboardPathPlotsWidget.class), 
                 WidgetType.forAnnotatedWidget(CoordinateGuiWidget.class));
 
     }
@@ -35,7 +42,10 @@ public class ShuffleboardPlugin2018 extends Plugin
     {
         return ImmutableList.of(
                 new FmsInfoDataType(),
-                new DotstarDataType());
+                new DotstarDataType(),
+                new TrajectoryDataType(),
+                new PathDataType(),
+                new GoToPositionDataType());
     }
 
 }

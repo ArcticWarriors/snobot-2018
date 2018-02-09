@@ -90,7 +90,8 @@ public class Positioner implements ISubsystem, IPositioner
         // mDriveTrain.getLeftDistance());
 
         // Update
-        mSpeed = deltaDistance / (mTimer.get() - mLastTime);
+        double dt = mTimer.get() - mLastTime;
+        mSpeed = dt == 0 ? 0 : deltaDistance;
         mLastTime = mTimer.get();
         mLastDistance = mTotalDistance;
     }

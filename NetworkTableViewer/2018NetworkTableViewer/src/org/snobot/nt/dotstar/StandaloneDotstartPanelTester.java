@@ -5,8 +5,13 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
-public class StandaloneDotstartPanelTester
+public final class StandaloneDotstartPanelTester
 {
+    private StandaloneDotstartPanelTester()
+    {
+
+    }
+
     /**
      * Main runner.
      * 
