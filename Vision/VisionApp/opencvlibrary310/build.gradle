@@ -3,6 +3,7 @@ apply plugin: 'com.android.library'
 buildscript {
     repositories {
         jcenter()
+        google()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'  //last version jan 2016
@@ -11,7 +12,11 @@ buildscript {
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    buildToolsVersion "26.0.2"
+
+    lintOptions {
+        abortOnError false
+    }
 
     defaultConfig {
         minSdkVersion 21

@@ -4,10 +4,10 @@
     android:layout_height="match_parent"
     android:background="#0099cc"
     android:keepScreenOn="true"
-    tools:context="com.snobot.vision_app.app2017.SnobotVisionGLActivity">
+    tools:context="com.snobot.vision_app.app2018.SnobotVisionGLActivity">
 
 
-    <com.snobot.vision_app.app2017.SnobotVisionGLSurfaceView
+    <com.snobot.vision_app.app2018.SnobotVisionGLSurfaceView
         android:id="@+id/texture"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

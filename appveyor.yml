@@ -47,6 +47,14 @@ build_script:
     dir
     
     cmd /c gradlew.bat build
+
+    # # Build Vision App
+    # 
+    # cd ..\..\Vision\VisionApp
+    # 
+    # dir
+    # 
+    # cmd /c gradlew.bat build
     
 after_build:
 - cmd: "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"

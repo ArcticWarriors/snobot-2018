@@ -4,7 +4,7 @@
     android:id="@+id/activity_snobot_vision_standard"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.snobot.vision_app.app2017.SnobotVisionStandardActivity">
+    tools:context="com.snobot.vision_app.app2018.SnobotVisionStandardActivity">
 
     <TextureView
         android:id="@+id/texture"
