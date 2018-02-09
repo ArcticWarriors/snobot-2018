@@ -30,4 +30,7 @@ public class SmartDashboardNames
     // Chooses the starting position for the red and blue side
     public static final String sPOSITION_CHOOSER = "Position Chooser";
 
+    // Claw
+    public static final String sSNOBOT_CLAW_POSITION = "Snobot Claw Position";
+
 }

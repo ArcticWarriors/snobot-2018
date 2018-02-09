@@ -27,5 +27,7 @@ public class PortMappings2018
     
     //Analog
     public static final int sGYRO_PORT = 0;
+    public static final int sCLAW_FORWARD = 1;
+    public static final int sCLAW_REVERSE = 2;
 
 }

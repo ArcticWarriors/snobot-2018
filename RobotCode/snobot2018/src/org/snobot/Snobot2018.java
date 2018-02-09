@@ -1,6 +1,8 @@
 package org.snobot;
 
 import org.snobot.autonomous.AutonomousFactory;
+import org.snobot.claw.IClaw;
+import org.snobot.claw.SnobotClaw;
 import org.snobot.drivetrain.DrivetrainFactory;
 import org.snobot.drivetrain.IDriveTrain;
 import org.snobot.elevator.ElevatorFactory;
@@ -12,6 +14,7 @@ import org.snobot.lib.logging.ILogger;
 import org.snobot.positioner.IPositioner;
 import org.snobot.positioner.Positioner;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -22,6 +25,7 @@ public class Snobot2018 extends ASnobot
     // RoboSubsystems
     private IDriveTrain mDriveTrain;
     private IElevator mElevator;
+    private IClaw mClaw;
 
     // Autonomous
     private AutonomousFactory mAutonFactory;
@@ -66,6 +70,12 @@ public class Snobot2018 extends ASnobot
         ElevatorFactory elevatorFactory = new ElevatorFactory();
         mElevator = elevatorFactory.createDrivetrain(mUseCan, operatorJoystick, logger);
         addModule(mElevator);
+        
+        // Claw
+        DoubleSolenoid clawSolenoid = new DoubleSolenoid(PortMappings2018.sCLAW_FORWARD, PortMappings2018.sCLAW_REVERSE);
+        mClaw = new SnobotClaw(clawSolenoid, logger, operatorJoystick);
+        addModule(mClaw);
+
 
         // Position
         mPositioner = new Positioner(mDriveTrain, logger);
@@ -95,4 +105,10 @@ public class Snobot2018 extends ASnobot
     {
         return mElevator;
     }
+
+    public IClaw getClaw()
+    {
+        return mClaw;
+    }
+
 }
