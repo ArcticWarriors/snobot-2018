@@ -50,7 +50,6 @@ public class SnobotClaw implements IClaw
         {
             mDoubleSolenoid.set(Value.kForward);
         }
-        
         else
         {
             mDoubleSolenoid.set(Value.kReverse);
@@ -85,6 +84,12 @@ public class SnobotClaw implements IClaw
     public void updateSmartDashboard()
     {
         SmartDashboard.putString(SmartDashboardNames.sSNOBOT_CLAW_POSITION, mDoubleSolenoid.get().toString());
+    }
+
+    @Override
+    public boolean isOpen()
+    {
+        return mDoubleSolenoid.get() == Value.kForward;
     }
 
 }

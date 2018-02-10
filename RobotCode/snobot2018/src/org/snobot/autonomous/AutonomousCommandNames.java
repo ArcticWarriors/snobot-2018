@@ -28,6 +28,9 @@ public class AutonomousCommandNames
     // Autonomous
     public static final String sGO_TO_XY_COMMAND = "GoToXY";
 
+    // ClawCommand
+    public static final String sCLAW_COMMAND = "Claw";
+
     // GoToHeight
     public static final String sGO_TO_HEIGHT_COMMAND = "GoToHeightCommand";
 }

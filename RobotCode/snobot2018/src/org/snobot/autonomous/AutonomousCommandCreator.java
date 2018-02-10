@@ -11,6 +11,7 @@ import org.snobot.autonomous.path.DriveStraightPath;
 import org.snobot.autonomous.path.DriveStraightPathWithGyro;
 import org.snobot.autonomous.path.DriveTurnPath;
 import org.snobot.autonomous.trajectory.TrajectoryPathCommand;
+import org.snobot.commands.ClawCommand;
 import org.snobot.commands.GoToHeightCommand;
 import org.snobot.commands.GoToXY;
 import org.snobot.commands.StupidDriveStraight;
@@ -64,6 +65,8 @@ public class AutonomousCommandCreator
         mCommandCreatorMap.put(AutonomousCommandNames.sSTUPID_GO_TO_XY_COMMAND, StupidGoToXY::parseCommand);
         mCommandCreatorMap.put(AutonomousCommandNames.sGO_TO_XY_COMMAND, GoToXY::parseCommand);
         mCommandCreatorMap.put(AutonomousCommandNames.sGO_TO_HEIGHT_COMMAND, GoToHeightCommand::parseCommand);
+        mCommandCreatorMap.put(AutonomousCommandNames.sCLAW_COMMAND, ClawCommand::parseCommand);
+
     }
 
     /**
