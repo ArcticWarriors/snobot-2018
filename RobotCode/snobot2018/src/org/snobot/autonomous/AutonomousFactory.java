@@ -29,7 +29,8 @@ public class AutonomousFactory
     protected ObservableSendableChooser<StartingPositions> mPositionChooser;
     protected NetworkTable mAutoModeTable;
 
-    protected CommandParser mCommandParser;
+    protected CommandParser mCommandParserA;
+    protected CommandParser mCommandParserB;
 
     protected IPositioner mPositioner;
     protected Snobot2018 mSnobot;
@@ -78,8 +79,16 @@ public class AutonomousFactory
     {
         mSnobot = aSnobot;
         mPositionChooser = new ObservableSendableChooser<StartingPositions>();
-        mCommandParser = new CommandParser(aSnobot, mPositionChooser);
-        mAutoModeTable = NetworkTableInstance.getDefault().getTable(SmartDashboardNames.sAUTON_TABLE_NAME);
+        
+        mCommandParserA = new CommandParser(aSnobot, mPositionChooser,
+                NetworkTableInstance.getDefault().getTable(SmartDashboardNames.sAUTON_TABLE_A_NAME));
+        
+        mAutoModeTable = NetworkTableInstance.getDefault().getTable(SmartDashboardNames.sAUTON_TABLE_A_NAME);
+
+        mCommandParserB = new CommandParser(aSnobot, mPositionChooser,
+                NetworkTableInstance.getDefault().getTable(SmartDashboardNames.sAUTON_TABLE_B_NAME));
+
+        mAutoModeTable = NetworkTableInstance.getDefault().getTable(SmartDashboardNames.sAUTON_TABLE_B_NAME);
 
         mPositioner = aSnobot.getPositioner();
 
@@ -118,31 +127,32 @@ public class AutonomousFactory
         String switchPosition = String.valueOf(gameSpecificMessage.charAt(0));
         String scalePosition = String.valueOf(gameSpecificMessage.charAt(1));
 
-        CommandGroup output = this.tryLoadFile(mAutonModeChooserA.getSelected(), scalePosition, switchPosition);
-        if (output != null)
+        CommandGroup outputA = this.tryLoadFile(mAutonModeChooserA.getSelected(), scalePosition, switchPosition, mCommandParserA);
+        CommandGroup outputB = this.tryLoadFile(mAutonModeChooserB.getSelected(), scalePosition, switchPosition, mCommandParserB); // NOPMD
+        if (outputA != null)
         {
-            return output;
+            return outputA;
         }
-        output = this.tryLoadFile(mAutonModeChooserB.getSelected(), scalePosition, switchPosition);
-        if (output != null)
+        if (outputB != null)
         {
-            return output;
+            return outputB;
         }
         return getDefaultCommand();
     }
 
-    private CommandGroup tryLoadFile(File aFile, String aScalePos, String aSwitchPos)
+    private CommandGroup tryLoadFile(File aFile, String aScalePos, String aSwitchPos, CommandParser aCommandParser)
     {
         if (aFile == null)
         {
             return getDefaultCommand();
         }
 
-        CommandGroup commandGroup = mCommandParser.readFile(aFile.toString());
-        boolean checkScale = Objects.equals(mCommandParser.getSwitchTrigger(), aScalePos);
-        boolean checkSwitch = Objects.equals(mCommandParser.getSwitchTrigger(), aSwitchPos);
-        boolean checkBothNull = (mCommandParser.getSwitchTrigger() == null) && (mCommandParser.getScaleTrigger() == null);
+        CommandGroup commandGroup = aCommandParser.readFile(aFile.toString());
+        boolean checkScale = Objects.equals(aCommandParser.getSwitchTrigger(), aScalePos);
+        boolean checkSwitch = Objects.equals(aCommandParser.getSwitchTrigger(), aSwitchPos);
+        boolean checkBothNull = (aCommandParser.getSwitchTrigger() == null) && (aCommandParser.getScaleTrigger() == null);
         setPosition();
+        
         if (checkScale || checkSwitch || checkBothNull)
         {
             return commandGroup;
@@ -194,7 +204,10 @@ public class AutonomousFactory
             {
                 if (mAutoModeTable.getEntry(SmartDashboardNames.sSAVE_AUTON).getBoolean(false))
                 {
-                    mCommandParser.saveAutonMode();
+                    mCommandParserA.saveAutonMode();
+                    mCommandParserB.saveAutonMode();
+
+                    createAutonMode();
                 }
             }
         };
@@ -203,6 +216,7 @@ public class AutonomousFactory
 
         mPositionChooser.addSelectionChangedListener(setPositionListener);
         mAutonModeChooserA.addSelectionChangedListener(buildAutonListener);
+        mAutonModeChooserB.addSelectionChangedListener(buildAutonListener);
     }
 
     // Sets the starting position for the robot

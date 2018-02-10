@@ -15,7 +15,6 @@ import org.snobot.lib.autonomous.ACommandParser;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
@@ -47,8 +46,6 @@ public class CommandParser extends ACommandParser
      */
     private String mScaleTrigger;
 
-    private static final NetworkTable sAUTON_TABLE = NetworkTableInstance.getDefault().getTable(SmartDashboardNames.sAUTON_TABLE_NAME);
-
     /**
      * Creates a CommandParser object.
      * 
@@ -57,14 +54,15 @@ public class CommandParser extends ACommandParser
      * @param aPositionChooser
      *            The chooser which indicates the starting position
      */
-    public CommandParser(Snobot2018 aSnobot, SendableChooser<StartingPositions> aPositionChooser)
+    public CommandParser(Snobot2018 aSnobot, SendableChooser<StartingPositions> aPositionChooser, NetworkTable aNetworkTable)
     {
-        super(sAUTON_TABLE.getEntry(SmartDashboardNames.sROBOT_COMMAND_TEXT), sAUTON_TABLE.getEntry(SmartDashboardNames.sSUCCESFULLY_PARSED_AUTON),
+        super(aNetworkTable.getEntry(SmartDashboardNames.sROBOT_COMMAND_TEXT), aNetworkTable.getEntry(SmartDashboardNames.sSUCCESFULLY_PARSED_AUTON),
                 " ", "#");
 
         mSnobot = aSnobot;
 
-        mAutonFilenameEntry = sAUTON_TABLE.getEntry(SmartDashboardNames.sAUTON_FILENAME);
+        mAutonFilenameEntry = aNetworkTable.getEntry(SmartDashboardNames.sAUTON_FILENAME);
+
     }
 
     /**

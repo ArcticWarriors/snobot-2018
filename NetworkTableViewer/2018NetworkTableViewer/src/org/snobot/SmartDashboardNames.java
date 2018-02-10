@@ -20,7 +20,8 @@ public class SmartDashboardNames
 
     // Autonomous
     public static final String sSAVE_AUTON = "Save Auton";
-    public static final String sAUTON_TABLE_NAME = "AutonTable";
+    public static final String sAUTON_TABLE_A_NAME = "AutonTableA";
+    public static final String sAUTON_TABLE_B_NAME = "AutonTableB";
     public static final String sAUTON_CHOOSER = "Autonomous Selection";
     public static final String sAUTON_FILENAME = "Auton Filename";
     public static final String sSUCCESFULLY_PARSED_AUTON = "Parsed Command";
