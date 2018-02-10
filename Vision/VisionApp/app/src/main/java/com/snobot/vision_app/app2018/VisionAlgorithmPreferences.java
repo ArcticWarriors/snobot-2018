@@ -27,6 +27,8 @@ public class VisionAlgorithmPreferences
     private static final float sDEFAULT_FILTER_RATIO_MIN = .3f;
     private static final float sDEFAULT_FILTER_RATIO_MAX = 1f;
 
+
+
     private Pair<Integer, Integer> mHueRange;
     private Pair<Integer, Integer> mSatRange;
     private Pair<Integer, Integer> mLumRange;

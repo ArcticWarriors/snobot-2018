@@ -2,17 +2,16 @@ package com.snobot.vision_app.app2018.common;
 
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
+import org.opencv.core.MatOfPoint2f;
+import org.opencv.core.Point;
+
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfInt;
 import org.opencv.core.MatOfPoint;
-import org.opencv.core.MatOfPoint2f;
-import org.opencv.core.MatOfPoint3f;
-import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
-import java.lang.annotation.Target;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,16 +24,13 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * Created by Andrew Johnson on 1/25/2018.
+ * Created by PJ on 2/20/2017.
  */
 
+public abstract class BaseJavaAlgorithm {
 
-public class TapeDetector extends BaseJavaAlgorithm implements IDetector {
-    private double mTapeHeight;
-    private double mTapeWidth;
-
-    private static final double sIMAGE_WIDTH = 640;
-    private static final double sIMAGE_HEIGHT = 480;
+    private static final int sIMAGE_WIDTH = 640;
+    private static final int sIMAGE_HEIGHT = 480;
     private static final double sHORIZONTAL_FOV_ANGLE = Math.toRadians(62.69 / 2);
     private static final double sVERTICAL_FOV_ANGLE = Math.toRadians(49.48 / 2);
 
@@ -48,84 +44,78 @@ public class TapeDetector extends BaseJavaAlgorithm implements IDetector {
     private static final Scalar sBLACK_COLOR = new Scalar(0, 0, 0);
     private static final Scalar sWHITE_COLOR = new Scalar(255, 255, 255);
 
+    private GripTapeAlgorithm getmGripTapeAlgorithm;
+
     private static final Scalar[] sCONTOUR_COLORS = new Scalar[]{
             new Scalar(0, 0, 255),
             new Scalar(255, 0, 0),
             new Scalar(0, 255, 255)
     };
 
-    private static final Map<FilterResult, Scalar> sFILTERED_COLORS;
 
-    static {
-        sFILTERED_COLORS = new HashMap<>();
-        sFILTERED_COLORS.put(FilterResult.BadWidth, new Scalar(255, 255, 255));
-        sFILTERED_COLORS.put(FilterResult.BadHeight, new Scalar(190, 190, 190));
-        sFILTERED_COLORS.put(FilterResult.BadVertices, new Scalar(130, 130, 130));
-        sFILTERED_COLORS.put(FilterResult.BadArea, sBLACK_COLOR);
-        sFILTERED_COLORS.put(FilterResult.BadPerimeter, sBLACK_COLOR);
-        sFILTERED_COLORS.put(FilterResult.BadSolidarity, sBLACK_COLOR);
-        sFILTERED_COLORS.put(FilterResult.BadAspectRatio, sBLACK_COLOR);
-    }
+    protected static final DecimalFormat sDF = new DecimalFormat("0.0000");
 
-    private static final DecimalFormat sDF = new DecimalFormat("0.0000");
-
-    public enum DisplayType {
+    public enum DisplayType
+    {
         OriginalImage,
         PostThreshold,
         MarkedUpImage
     }
 
-        private enum FilterResult
+    private enum FilterResult
     {
         Success, BadWidth, BadHeight, BadVertices, BadArea, BadPerimeter, BadSolidarity, BadAspectRatio
     }
 
     protected GripTapeAlgorithm mGripTapeAlgorithm;
-    protected FilterParams mFilterParams;
     protected DisplayType mDisplayType;
+    protected FilterParams mFilterParams;
 
     // Saved for speed
     private List<FilterPair> mRealTargets;
     private List<FilterPair> mFilteredTargets;
-    private TreeSet<TargetLocation> mTargetInfos;
+    private Set<TargetLocation> mTargetInfos;
 
-    public TapeDetector()
+    public BaseJavaAlgorithm()
     {
         mGripTapeAlgorithm = new GripTapeAlgorithm();
+        mDisplayType = DisplayType.MarkedUpImage;
         mFilterParams = new FilterParams();
+
         mRealTargets = new ArrayList<>();
         mFilteredTargets = new ArrayList<>();
         mTargetInfos = new TreeSet<>(new TargetComparators.AspectRatioComparator());
     }
 
-    private class FilterPair
+    public void setDisplayType(DisplayType aDisplayType)
     {
-        private MatOfPoint mContour;
-        private FilterResult mResult;
-
-        public FilterPair(MatOfPoint aContour, FilterResult aResult)
-        {
-            mContour = aContour;
-            mResult = aResult;
-        }
+        mDisplayType = aDisplayType;
     }
 
-    @Override
-    public Mat process(Mat aOriginalImage, long aSystemTimeNs) {
+    public void setFilterParams(FilterParams aFilterParams)
+    {
+        mFilterParams = aFilterParams;
+    }
+
+    protected Mat processPegImage(Mat aOriginalImage, long aSystemTimeNs)
+    {
         mGripTapeAlgorithm.process(aOriginalImage);
 
         List<FilterPair> contours = filterContours(mGripTapeAlgorithm.findContoursOutput());
         mTargetInfos.clear();
         mFilteredTargets.clear();
 
-        for (int i = 0; i < contours.size(); ++i) {
+        for (int i = 0; i < contours.size(); ++i)
+        {
             FilterPair filterPair = contours.get(i);
 
-            if (filterPair.mResult != FilterResult.Success) {
+            if (filterPair.mResult != FilterResult.Success)
+            {
                 mFilteredTargets.add(filterPair);
                 continue;
             }
-            org.opencv.core.MatOfPoint contour = filterPair.mContour;
+
+            MatOfPoint contour = filterPair.mContour;
             Rect rect = Imgproc.boundingRect(contour);
             double aspectRatio = rect.width * 1.0 / rect.height;
 
@@ -142,7 +132,6 @@ public class TapeDetector extends BaseJavaAlgorithm implements IDetector {
 
             mTargetInfos.add(new TargetLocation(contour, yawAngle, distanceFromHorz, distanceFromVert, aspectRatio));
         }
-
 
         // Reported numbers
         double distance = 0;
@@ -191,7 +180,7 @@ public class TapeDetector extends BaseJavaAlgorithm implements IDetector {
             }
             case MarkedUpImage:
             {
-                displayImage = getMarkedUpPegImage(aOriginalImage, mTargetInfos, mFilteredTargets, distance, angle_to_the_peg);
+            displayImage = getMarkedUpPegImage(aOriginalImage, mTargetInfos, mFilteredTargets, distance, angle_to_the_peg);
                 break;
             }
             case OriginalImage:
@@ -208,7 +197,6 @@ public class TapeDetector extends BaseJavaAlgorithm implements IDetector {
 
         return displayImage;
     }
-
 
     private Mat getMarkedUpPegImage(Mat aOriginal, Collection<TargetLocation> aTargetInfos, List<FilterPair> aFilteredTargets, double aDistance,
                                     double aOverallAngle)
@@ -229,7 +217,6 @@ public class TapeDetector extends BaseJavaAlgorithm implements IDetector {
         Imgproc.putText(displayImage, overallInformation, new Point(20, 20), Core.FONT_HERSHEY_COMPLEX, .6, sWHITE_COLOR);
 
         int ctr = 0;
-
         for (TargetLocation targetInfo : aTargetInfos)
         {
             String textToDisplay = "Dist. " + sDF.format(targetInfo.getPreferredDistance()) + " Angle: " + sDF.format(targetInfo.getAngle());
@@ -254,11 +241,26 @@ public class TapeDetector extends BaseJavaAlgorithm implements IDetector {
         return displayImage;
     }
 
-    protected void sendTargetInformation(Collection<TargetLocation> targetInfos, boolean aAmbigious, double aDistance, double aAngleToPeg, double aLatencySec) {
+    protected abstract void sendTargetInformation(Collection<TargetLocation> targetInfos, boolean aAmbigious, double aDistance, double aAngleToPeg, double aLatencySec);
 
+    private class FilterPair
+    {
+        private MatOfPoint mContour;
+        private FilterResult mResult;
+
+        public FilterPair(MatOfPoint aContour, FilterResult aResult)
+        {
+            mContour = aContour;
+            mResult = aResult;
+        }
     }
 
-
+    /**
+     * Filters out contours that do not meet certain criteria.
+     *
+     * @param inputContours
+     *            is the input list of contours
+     */
     private List<FilterPair> filterContours(List<MatOfPoint> inputContours)
     {
         final MatOfInt hull = new MatOfInt();
@@ -296,7 +298,7 @@ public class TapeDetector extends BaseJavaAlgorithm implements IDetector {
             {
                 int index = (int) hull.get(j, 0)[0];
                 double[] point = new double[]
-                        { contour.get(index, 0)[0], contour.get(index, 0)[1] };
+                { contour.get(index, 0)[0], contour.get(index, 0)[1] };
                 mopHull.put(j, 0, point);
             }
             final double solid = 100 * area / Imgproc.contourArea(mopHull);
@@ -317,13 +319,5 @@ public class TapeDetector extends BaseJavaAlgorithm implements IDetector {
         }
 
         return mRealTargets;
-    }
-    public void setDisplayType(DisplayType aDisplayType) {
-        mDisplayType = aDisplayType;
-    }
-
-    public void setFilterParams(FilterParams aFilterParams)
-    {
-        mFilterParams = aFilterParams;
     }
 }
