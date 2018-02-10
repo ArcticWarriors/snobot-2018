@@ -13,6 +13,8 @@ import org.snobot.lib.ASnobot;
 import org.snobot.lib.logging.ILogger;
 import org.snobot.positioner.IPositioner;
 import org.snobot.positioner.Positioner;
+import org.sobot.winch.IWinch;
+import org.sobot.winch.WinchFactory;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
@@ -25,6 +27,7 @@ public class Snobot2018 extends ASnobot
     // RoboSubsystems
     private IDriveTrain mDriveTrain;
     private IElevator mElevator;
+    private IWinch mWinch;
     private IClaw mClaw;
 
     // Autonomous
@@ -77,9 +80,15 @@ public class Snobot2018 extends ASnobot
         addModule(mClaw);
 
 
+        // Winch
+        WinchFactory winchFactory = new WinchFactory();
+        mWinch = winchFactory.createWinch(mUseCan, operatorJoystick, logger);
+        addModule(mWinch);
+
         // Position
         mPositioner = new Positioner(mDriveTrain, logger);
         addModule(mPositioner);
+
 
         // This should be done last
         mAutonFactory = new AutonomousFactory(this);
@@ -104,6 +113,11 @@ public class Snobot2018 extends ASnobot
     public IElevator getElevator()
     {
         return mElevator;
+    }
+
+    public IWinch getWinch()
+    {
+        return mWinch;
     }
 
     public IClaw getClaw()

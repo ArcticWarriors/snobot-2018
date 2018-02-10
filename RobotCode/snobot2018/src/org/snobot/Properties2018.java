@@ -51,6 +51,9 @@ public class Properties2018
     public static final DoubleProperty sELEVATOR_MIN_HEIGHT = new DoubleProperty("ElevatorMinHeight", 1);
     public static final DoubleProperty sELEVATOR_DEADBAND = new DoubleProperty("ElevatorDeadband", 0.1);
 
+    // Winch
+    public static final DoubleProperty sWINCH_DEADBAND = new DoubleProperty("WinchDeadband", 0.05);
+
     static
     {
         String resourcesDir;

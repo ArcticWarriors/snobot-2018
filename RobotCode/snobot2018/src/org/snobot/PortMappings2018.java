@@ -10,7 +10,7 @@ public class PortMappings2018
     public static final int sDRIVE_PWM_RIGHT_A_PORT = 1;
     public static final int sDRIVE_PWM_LEFT_A_PORT = 0;
     public static final int sELEVATOR_PWM_A_PORT = 2;
-
+    public static final int sWINCH_PWM_PORT = 3;
     // PWM
     public static final int sDRIVE_CTRE_RIGHT_A_PORT = 0;
     public static final int sDRIVE_CTRE_RIGHT_B_PORT = 1;

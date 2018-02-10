@@ -29,6 +29,9 @@ public class SmartDashboardNames
     // Autonomous Factory
     public static final String sPOSITION_CHOOSER = "Position Chooser";
 
+    // Winch
+    public static final String sWINCH_SPEED = "WinchSpeed";
+
     // Trajectory
     public static final String sSPLINE_NAMESPACE = "Spline Namespace";
     public static final String sSPLINE_IDEAL_POINTS = "Ideal Spline Points";

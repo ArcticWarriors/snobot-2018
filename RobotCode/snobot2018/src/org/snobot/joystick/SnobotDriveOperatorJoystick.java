@@ -64,6 +64,11 @@ public class SnobotDriveOperatorJoystick implements IOperatorJoystick
     }
 
     @Override
+    public double getWinchSpeed()
+    {
+        return mOperatorJoystick.getRawAxis(XboxButtonMap.RIGHT_Y_AXIS);
+    }
+
     public boolean clawOpen()
     {
         return mClawButton.getState();
