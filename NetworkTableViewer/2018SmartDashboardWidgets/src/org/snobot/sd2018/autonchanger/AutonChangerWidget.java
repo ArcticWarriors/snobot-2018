@@ -90,9 +90,7 @@ public class AutonChangerWidget extends StaticWidget
             @Override
             public void valueChanged(NetworkTable aNetworkTable, String aKey, NetworkTableEntry aEntry, NetworkTableValue aValue, int aFlags)
             {
-                String autoText = aAutonTable.getEntry(SmartDashboardNames.sROBOT_COMMAND_TEXT).getString("Nothing Received");
-                aAutonTable.getEntry(SmartDashboardNames.sSAVE_AUTON).setBoolean(false);
-                aAutonPanel.getTextArea().setText(autoText);
+                aAutonPanel.getTextArea().setText(aValue.getString());
 
             }
         };
@@ -102,8 +100,7 @@ public class AutonChangerWidget extends StaticWidget
             @Override
             public void valueChanged(NetworkTable aNetworkTable, String aKey, NetworkTableEntry aEntry, NetworkTableValue aValue, int aFlags)
             {
-                boolean parseSuccess = aAutonTable.getEntry(SmartDashboardNames.sSUCCESFULLY_PARSED_AUTON).setBoolean(false);
-                aAutonPanel.setParseSuccess(parseSuccess);
+                aAutonPanel.setParseSuccess(aValue.getBoolean());
             }
         };
 
@@ -116,14 +113,12 @@ public class AutonChangerWidget extends StaticWidget
     public void propertyChanged(Property aActionEvent)
     {
         // Nothing to do
-
     }
 
     @Override
     public void init()
     {
         // Nothing to do
-
     }
 
 }

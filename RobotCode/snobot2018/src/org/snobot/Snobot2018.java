@@ -92,9 +92,12 @@ public class Snobot2018 extends ASnobot
 
         // This should be done last
         mAutonFactory = new AutonomousFactory(this);
+
+        // initialize the default auton command
+        mAutonFactory.createAutonMode();
     }
 
-
+    @Override
     protected CommandGroup createAutonomousCommand()
     {
         return mAutonFactory.createAutonMode();

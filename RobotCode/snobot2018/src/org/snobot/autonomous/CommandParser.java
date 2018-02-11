@@ -10,7 +10,6 @@ import java.util.List;
 import org.apache.log4j.Level;
 import org.snobot.SmartDashboardNames;
 import org.snobot.Snobot2018;
-import org.snobot.autonomous.AutonomousFactory.StartingPositions;
 import org.snobot.lib.autonomous.ACommandParser;
 
 import edu.wpi.first.networktables.NetworkTable;
@@ -18,7 +17,6 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 /**
  * Creates commands from a file path and adds them to a CommandGroup.
@@ -51,13 +49,13 @@ public class CommandParser extends ACommandParser
      * 
      * @param aSnobot
      *            The robot using the CommandParser.
-     * @param aPositionChooser
-     *            The chooser which indicates the starting position
      */
-    public CommandParser(Snobot2018 aSnobot, SendableChooser<StartingPositions> aPositionChooser, NetworkTable aNetworkTable)
+    public CommandParser(Snobot2018 aSnobot, NetworkTable aNetworkTable)
     {
         super(aNetworkTable.getEntry(SmartDashboardNames.sROBOT_COMMAND_TEXT), aNetworkTable.getEntry(SmartDashboardNames.sSUCCESFULLY_PARSED_AUTON),
                 " ", "#");
+
+        aNetworkTable.getEntry(".type").setString("AutonWidget");
 
         mSnobot = aSnobot;
 
@@ -185,7 +183,9 @@ public class CommandParser extends ACommandParser
         String newText = mAutonSdTableTextName.getString("");
         String filename = mAutonFilenameEntry.getString("auton_file.txt");
 
-        sLOGGER.log(Level.INFO, "\n" + "*****************************************\n" + "Saving auton mode to " + filename + "\n"
+        sLOGGER.log(Level.INFO, "\n" 
+                + "*****************************************\n" 
+                + "Saving auton mode to " + filename + "\n"
                 + "*****************************************");
 
         try
@@ -198,7 +198,6 @@ public class CommandParser extends ACommandParser
         {
             sLOGGER.log(Level.INFO, ex);
         }
-
     }
 
     /**
