@@ -6,10 +6,10 @@ mDefaultI2CWrappers:
   1: None
 mDefaultSpiWrappers:
   0: ADXRS450
-  1: null
-  2: null
-  3: null
-  4: null
+  1: Dotstar
+  2: Dotstar
+  3: Dotstar
+  4: Dotstar
 mDigitalIO: []
 mEncoders:
 - mConnectedSpeedControllerHandle: 2

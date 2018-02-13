@@ -9,6 +9,8 @@ import org.snobot.elevator.ElevatorFactory;
 import org.snobot.elevator.IElevator;
 import org.snobot.joystick.SnobotDriveOperatorJoystick;
 import org.snobot.joystick.SnobotDriveXbaxJoystick;
+import org.snobot.leds.ILedManager;
+import org.snobot.leds.SnobotLedManager;
 import org.snobot.lib.ASnobot;
 import org.snobot.lib.logging.ILogger;
 import org.snobot.positioner.IPositioner;
@@ -54,7 +56,6 @@ public class Snobot2018 extends ASnobot
     {
         ILogger logger = getLogger();
 
-
         // Joystick
         Joystick driverJoystickRaw = new Joystick(PortMappings2018.sDRIVER_JOYSTICK_PORT);
         SnobotDriveXbaxJoystick driverJoystick = new SnobotDriveXbaxJoystick(driverJoystickRaw, logger);
@@ -63,6 +64,10 @@ public class Snobot2018 extends ASnobot
         Joystick elevatorJoystickRaw = new Joystick(PortMappings2018.sELEVATOR_JOYSTICK_PORT);
         SnobotDriveOperatorJoystick operatorJoystick = new SnobotDriveOperatorJoystick(elevatorJoystickRaw, logger);
         addModule(operatorJoystick);
+
+        // LEDs
+        ILedManager ledManager = new SnobotLedManager();
+        addModule(ledManager);
 
         // DriveTrain
         DrivetrainFactory drivetrainFactory = new DrivetrainFactory();
