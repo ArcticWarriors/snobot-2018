@@ -1,0 +1,158 @@
+<grip:Pipeline>
+  <sources>
+    <grip:MultiImageFile>
+      <property name="path[9]" value="C:\Users\PJ\GitHub\FIRST_2018\snobot-2018\Vision\StandaloneVisionTester\TestImages\20180210_kickoff_images\IMG_6619.JPG"/>
+      <property name="path[10]" value="C:\Users\PJ\GitHub\FIRST_2018\snobot-2018\Vision\StandaloneVisionTester\TestImages\20180210_kickoff_images\IMG_6620.JPG"/>
+      <property name="path[6]" value="C:\Users\PJ\GitHub\FIRST_2018\snobot-2018\Vision\StandaloneVisionTester\TestImages\20180210_kickoff_images\IMG_6561.JPG"/>
+      <property name="path[3]" value="C:\Users\PJ\GitHub\FIRST_2018\snobot-2018\Vision\StandaloneVisionTester\TestImages\20180210_kickoff_images\IMG_6234.JPG"/>
+      <property name="path[0]" value="C:\Users\PJ\GitHub\FIRST_2018\snobot-2018\Vision\StandaloneVisionTester\TestImages\20180210_kickoff_images\Capture.JPG"/>
+      <property name="path[12]" value="C:\Users\PJ\GitHub\FIRST_2018\snobot-2018\Vision\StandaloneVisionTester\TestImages\20180210_kickoff_images\IMG_6747.JPG"/>
+      <property name="path[8]" value="C:\Users\PJ\GitHub\FIRST_2018\snobot-2018\Vision\StandaloneVisionTester\TestImages\20180210_kickoff_images\IMG_6563.JPG"/>
+      <property name="index" value="12"/>
+      <property name="numImages" value="13"/>
+      <property name="path[5]" value="C:\Users\PJ\GitHub\FIRST_2018\snobot-2018\Vision\StandaloneVisionTester\TestImages\20180210_kickoff_images\IMG_6559.JPG"/>
+      <property name="path[2]" value="C:\Users\PJ\GitHub\FIRST_2018\snobot-2018\Vision\StandaloneVisionTester\TestImages\20180210_kickoff_images\IMG_6232.JPG"/>
+      <property name="path[11]" value="C:\Users\PJ\GitHub\FIRST_2018\snobot-2018\Vision\StandaloneVisionTester\TestImages\20180210_kickoff_images\IMG_6624.JPG"/>
+      <property name="path[7]" value="C:\Users\PJ\GitHub\FIRST_2018\snobot-2018\Vision\StandaloneVisionTester\TestImages\20180210_kickoff_images\IMG_6562.JPG"/>
+      <property name="path[4]" value="C:\Users\PJ\GitHub\FIRST_2018\snobot-2018\Vision\StandaloneVisionTester\TestImages\20180210_kickoff_images\IMG_6246.JPG"/>
+      <property name="path[1]" value="C:\Users\PJ\GitHub\FIRST_2018\snobot-2018\Vision\StandaloneVisionTester\TestImages\20180210_kickoff_images\IMG_6231.JPG"/>
+    </grip:MultiImageFile>
+  </sources>
+  <steps>
+    <grip:Step name="Resize Image">
+      <grip:Input step="0" socket="0"/>
+      <grip:Input step="0" socket="1">
+        <value>640</value>
+      </grip:Input>
+      <grip:Input step="0" socket="2">
+        <value>480</value>
+      </grip:Input>
+      <grip:Input step="0" socket="3">
+        <value>CUBIC</value>
+      </grip:Input>
+      <grip:Output step="0" socket="0" previewed="true"/>
+    </grip:Step>
+    <grip:Step name="HSL Threshold">
+      <grip:Input step="1" socket="0"/>
+      <grip:Input step="1" socket="1">
+        <value>
+          <double>69.60431654676258</double>
+          <double>121.63822525597267</double>
+        </value>
+      </grip:Input>
+      <grip:Input step="1" socket="2">
+        <value>
+          <double>68.79496402877697</double>
+          <double>224.53924914675767</double>
+        </value>
+      </grip:Input>
+      <grip:Input step="1" socket="3">
+        <value>
+          <double>36.690647482014384</double>
+          <double>174.49658703071674</double>
+        </value>
+      </grip:Input>
+      <grip:Output step="1" socket="0" previewed="true"/>
+    </grip:Step>
+    <grip:Step name="HSL Threshold">
+      <grip:Input step="2" socket="0"/>
+      <grip:Input step="2" socket="1">
+        <value>
+          <double>0.0</double>
+          <double>180.0</double>
+        </value>
+      </grip:Input>
+      <grip:Input step="2" socket="2">
+        <value>
+          <double>123.83093525179855</double>
+          <double>252.82423208191125</double>
+        </value>
+      </grip:Input>
+      <grip:Input step="2" socket="3">
+        <value>
+          <double>48.156474820143885</double>
+          <double>189.72696245733786</double>
+        </value>
+      </grip:Input>
+      <grip:Output step="2" socket="0" previewed="true"/>
+    </grip:Step>
+    <grip:Step name="HSL Threshold">
+      <grip:Input step="3" socket="0"/>
+      <grip:Input step="3" socket="1">
+        <value>
+          <double>3.237410071942446</double>
+          <double>54.06143344709898</double>
+        </value>
+      </grip:Input>
+      <grip:Input step="3" socket="2">
+        <value>
+          <double>71.08812949640287</double>
+          <double>255.0</double>
+        </value>
+      </grip:Input>
+      <grip:Input step="3" socket="3">
+        <value>
+          <double>48.156474820143885</double>
+          <double>178.8481228668942</double>
+        </value>
+      </grip:Input>
+      <grip:Output step="3" socket="0" previewed="false"/>
+    </grip:Step>
+    <grip:Step name="CV bitwise_not">
+      <grip:Input step="4" socket="0"/>
+      <grip:Output step="4" socket="0" previewed="false"/>
+    </grip:Step>
+    <grip:Step name="CV bitwise_and">
+      <grip:Input step="5" socket="0"/>
+      <grip:Input step="5" socket="1"/>
+      <grip:Output step="5" socket="0" previewed="true"/>
+    </grip:Step>
+  </steps>
+  <connections>
+    <grip:Connection>
+      <grip:Output step="4" socket="0" previewed="false"/>
+      <grip:Input step="5" socket="0"/>
+    </grip:Connection>
+    <grip:Connection>
+      <grip:Output step="3" socket="0" previewed="false"/>
+      <grip:Input step="4" socket="0"/>
+    </grip:Connection>
+    <grip:Connection>
+      <grip:Output source="0" socket="0" previewed="false"/>
+      <grip:Input step="0" socket="0"/>
+    </grip:Connection>
+    <grip:Connection>
+      <grip:Output step="2" socket="0" previewed="true"/>
+      <grip:Input step="5" socket="1"/>
+    </grip:Connection>
+    <grip:Connection>
+      <grip:Output step="0" socket="0" previewed="true"/>
+      <grip:Input step="3" socket="0"/>
+    </grip:Connection>
+    <grip:Connection>
+      <grip:Output step="0" socket="0" previewed="true"/>
+      <grip:Input step="1" socket="0"/>
+    </grip:Connection>
+    <grip:Connection>
+      <grip:Output step="0" socket="0" previewed="true"/>
+      <grip:Input step="2" socket="0"/>
+    </grip:Connection>
+  </connections>
+  <settings>
+    <teamNumber>0</teamNumber>
+    <publishAddress>roboRIO-0-FRC.local</publishAddress>
+    <deployAddress>roboRIO-0-FRC.local</deployAddress>
+    <deployDir>/home/lvuser</deployDir>
+    <deployUser>lvuser</deployUser>
+    <deployJavaHome>/usr/local/frc/JRE/</deployJavaHome>
+    <deployJvmOptions>-Xmx50m -XX:-OmitStackTraceInFastThrow -XX:+HeapDumpOnOutOfMemoryError -XX:MaxNewSize=16m</deployJvmOptions>
+  </settings>
+  <codeGenerationSettings>
+    <language>Java</language>
+    <className>GripPipeline</className>
+    <implementWpilibPipeline>false</implementWpilibPipeline>
+    <saveDir>C:\Users\PJ\GRIP</saveDir>
+    <packageName></packageName>
+    <moduleName>grip</moduleName>
+  </codeGenerationSettings>
+</grip:Pipeline>

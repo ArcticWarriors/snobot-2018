@@ -17,16 +17,30 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    lintOptions {
+        disable "CustomViewStyleable", "OldTargetApi", "InflateParams", "GradleOverrides", "AllowBackup", "StaticFieldLeak", "Overdraw", "UnusedResources", "UselessParent", "UnusedNamespace", "GoogleAppIndexingWarning", "ViewConstructor", "ContentDescription", "SetTextI18n", "HardcodedText", "RtlSymmetry", "RtlHardcoded"
+    }
+}
+android {
+    sourceSets {
+        main {
+            // Add the external, shared algorithm
+            java.srcDirs += '../../SharedVisionAlgorithm'
+            java.srcDirs += '../../VisionMessages'
+        }
+    }
 }
 
+
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile project(':opencvlibrary310')
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.android.support:support-v4:24.2.1'
-    testCompile 'junit:junit:4.12'
-    compile 'com.yahoo.mobile.client.android.util.rangeseekbar:rangeseekbar-library:0.1.0'
+    implementation project(':opencvlibrary310')
+    implementation 'com.android.support:appcompat-v7:24.2.1'
+    implementation 'com.android.support:support-v4:24.2.1'
+    testImplementation 'junit:junit:4.12'
+    implementation 'com.yahoo.mobile.client.android.util.rangeseekbar:rangeseekbar-library:0.1.0'
 }

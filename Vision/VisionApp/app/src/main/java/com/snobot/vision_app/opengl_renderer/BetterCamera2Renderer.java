@@ -2,7 +2,6 @@ package com.snobot.vision_app.opengl_renderer;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.ImageFormat;
 import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
@@ -12,10 +11,9 @@ import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
-import android.media.Image;
-import android.media.ImageReader;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.util.Size;
 import android.util.SizeF;
@@ -23,8 +21,7 @@ import android.view.Surface;
 
 import org.opencv.android.CameraBridgeViewBase;
 
-import java.nio.ByteBuffer;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
@@ -38,7 +35,7 @@ public class BetterCamera2Renderer extends BetterCameraGLRendererBase {
         public Map<CaptureRequest.Key, Object> camera_settings;
     }
 
-    protected final String LOGTAG = "Camera2Renderer";
+    private final String LOGTAG = "Camera2Renderer";
     private CameraDevice mCameraDevice;
     private CameraCaptureSession mCaptureSession;
     private CaptureRequest.Builder mPreviewRequestBuilder;
@@ -48,7 +45,7 @@ public class BetterCamera2Renderer extends BetterCameraGLRendererBase {
 
     private HandlerThread mBackgroundThread;
     private Handler mBackgroundHandler;
-    private Semaphore mCameraOpenCloseLock = new Semaphore(1);
+    private final Semaphore mCameraOpenCloseLock = new Semaphore(1);
 
     BetterCamera2Renderer(BetterCameraGLSurfaceView view, Settings settings) {
         super(view);
@@ -70,7 +67,7 @@ public class BetterCamera2Renderer extends BetterCameraGLRendererBase {
         stopBackgroundThread();
     }
 
-    boolean cacPreviewSize(final int width, final int height) {
+    private boolean cacPreviewSize(final int width, final int height) {
         Log.i(LOGTAG, "cacPreviewSize: " + width + "x" + height);
         if (mCameraID == null) {
             Log.e(LOGTAG, "Camera isn't initialized!");
@@ -220,21 +217,21 @@ public class BetterCamera2Renderer extends BetterCameraGLRendererBase {
     private final CameraDevice.StateCallback mStateCallback = new CameraDevice.StateCallback() {
 
         @Override
-        public void onOpened(CameraDevice cameraDevice) {
+        public void onOpened(@NonNull CameraDevice cameraDevice) {
             mCameraDevice = cameraDevice;
             mCameraOpenCloseLock.release();
             createCameraPreviewSession();
         }
 
         @Override
-        public void onDisconnected(CameraDevice cameraDevice) {
+        public void onDisconnected(@NonNull CameraDevice cameraDevice) {
             cameraDevice.close();
             mCameraDevice = null;
             mCameraOpenCloseLock.release();
         }
 
         @Override
-        public void onError(CameraDevice cameraDevice, int error) {
+        public void onError(@NonNull CameraDevice cameraDevice, int error) {
             cameraDevice.close();
             mCameraDevice = null;
             mCameraOpenCloseLock.release();
@@ -242,6 +239,7 @@ public class BetterCamera2Renderer extends BetterCameraGLRendererBase {
 
     };
 
+    @SuppressWarnings("unchecked")
     private void createCameraPreviewSession() {
         int w = mPreviewSize.getWidth(), h = mPreviewSize.getHeight();
         Log.i(LOGTAG, "createCameraPreviewSession(" + w + "x" + h + ")");
@@ -292,10 +290,10 @@ public class BetterCamera2Renderer extends BetterCameraGLRendererBase {
 //            reader.setOnImageAvailableListener(imageListener, mBackgroundHandler);
 //            mPreviewRequestBuilder.addTarget(reader.getSurface());
 
-            mCameraDevice.createCaptureSession(Arrays.asList(surface),
+            mCameraDevice.createCaptureSession(Collections.singletonList(surface),
                     new CameraCaptureSession.StateCallback() {
                         @Override
-                        public void onConfigured(CameraCaptureSession cameraCaptureSession) {
+                        public void onConfigured(@NonNull CameraCaptureSession cameraCaptureSession) {
                             mCaptureSession = cameraCaptureSession;
                             try {
                                 for (Map.Entry<CaptureRequest.Key, ?> setting : mSettings.camera_settings.entrySet()) {
@@ -311,7 +309,7 @@ public class BetterCamera2Renderer extends BetterCameraGLRendererBase {
 
                         @Override
                         public void onConfigureFailed(
-                                CameraCaptureSession cameraCaptureSession) {
+                                @NonNull CameraCaptureSession cameraCaptureSession) {
                             Log.e(LOGTAG, "createCameraPreviewSession failed");
                             mCameraOpenCloseLock.release();
                         }

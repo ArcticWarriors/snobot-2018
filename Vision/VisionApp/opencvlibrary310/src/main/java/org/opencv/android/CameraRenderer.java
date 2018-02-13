@@ -4,8 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import android.annotation.TargetApi;
-import android.hardware.Camera;
-import android.hardware.Camera.Size;
+import android.hardware.*;
 import android.os.Build;
 import android.util.Log;
 
@@ -128,11 +127,11 @@ public class CameraRenderer extends CameraGLRendererBase {
         if(mMaxCameraHeight > 0 && mMaxCameraHeight < height) height = mMaxCameraHeight;
 
         Camera.Parameters param = mCamera.getParameters();
-        List<Size> psize = param.getSupportedPreviewSizes();
+        List<android.hardware.Camera.Size> psize = param.getSupportedPreviewSizes();
         int bestWidth = 0, bestHeight = 0;
         if (psize.size() > 0) {
             float aspect = (float)width / height;
-            for (Size size : psize) {
+            for (android.hardware.Camera.Size size : psize) {
                 int w = size.width, h = size.height;
                 Log.d(LOGTAG, "checking camera preview size: "+w+"x"+h);
                 if ( w <= width && h <= height &&

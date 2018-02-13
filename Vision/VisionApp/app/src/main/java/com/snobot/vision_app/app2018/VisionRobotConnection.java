@@ -8,10 +8,10 @@ import java.nio.ByteBuffer;
 import java.util.List;
 
 import com.snobot.vision_app.app2018.broadcastReceivers.RobotConnectionStatusBroadcastReceiver;
-import com.snobot.vision_app.app2018.messages.in.CameraDirectionMessage;
-import com.snobot.vision_app.app2018.messages.in.SetRecordingMessage;
-import com.snobot.vision_app.app2018.messages.out.HeartbeatMessage;
-import com.snobot.vision_app.app2018.messages.out.TargetUpdateMessage;
+import com.snobot.vision_app.app2018.messages.IterateDisplayImageMessage;
+import com.snobot.vision_app.app2018.messages.SetRecordingMessage;
+import com.snobot.vision_app.app2018.messages.HeartbeatMessage;
+import com.snobot.vision_app.app2018.messages.TargetUpdateMessage;
 import com.snobot.vision_app.utils.RobotConnection;
 
 import org.json.JSONException;
@@ -24,12 +24,6 @@ import org.json.JSONObject;
 public class VisionRobotConnection extends RobotConnection {
 
     private static final String sTAG = "RobotConnection";
-
-    // Incoming Messages
-    private static final String sHEARTBEAT_MESSAGE_TYPE = "heartbeat";
-    private static final String sITERATE_SHOWN_IMAGE_MESSAGE_TYPE = "iterate_display_image";
-    private static final String sCAMERA_DIRECTION_MESSAGE_TYPE = "camera_direction";
-    private static final String sRECORD_IMAGES_MESSAGE_TYPE = "record_images";
 
     private final IVisionActivity mCameraActivity;
 
@@ -56,23 +50,17 @@ public class VisionRobotConnection extends RobotConnection {
             JSONObject jsonObject = new JSONObject(message);
             String type = (String) jsonObject.get("type");
 
-            if(sHEARTBEAT_MESSAGE_TYPE.equals(type))
+            if(HeartbeatMessage.sMESSAGE_TYPE.equals(type))
             {
                 mLastHeartbeatReceiveTime = System.currentTimeMillis();
             }
-            else if(sCAMERA_DIRECTION_MESSAGE_TYPE.equals(type))
-            {
-                Log.i(sTAG, message);
-                CameraDirectionMessage dirMessage = new CameraDirectionMessage(jsonObject);
-                mCameraActivity.useCamera(dirMessage.getCameraDirection());
-            }
-            else if (sRECORD_IMAGES_MESSAGE_TYPE.equals(type))
+            else if (SetRecordingMessage.sMESSAGE_TYPE.equals(type))
             {
                 Log.i(sTAG, message);
                 SetRecordingMessage recordingMessage = new SetRecordingMessage(jsonObject);
                 mCameraActivity.setRecording(recordingMessage.shouldRecord(), recordingMessage.getName());
             }
-            else if (sITERATE_SHOWN_IMAGE_MESSAGE_TYPE.equals(type))
+            else if (IterateDisplayImageMessage.sMESSAGE_TYPE.equals(type))
             {
                 Log.i(sTAG, message);
                 mCameraActivity.iterateDisplayType();
@@ -106,7 +94,21 @@ public class VisionRobotConnection extends RobotConnection {
     {
         try
         {
-            send(new HeartbeatMessage().getJson());
+            send(new HeartbeatMessage().asJson());
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendVisionUpdate(List<TargetUpdateMessage.TargetInfo> aTargets, double aLatencySec)
+    {
+        try
+        {
+            JSONObject message = new TargetUpdateMessage(aTargets, aLatencySec).asJson();
+//            Log.i(sTAG, message.toString());
+            send(message);
         }
         catch (JSONException e)
         {
@@ -118,19 +120,5 @@ public class VisionRobotConnection extends RobotConnection {
     {
         String message = aJson.toString() + "\n";
         send(ByteBuffer.wrap(message.getBytes()));
-    }
-
-    public void sendVisionUpdate(List<TargetUpdateMessage.TargetInfo> aTargets, double aLatencySec)
-    {
-        try
-        {
-            JSONObject message = new TargetUpdateMessage(aTargets, aLatencySec).getJson();
-//            Log.i(sTAG, message.toString());
-            send(message);
-        }
-        catch (JSONException e)
-        {
-            e.printStackTrace();
-        }
     }
 }

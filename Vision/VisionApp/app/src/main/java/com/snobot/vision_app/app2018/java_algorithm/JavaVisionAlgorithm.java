@@ -2,20 +2,20 @@ package com.snobot.vision_app.app2018.java_algorithm;
 
 import android.graphics.Bitmap;
 import android.os.Environment;
+import android.util.Log;
 import android.util.Pair;
 
+import com.snobot.vision_app.app2018.IDebugLogger;
 import com.snobot.vision_app.app2018.VisionAlgorithmPreferences;
 import com.snobot.vision_app.app2018.VisionRobotConnection;
-import com.snobot.vision_app.app2018.common.CubeDetector;
-import com.snobot.vision_app.app2018.common.FilterParams;
-import com.snobot.vision_app.app2018.common.GripTapeAlgorithm;
-import com.snobot.vision_app.app2018.common.IDetector;
-import com.snobot.vision_app.app2018.common.PortalDetector;
-import com.snobot.vision_app.app2018.common.TapeDetector;
+import com.snobot.vision_app.app2018.detectors.CubeDetector;
+import com.snobot.vision_app.app2018.FilterParams;
+import com.snobot.vision_app.app2018.detectors.IDetector;
+import com.snobot.vision_app.app2018.detectors.PortalDetector;
+import com.snobot.vision_app.app2018.detectors.TapeDetector;
 
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
-import org.opencv.core.MatOfPoint;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -43,11 +43,19 @@ public class JavaVisionAlgorithm
     private cameraMode mMode = cameraMode.SwitchTape;
 
     public JavaVisionAlgorithm(VisionRobotConnection aRobotConnection, VisionAlgorithmPreferences aPreferences) {
+
+        IDebugLogger debugLogger = new IDebugLogger() {
+            @Override
+            public void debug(String aMessage) {
+                Log.d(getClass().getName(), aMessage);
+            }
+        };
+
         mPreferences = aPreferences;
         mRobotConnection = aRobotConnection;
-        mTapeDetector = new TapeDetector();
-        mCubeDetector =  new CubeDetector();
-        mPortalDetector = new PortalDetector();
+        mTapeDetector = new TapeDetector(debugLogger);
+        mCubeDetector =  new CubeDetector(debugLogger);
+        mPortalDetector = new PortalDetector(debugLogger);
     }
 
     public enum cameraMode
@@ -93,14 +101,14 @@ public class JavaVisionAlgorithm
         Pair<Integer, Integer> filterVertices = mPreferences.getFilterVerticesThreshold();
         Pair<Float, Float> filterRatio = mPreferences.getFilterRatioRange();
 
-        mFilterParams.minWidth = filterWidth.first;
-        mFilterParams.maxWidth = filterWidth.second;
-        mFilterParams.minHeight = filterHeight.first;
-        mFilterParams.maxHeight = filterHeight.second;
-        mFilterParams.minVertices = filterVertices.first;
-        mFilterParams.maxVertices = filterVertices.second;
-        mFilterParams.minRatio = filterRatio.first;
-        mFilterParams.maxRatio = filterRatio.second;
+        mFilterParams.mMinWidth = filterWidth.first;
+        mFilterParams.mMaxWidth = filterWidth.second;
+        mFilterParams.mMinHeight = filterHeight.first;
+        mFilterParams.mMaxHeight = filterHeight.second;
+        mFilterParams.mMinVertices = filterVertices.first;
+        mFilterParams.mMaxVertices = filterVertices.second;
+        mFilterParams.mMinRatio = filterRatio.first;
+        mFilterParams.mMaxRatio = filterRatio.second;
 
         Bitmap bitmap = Bitmap.createBitmap(aMat.cols(), aMat.rows(), Bitmap.Config.ARGB_8888);
 

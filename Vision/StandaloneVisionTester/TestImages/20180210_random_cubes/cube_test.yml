@@ -1,0 +1,25 @@
+!!org.snobot.vision_tester.TestConfig
+cameraMode: Cube
+displayType: MarkedUpImage
+files:
+- TestImages/20180210_random_cubes/IMG_20180210_152411.jpg
+- TestImages/20180210_random_cubes/IMG_20180210_152417.jpg
+- TestImages/20180210_random_cubes/IMG_20180210_152420.jpg
+- TestImages/20180210_random_cubes/IMG_20180210_152422.jpg
+- TestImages/20180210_random_cubes/IMG_20180210_152427.jpg
+- TestImages/20180210_random_cubes/IMG_20180210_152432.jpg
+- TestImages/20180210_random_cubes/IMG_20180210_152437.jpg
+- TestImages/20180210_random_cubes/IMG_20180210_152445.jpg
+filterParams:
+  maxContoursSolidity: 100.0
+  maxHeight: 300.0
+  maxRatio: 4.0
+  maxVertices: 300.0
+  maxWidth: 320.0
+  minArea: 2000.0
+  minContoursSolidity: 0.0
+  minHeight: 0.0
+  minPerimeter: 0.0
+  minRatio: 0.0
+  minVertices: 0.0
+  minWidth: 5.0

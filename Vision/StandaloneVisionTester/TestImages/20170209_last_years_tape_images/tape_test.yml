@@ -1,0 +1,35 @@
+!!org.snobot.vision_tester.TestConfig
+cameraMode: SwitchTape
+displayType: MarkedUpImage
+files: 
+- 'TestImages/20170209_last_years_tape_images/10ft_0deg.jpg'
+- 'TestImages/20170209_last_years_tape_images/11ft_0deg.jpg'
+- 'TestImages/20170209_last_years_tape_images/2ft_0deg.jpg'
+- 'TestImages/20170209_last_years_tape_images/2ft_back_1ft_left.jpg'
+- 'TestImages/20170209_last_years_tape_images/3ft_0deg.jpg'
+- 'TestImages/20170209_last_years_tape_images/4ft_0deg.jpg'
+- 'TestImages/20170209_last_years_tape_images/4ft_back_1ft_left.jpg'
+- 'TestImages/20170209_last_years_tape_images/4ft_back_2ft_left.jpg'
+- 'TestImages/20170209_last_years_tape_images/5ft_0deg.jpg'
+- 'TestImages/20170209_last_years_tape_images/6ft_0deg.jpg'
+- 'TestImages/20170209_last_years_tape_images/6ft_back_1ft_left.jpg'
+- 'TestImages/20170209_last_years_tape_images/6ft_back_2ft_left.jpg'
+- 'TestImages/20170209_last_years_tape_images/6ft_back_3ft_left.jpg'
+- 'TestImages/20170209_last_years_tape_images/6ft_back_4ft_left.jpg'
+- 'TestImages/20170209_last_years_tape_images/7ft_0deg.jpg'
+- 'TestImages/20170209_last_years_tape_images/8ft_0deg.jpg'
+- 'TestImages/20170209_last_years_tape_images/9ft_0deg.jpg'
+filterParams: 
+  maxContoursSolidity: 100.0
+  maxHeight: 250.0
+  maxRatio: 5.0
+  maxVertices: 1000000.0
+  maxWidth: 200.0
+  minArea: 250.0
+  minContoursSolidity: 0.0
+  minHeight: 0.0
+  minPerimeter: 0.0
+  minRatio: 0.0
+  minVertices: 0.0
+  minWidth: 5.0
+  

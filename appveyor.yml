@@ -1,5 +1,15 @@
 version: 1.0.{build}
-image: Visual Studio 2015
+image: Visual Studio 2017
+
+environment:
+  ANDROID_HOME: "C:\\Program Files (x86)\\Android\\android-sdk"
+
+install: 
+  - echo y | "%ANDROID_HOME%\tools\android.bat" update sdk -u -a -t tools
+  - echo y | "%ANDROID_HOME%\tools\android.bat" update sdk -u -a -t platform-tools
+  - echo y | "%ANDROID_HOME%\tools\android.bat" update sdk -u -a -t build-tools-26.0.2
+  - echo y | "%ANDROID_HOME%\tools\android.bat" update sdk -u -a -t android-26
+
 
 clone_script:
 - cmd: >-
@@ -48,13 +58,21 @@ build_script:
     
     cmd /c gradlew.bat build
 
-    # # Build Vision App
-    # 
-    # cd ..\..\Vision\VisionApp
-    # 
-    # dir
-    # 
-    # cmd /c gradlew.bat build
+    # Build Vision App
+    
+    cd ..\..\Vision\VisionApp
+    
+    dir
+    
+    cmd /c gradlew.bat build
+
+    # Build Standalone Vision Tester
+    
+    cd ..\..\Vision\StandaloneVisionTester
+    
+    dir
+    
+    cmd /c gradlew.bat build
     
 after_build:
 - cmd: "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
@@ -64,3 +82,17 @@ after_build:
 - cmd: codecov -f "RobotCode/snobot2018/build/reports/jacoco/test/jacocoTestReport.xml"
 
  
+
+artifacts:
+
+- path: Vision/VisionApp/app/build/outputs/apk
+  name: VisionApp
+
+- path: RobotCode/snobot2018/build/libs
+  name: Robot
+
+- path: NetworkTableViewer/2018ShuffleboardWidgets/build/libs
+  name: Shuffleboard
+
+- path: NetworkTableViewer/2018SmartDashboardWidgets/build/libs
+  name: SmartDashboard

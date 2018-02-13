@@ -5,8 +5,7 @@ import java.util.List;
 import android.content.Context;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
-import android.hardware.Camera;
-import android.hardware.Camera.PreviewCallback;
+import android.hardware.*;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -26,7 +25,8 @@ import org.opencv.imgproc.Imgproc;
  * When frame is delivered via callback from Camera - it processed via OpenCV to be
  * converted to RGBA32 and then passed to the external callback for modifications if required.
  */
-public class JavaCameraView extends CameraBridgeViewBase implements PreviewCallback {
+@SuppressWarnings("deprecation")
+public class JavaCameraView extends CameraBridgeViewBase implements android.hardware.Camera.PreviewCallback {
 
     private static final int MAGIC_TEXTURE_ID = 10;
     private static final String TAG = "JavaCameraView";

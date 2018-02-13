@@ -159,6 +159,7 @@ public class SnobotVisionGLActivity extends Activity implements VisionRobotConne
         });
     }
 
+    @SuppressWarnings("unchecked")
     public void openFilterSettingsBottomSheet(View v)
     {
         final View view = getLayoutInflater().inflate(R.layout.filter_settings, null);
