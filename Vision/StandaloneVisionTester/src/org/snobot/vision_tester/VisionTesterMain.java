@@ -116,6 +116,8 @@ public class VisionTesterMain
 //       String configFile = "TestImages/20170209_last_years_tape_images/tape_test.yml";
         String configFile = "TestImages/20180210_kickoff_portal_blue/kickoff.yml";
 //        String configFile = "TestImages/20180210_kickoff_portal_red/kickoff.yml";
+        // String configFile =
+        // "TestImages/20180210_kickoff_portal_red/kickoff.yml";
 
         new VisionTesterMain().testImages(configFile, oneAtATime);
     }
