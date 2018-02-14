@@ -1,0 +1,5 @@
+Scale L
+TrajectoryAutonomous StartToScale/RightToLeftScale.csv
+GoToHeightCommand 72
+StupidDriveStraight 1 1
+Claw true

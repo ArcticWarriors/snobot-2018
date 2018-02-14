@@ -48,6 +48,7 @@ public abstract class ASnobotDrivetrain<SpeedControllerType extends SpeedControl
         mGyro = aGyro;
         mDriverJoystick = aDriverJoystick;
         mRobotDrive = new DifferentialDrive(aLeftMotor, aRightMotor);
+        mRobotDrive.setSafetyEnabled(false);
     }
 
     @Override

@@ -153,7 +153,7 @@ public class AutonomousFactory
         }
 
         CommandGroup commandGroup = aCommandParser.readFile(aFile.toString());
-        boolean checkScale = Objects.equals(aCommandParser.getSwitchTrigger(), aScalePos);
+        boolean checkScale = Objects.equals(aCommandParser.getScaleTrigger(), aScalePos);
         boolean checkSwitch = Objects.equals(aCommandParser.getSwitchTrigger(), aSwitchPos);
         boolean checkBothNull = (aCommandParser.getSwitchTrigger() == null) && (aCommandParser.getScaleTrigger() == null);
         setPosition();

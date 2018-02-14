@@ -1,0 +1,4 @@
+Switch R
+Parallel GoToHeightCommand 15 | TrajectoryAutonomous RightToRightSwitch.csv
+StupidDriveStraight 1 1
+Claw true

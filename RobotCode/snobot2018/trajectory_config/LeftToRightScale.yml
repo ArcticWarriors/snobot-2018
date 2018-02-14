@@ -1,0 +1,71 @@
+config: !!com.team254.lib.trajectory.gen.TrajectoryGenerator$Config
+  dt: 0.02
+  isBackwards: false
+  max_acc: 120.0
+  max_jerk: 60.0
+  max_vel: 60.0
+waypoints:
+- !!org.snobot.coordinate_gui.model.Coordinate
+  mAngle: 0.0
+  mX: -11.0
+  mY: -26.5
+- !!org.snobot.coordinate_gui.model.Coordinate
+  mAngle: 33.690067525979785
+  mX: -9.5
+  mY: -24.25
+- !!org.snobot.coordinate_gui.model.Coordinate
+  mAngle: 70.01689347810003
+  mX: -6.75
+  mY: -23.25
+- !!org.snobot.coordinate_gui.model.Coordinate
+  mAngle: 74.74488129694222
+  mX: -4.0
+  mY: -22.5
+- !!org.snobot.coordinate_gui.model.Coordinate
+  mAngle: 78.69006752597979
+  mX: -1.5
+  mY: -22.0
+- !!org.snobot.coordinate_gui.model.Coordinate
+  mAngle: 78.69006752597979
+  mX: 1.0
+  mY: -21.5
+- !!org.snobot.coordinate_gui.model.Coordinate
+  mAngle: 79.69515353123397
+  mX: 3.75
+  mY: -21.0
+- !!org.snobot.coordinate_gui.model.Coordinate
+  mAngle: 74.74488129694222
+  mX: 6.5
+  mY: -20.25
+- !!org.snobot.coordinate_gui.model.Coordinate
+  mAngle: 48.81407483429035
+  mX: 8.5
+  mY: -18.5
+- !!org.snobot.coordinate_gui.model.Coordinate
+  mAngle: 41.185925165709655
+  mX: 10.25
+  mY: -16.5
+- !!org.snobot.coordinate_gui.model.Coordinate
+  mAngle: 16.69924423399362
+  mX: 11.0
+  mY: -14.0
+- !!org.snobot.coordinate_gui.model.Coordinate
+  mAngle: 0.0
+  mX: 11.0
+  mY: -11.25
+- !!org.snobot.coordinate_gui.model.Coordinate
+  mAngle: -10.304846468766033
+  mX: 10.5
+  mY: -8.5
+- !!org.snobot.coordinate_gui.model.Coordinate
+  mAngle: -23.962488974578182
+  mX: 9.5
+  mY: -6.25
+- !!org.snobot.coordinate_gui.model.Coordinate
+  mAngle: -33.690067525979785
+  mX: 8.0
+  mY: -4.0
+- !!org.snobot.coordinate_gui.model.Coordinate
+  mAngle: -53.13010235415598
+  mX: 6.0
+  mY: -2.5
