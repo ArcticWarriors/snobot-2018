@@ -1,5 +1,6 @@
 package org.snobot.joystick;
 
+import org.snobot.Properties2018;
 import org.snobot.lib.logging.ILogger;
 import org.snobot.lib.ui.ToggleButton;
 import org.snobot.lib.ui.XboxButtonMap;
@@ -12,6 +13,7 @@ public class SnobotDriveOperatorJoystick implements IOperatorJoystick
     private final ILogger mLogger;
     private double mElevatorSpeed;
     private final ToggleButton mClawButton;
+    private double mRequestedHeight = 0;
 
     /**
      * The joystick constructor.
@@ -28,11 +30,48 @@ public class SnobotDriveOperatorJoystick implements IOperatorJoystick
         mClawButton = new ToggleButton(false);
     }
 
+    public enum ElevatorHeights
+    {
+        FLOOR(Properties2018.sELEVATOR_FLOOR_HEIGHT.getValue()), EXCHANGE(Properties2018.sELEVATOR_EXCHANGE_HEIGHT.getValue()), SWITCH(
+                Properties2018.sELEVATOR_SWITCH_HEIGHT.getValue()), SCALE_LOW(Properties2018.sELEVATOR_SCALE_HEIGHT_LOW.getValue()), SCALE_MID(
+                        Properties2018.sELEVATOR_SCALE_HEIGHT.getValue()), SCALE_HIGH(Properties2018.sELEVATOR_SCALE_HEIGHT_HIGH.getValue());
+
+        public final double mHeight;
+        private ElevatorHeights(double aHeight)
+        {
+            mHeight = aHeight;
+        }
+    }
+
     @Override
     public void update()
     {
         mElevatorSpeed = mOperatorJoystick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
         mClawButton.update(mOperatorJoystick.getRawButton(XboxButtonMap.RIGHT_TRIGGER));
+        if (mOperatorJoystick.getRawButton(XboxButtonMap.B_BUTTON))
+        {
+            mRequestedHeight = ElevatorHeights.FLOOR.mHeight;
+        }
+        else if (mOperatorJoystick.getRawButton(XboxButtonMap.Y_BUTTON))
+        {
+            mRequestedHeight = ElevatorHeights.SWITCH.mHeight;
+        }
+        else if (mOperatorJoystick.getRawButton(XboxButtonMap.A_BUTTON))
+        {
+            mRequestedHeight = ElevatorHeights.EXCHANGE.mHeight;
+        }
+        else if (mOperatorJoystick.getRawButton(XboxButtonMap.D_PAD_DOWN))
+        {
+            mRequestedHeight = ElevatorHeights.SCALE_LOW.mHeight;
+        }
+        else if (mOperatorJoystick.getRawButton(XboxButtonMap.D_PAD_RIGHT))
+        {
+            mRequestedHeight = ElevatorHeights.SCALE_MID.mHeight;
+        }
+        else if (mOperatorJoystick.getRawButton(XboxButtonMap.D_PAD_UP))
+        {
+            mRequestedHeight = ElevatorHeights.SCALE_HIGH.mHeight;
+        }
     }
 
     @Override
@@ -72,6 +111,13 @@ public class SnobotDriveOperatorJoystick implements IOperatorJoystick
     public boolean clawOpen()
     {
         return mClawButton.getState();
+    }
+
+    @Override
+    public double currentPressed()
+    {
+
+        return mRequestedHeight;
     }
 
 }

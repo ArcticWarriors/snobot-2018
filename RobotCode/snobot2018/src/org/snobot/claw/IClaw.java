@@ -15,7 +15,9 @@ public interface IClaw extends ISubsystem
     void close();
 
     /**
-     * return true if it is open and false if it is closed.
+     * return if it is open.
+     *
+     * @return true if it is open and false if it is closed.
      */
     boolean isOpen();
 }

@@ -50,6 +50,12 @@ public class Properties2018
     public static final DoubleProperty sELEVATOR_MAX_HEIGHT = new DoubleProperty("ElevatorMaxHeight", 74);
     public static final DoubleProperty sELEVATOR_MIN_HEIGHT = new DoubleProperty("ElevatorMinHeight", 1);
     public static final DoubleProperty sELEVATOR_DEADBAND = new DoubleProperty("ElevatorDeadband", 0.1);
+    public static final DoubleProperty sELEVATOR_FLOOR_HEIGHT = new DoubleProperty("ElevatorFloorHeight", 1);
+    public static final DoubleProperty sELEVATOR_SCALE_HEIGHT = new DoubleProperty("ElevatorScaleHeightMedium", 60);
+    public static final DoubleProperty sELEVATOR_SCALE_HEIGHT_LOW = new DoubleProperty("ElevatorScaleHeightLow", 48);
+    public static final DoubleProperty sELEVATOR_SCALE_HEIGHT_HIGH = new DoubleProperty("ElevatorScaleHeightHigh", 72);
+    public static final DoubleProperty sELEVATOR_SWITCH_HEIGHT = new DoubleProperty("ElevatorSwitchHeight", 15);
+    public static final DoubleProperty sELEVATOR_EXCHANGE_HEIGHT = new DoubleProperty("ElevatorExchangeHeight", 1.75);
 
     // Winch
     public static final DoubleProperty sWINCH_DEADBAND = new DoubleProperty("WinchDeadband", 0.05);

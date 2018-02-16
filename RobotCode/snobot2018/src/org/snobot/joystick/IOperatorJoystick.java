@@ -14,4 +14,11 @@ public interface IOperatorJoystick extends IJoystick
      * @return true if it is open.
      */
     boolean clawOpen();
+
+    /**
+     * method that returns height.
+     * 
+     * @return height to go to.
+     */
+    double currentPressed();
 }

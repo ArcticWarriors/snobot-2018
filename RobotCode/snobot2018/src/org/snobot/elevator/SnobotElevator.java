@@ -26,8 +26,8 @@ public class SnobotElevator implements IElevator, ISubsystem
     private final double mMaxHeight;
     private final double mMinHeight;
     private final double mDeadband;
+    private double mLastPressedHeight;
     private final InDeadbandHelper mDeadBandHelper;
-
 
     /**
      * This is the constructor for the SnobotElevator.
@@ -56,6 +56,7 @@ public class SnobotElevator implements IElevator, ISubsystem
         mMaxHeight = Properties2018.sELEVATOR_MAX_HEIGHT.getValue();
         mMinHeight = Properties2018.sELEVATOR_MIN_HEIGHT.getValue();
         mDeadband = Properties2018.sELEVATOR_DEADBAND.getValue();
+        mLastPressedHeight = mJoystick.currentPressed();
         mDeadBandHelper = new InDeadbandHelper(3);
     }
 
@@ -97,9 +98,15 @@ public class SnobotElevator implements IElevator, ISubsystem
         caluculateHeight();
         mJoystickSpeed = mJoystick.getElevatorSpeed();
 
-        if (-mDeadband < mJoystickSpeed && mJoystickSpeed < mDeadband)
+        if (mDeadband < Math.abs(mJoystickSpeed))
         {
             mGotoHeight = false;
+        }
+
+        if (mLastPressedHeight != mJoystick.currentPressed())
+        {
+            mLastPressedHeight = mJoystick.currentPressed();
+            this.setHeight(mJoystick.currentPressed());
         }
     }
 
@@ -195,5 +202,4 @@ public class SnobotElevator implements IElevator, ISubsystem
         }
         return isAtHeight;
     }
-    
 }
