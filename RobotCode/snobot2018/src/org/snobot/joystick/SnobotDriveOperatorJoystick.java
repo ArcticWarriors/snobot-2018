@@ -32,9 +32,12 @@ public class SnobotDriveOperatorJoystick implements IOperatorJoystick
 
     public enum ElevatorHeights
     {
-        FLOOR(Properties2018.sELEVATOR_FLOOR_HEIGHT.getValue()), EXCHANGE(Properties2018.sELEVATOR_EXCHANGE_HEIGHT.getValue()), SWITCH(
-                Properties2018.sELEVATOR_SWITCH_HEIGHT.getValue()), SCALE_LOW(Properties2018.sELEVATOR_SCALE_HEIGHT_LOW.getValue()), SCALE_MID(
-                        Properties2018.sELEVATOR_SCALE_HEIGHT.getValue()), SCALE_HIGH(Properties2018.sELEVATOR_SCALE_HEIGHT_HIGH.getValue());
+        FLOOR(Properties2018.sELEVATOR_FLOOR_HEIGHT.getValue()), 
+        EXCHANGE(Properties2018.sELEVATOR_EXCHANGE_HEIGHT.getValue()), 
+        SWITCH(Properties2018.sELEVATOR_SWITCH_HEIGHT.getValue()), 
+        SCALE_LOW(Properties2018.sELEVATOR_SCALE_HEIGHT_LOW.getValue()), 
+        SCALE_MID(Properties2018.sELEVATOR_SCALE_HEIGHT.getValue()), 
+        SCALE_HIGH(Properties2018.sELEVATOR_SCALE_HEIGHT_HIGH.getValue());
 
         public final double mHeight;
         private ElevatorHeights(double aHeight)
@@ -46,7 +49,7 @@ public class SnobotDriveOperatorJoystick implements IOperatorJoystick
     @Override
     public void update()
     {
-        mElevatorSpeed = mOperatorJoystick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
+        mElevatorSpeed = -mOperatorJoystick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
         mClawButton.update(mOperatorJoystick.getRawButton(XboxButtonMap.RIGHT_TRIGGER));
         if (mOperatorJoystick.getPOV() == XboxButtonMap.D_PAD_LEFT)
         {

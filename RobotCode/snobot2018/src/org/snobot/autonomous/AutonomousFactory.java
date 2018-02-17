@@ -24,9 +24,9 @@ public class AutonomousFactory
 {
     private static final double sY_START = 336 - 3 * 12;
 
-    private static final double sX_RIGHT = -26 * 12;
+    private static final double sX_RIGHT = -9 * 12;
     private static final double sX_CENTER = 0;
-    private static final double sX_LEFT = 26 * 12;
+    private static final double sX_LEFT = 9 * 12;
 
     protected ObservableSendableChooser<File> mAutonModeChooserA;
     protected ObservableSendableChooser<File> mAutonModeChooserB;

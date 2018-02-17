@@ -34,9 +34,9 @@ public class DriveStraightPathWithGyro extends DriveStraightPath
      * @param aSetpointIterator
      *            A setpoint iterator for the path follower
      */
-    public DriveStraightPathWithGyro(IDriveTrain aDriveTrain, IPositioner aPositioner, ISetpointIterator aSetpointIterator)
+    public DriveStraightPathWithGyro(IDriveTrain aDriveTrain, IPositioner aPositioner, double aDistance, ISetpointIterator aSetpointIterator)
     {
-        super(aDriveTrain, aPositioner, aSetpointIterator);
+        super(aDriveTrain, aPositioner, aDistance, aSetpointIterator);
     }
 
     @Override
@@ -59,7 +59,8 @@ public class DriveStraightPathWithGyro extends DriveStraightPath
 
     public static Command parseCommand(List<String> aArgs, Snobot2018 aSnobot)
     {
-        PathConfig dudePathConfig = new PathConfig(Double.parseDouble(aArgs.get(1)), // Endpoint
+        double distance = Double.parseDouble(aArgs.get(1));
+        PathConfig dudePathConfig = new PathConfig(distance, // Endpoint
                 Double.parseDouble(aArgs.get(2)), // Max Velocity
                 Double.parseDouble(aArgs.get(3)), // Max Acceleration
                 .02);
@@ -68,7 +69,7 @@ public class DriveStraightPathWithGyro extends DriveStraightPath
         List<PathSetpoint> dudeList = dudePathGenerator.generate(dudePathConfig);
         ISetpointIterator dudeSetpointIterator = new StaticSetpointIterator(dudeList);
 
-        return new DriveStraightPath(aSnobot.getDrivetrain(), aSnobot.getPositioner(), dudeSetpointIterator);
+        return new DriveStraightPath(aSnobot.getDrivetrain(), aSnobot.getPositioner(), distance, dudeSetpointIterator);
     }
 
     @Override

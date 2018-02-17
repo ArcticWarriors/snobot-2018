@@ -1,5 +1,6 @@
 package org.snobot.shuffleboard2018.trajectory;
 
+import java.util.Objects;
 import java.util.StringTokenizer;
 
 import javax.swing.SwingUtilities;
@@ -27,6 +28,8 @@ public class ShuffleboardTrajectoryPlotsWidget extends SimpleAnnotatedWidget<Tra
 
     private SplinePlotterPanel mPanel;
 
+    private String mLastIdeal;
+
     private int mLastIndex;
 
     @FXML
@@ -51,7 +54,13 @@ public class ShuffleboardTrajectoryPlotsWidget extends SimpleAnnotatedWidget<Tra
 
     private void handleTrajectoryUpdate(TrajectoryData aData)
     {
-        mPanel.setPath(IdealSplineSerializer.deserializePath(aData.getIdealSpline()));
+        String newIdeal = aData.getIdealSpline();
+        if (!Objects.equals(newIdeal, mLastIdeal))
+        {
+            mPanel.setPath(IdealSplineSerializer.deserializePath(newIdeal));
+        }
+
+        mLastIdeal = newIdeal;
 
         StringTokenizer tokenizer = new StringTokenizer(aData.getMeasuredSpline(), ",");
         if (tokenizer.hasMoreElements())

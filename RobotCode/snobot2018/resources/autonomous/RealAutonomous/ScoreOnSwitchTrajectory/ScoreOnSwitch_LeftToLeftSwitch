@@ -1,4 +1,4 @@
 Switch L
-Parallel TrajectoryAutonomous LeftToLeftSwitch.csv | GoToHeightCommand 15
-StupidDriveStraight 1 1
+Parallel TrajectoryAutonomous StartToSwitch/LeftToLeftSwitch.csv | GoToHeightCommand SWITCH
+DriveStraightPath 12 24 60
 Claw true

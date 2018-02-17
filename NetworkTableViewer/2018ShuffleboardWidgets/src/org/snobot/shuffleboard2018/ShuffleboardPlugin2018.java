@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.snobot.shuffleboard2018.auto_widget.AutonDataType;
 import org.snobot.shuffleboard2018.auto_widget.ShuffleboardAutonWidget;
+import org.snobot.shuffleboard2018.coordinategui.CoordinateDataType;
 import org.snobot.shuffleboard2018.coordinategui.CoordinateGuiWidget;
 import org.snobot.shuffleboard2018.coordinategui.GoToPositionDataType;
 import org.snobot.shuffleboard2018.dotstar_sim.DotstarDataType;
@@ -49,6 +50,7 @@ public class ShuffleboardPlugin2018 extends Plugin
                 new TrajectoryDataType(),
                 new PathDataType(),
                 new GoToPositionDataType(),
+                new CoordinateDataType(),
                 new AutonDataType());
     }
 

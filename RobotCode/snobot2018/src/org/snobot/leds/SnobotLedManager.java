@@ -25,7 +25,7 @@ public class SnobotLedManager implements ILedManager
      */
     public SnobotLedManager()
     {
-        int numLeds = 48;
+        int numLeds = 144;
         mLedStrip = new DostarLedStrip(numLeds, SPI.Port.kOnboardCS0);
         mPatternChooser = new SendableChooser<>();
 

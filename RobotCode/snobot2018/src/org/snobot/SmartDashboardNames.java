@@ -11,6 +11,7 @@ public class SmartDashboardNames
     public static final String sELEVATOR_MOTOR_SPEED = "Elevator Motor Speed";
     
     // Positioner
+    public static final String sROBOT_POSITION_TABLE = "RobotPosition";
     public static final String sX_POSITION = "X Position";
     public static final String sY_POSITION = "Y Position";
     public static final String sORIENTATION = "Orientation";

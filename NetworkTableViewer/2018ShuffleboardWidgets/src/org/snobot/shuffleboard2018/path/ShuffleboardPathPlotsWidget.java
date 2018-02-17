@@ -1,5 +1,6 @@
 package org.snobot.shuffleboard2018.path;
 
+import java.util.Objects;
 import java.util.StringTokenizer;
 
 import javax.swing.SwingUtilities;
@@ -28,6 +29,8 @@ public class ShuffleboardPathPlotsWidget extends SimpleAnnotatedWidget<PathData>
 
     private int mLastIndex;
 
+    private String mLastIdeal;
+
     @FXML
     private void initialize()
     {
@@ -50,7 +53,13 @@ public class ShuffleboardPathPlotsWidget extends SimpleAnnotatedWidget<PathData>
 
     private void handlePathUpdate(PathData aData)
     {
-        mPanel.setPath(IdealPlotSerializer.deserializePath(aData.getIdealPath()));
+        String newIdeal = aData.getIdealPath();
+        if (!Objects.equals(newIdeal, mLastIdeal))
+        {
+            mPanel.setPath(IdealPlotSerializer.deserializePath(newIdeal));
+        }
+
+        mLastIdeal = newIdeal;
 
         StringTokenizer tokenizer = new StringTokenizer(aData.getMeasuredPathPoint(), ",");
 

@@ -1,5 +1,6 @@
 package org.snobot.drivetrain;
 
+import org.snobot.Properties2018;
 import org.snobot.SmartDashboardNames;
 import org.snobot.joystick.IDriveJoystick;
 import org.snobot.lib.logging.ILogger;
@@ -63,7 +64,21 @@ public abstract class ASnobotDrivetrain<SpeedControllerType extends SpeedControl
     @Override
     public void control()
     {
-        setLeftRightSpeed(mDriverJoystick.getLeftspeed(), mDriverJoystick.getRightspeed());
+        double leftSpeed = mDriverJoystick.getLeftspeed();
+        double rightSpeed = mDriverJoystick.getRightspeed();
+
+        if (mDriverJoystick.isSuperSlowMode())
+        {
+            leftSpeed *= Properties2018.sDRIVE_SUPER_SLOW_MULTIPLIER.getValue();
+            rightSpeed *= Properties2018.sDRIVE_SUPER_SLOW_MULTIPLIER.getValue();
+        }
+        else if (mDriverJoystick.isSlowMode())
+        {
+            leftSpeed *= Properties2018.sDRIVE_SLOW_MULTIPLIER.getValue();
+            rightSpeed *= Properties2018.sDRIVE_SLOW_MULTIPLIER.getValue();
+        }
+
+        setLeftRightSpeed(leftSpeed, rightSpeed);
     
     }
 

@@ -3,6 +3,8 @@ package org.snobot;
 
 public class PortMappings2018
 {
+    public static final int sDEFAULT_CTRE_TIMEOUT = 10;
+
     // Joysticks
     public static final int sDRIVER_JOYSTICK_PORT = 0;
     public static final int sELEVATOR_JOYSTICK_PORT = 1;
@@ -11,11 +13,14 @@ public class PortMappings2018
     public static final int sDRIVE_PWM_LEFT_A_PORT = 0;
     public static final int sELEVATOR_PWM_A_PORT = 2;
     public static final int sWINCH_PWM_PORT = 3;
-    // PWM
-    public static final int sDRIVE_CTRE_RIGHT_A_PORT = 0;
-    public static final int sDRIVE_CTRE_RIGHT_B_PORT = 1;
-    public static final int sDRIVE_CTRE_LEFT_A_PORT = 2;
-    public static final int sDRIVE_CTRE_LEFT_B_PORT = 3;
+
+    // CTRE
+    public static final int sDRIVE_CTRE_RIGHT_A_PORT = 1;
+    public static final int sDRIVE_CTRE_RIGHT_B_PORT = 2;
+    public static final int sDRIVE_CTRE_LEFT_A_PORT = 3;
+    public static final int sDRIVE_CTRE_LEFT_B_PORT = 4;
+    public static final int sELEVATOR_CTRE_A_PORT = 5;
+    public static final int sELEVATOR_CTRE_B_PORT = 6;
 
     // Digital
     public static final int sLEFT_DRIVE_ENCODER_PORT_A = 6;

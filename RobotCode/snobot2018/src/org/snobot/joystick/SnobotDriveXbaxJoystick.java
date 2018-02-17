@@ -70,4 +70,16 @@ public class SnobotDriveXbaxJoystick implements IDriveJoystick
         return mLeftSpeed;
     }
 
+    @Override
+    public boolean isSuperSlowMode()
+    {
+        return mJoystick.getRawButton(XboxButtonMap.RB_BUTTON);
+    }
+
+    @Override
+    public boolean isSlowMode()
+    {
+        return mJoystick.getRawButton(XboxButtonMap.LB_BUTTON);
+    }
+
 }

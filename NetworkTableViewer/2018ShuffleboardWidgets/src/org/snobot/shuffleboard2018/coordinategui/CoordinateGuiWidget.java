@@ -54,6 +54,9 @@ public class CoordinateGuiWidget extends AbstractWidget implements AnnotatedWidg
     private final PropertyBinding<GoToPositionData> mGoToPositionData = EasyBind.monadic(mGoToPositionDataSource)
             .selectProperty(DataSource::dataProperty);
 
+    private final ObjectProperty<DataSource> mPositionDataSource = new SimpleObjectProperty<>(this, "robotSource", DataSource.none());
+    private final PropertyBinding<CoordinateData> mPositionData = EasyBind.monadic(mPositionDataSource).selectProperty(DataSource::dataProperty);
+
     private CoordinateGui2018 mCoordinateGui;
 
     @FXML
@@ -70,6 +73,9 @@ public class CoordinateGuiWidget extends AbstractWidget implements AnnotatedWidg
             }
         });
 
+        ///////////////////////////
+        // Trajectory
+        ///////////////////////////
         DataSource<?> trajectoryDataSource = NetworkTableSource.forKey(SmartDashboardNames.sSPLINE_NAMESPACE);
         mTrajectoryDataSource.set(trajectoryDataSource);
         trajectoryDataSource.addClient(this);
@@ -82,6 +88,9 @@ public class CoordinateGuiWidget extends AbstractWidget implements AnnotatedWidg
             handleTrajectoryUpdate((TrajectoryData) trajectoryDataSource.getData());
         }
 
+        ///////////////////////////
+        // Go To Position
+        ///////////////////////////
         DataSource<?> goToPositionDataSource = NetworkTableSource.forKey(SmartDashboardNames.sGO_TO_POSITION_TABLE_NAME);
         mGoToPositionDataSource.set(goToPositionDataSource);
         goToPositionDataSource.addClient(this);
@@ -94,6 +103,9 @@ public class CoordinateGuiWidget extends AbstractWidget implements AnnotatedWidg
             handleGoToPositionUpdate((GoToPositionData) goToPositionDataSource.getData());
         }
 
+        ///////////////////////////
+        // FMS Info
+        ///////////////////////////
         DataSource<?> fmsInfoDataSource = NetworkTableSource.forKey("FMSInfo");
         mFmsInfoDataSource.set(fmsInfoDataSource);
         fmsInfoDataSource.addClient(this);
@@ -107,6 +119,21 @@ public class CoordinateGuiWidget extends AbstractWidget implements AnnotatedWidg
             handleFmsInfoUpdate((FmsInfoData) fmsInfoDataSource.getData());
         }
 
+        ///////////////////////////
+        // Robot Position
+        ///////////////////////////
+        DataSource<?> robotPositionDataSource = NetworkTableSource.forKey("RobotPosition");
+        mPositionDataSource.set(robotPositionDataSource);
+        robotPositionDataSource.addClient(this);
+        mPositionData.addListener((aUnused, aPrev, aCur) ->
+        {
+            handlePositionUpdate(aCur);
+        });
+
+        if (robotPositionDataSource.isActive())
+        {
+            handlePositionUpdate((CoordinateData) robotPositionDataSource.getData());
+        }
     }
 
     private void handleGoToPositionUpdate(GoToPositionData aCur)
@@ -117,10 +144,10 @@ public class CoordinateGuiWidget extends AbstractWidget implements AnnotatedWidg
             return;
         }
         String[] startParts = aCur.getStart().split(",");
-        Coordinate start = new Coordinate(Double.parseDouble(startParts[0]), Double.parseDouble(startParts[1]), 0);
+        Coordinate start = new Coordinate(Double.parseDouble(startParts[0]) / 12, Double.parseDouble(startParts[1]) / 12, 0);
 
         String[] endParts = aCur.getEnd().split(",");
-        Coordinate end = new Coordinate(Double.parseDouble(endParts[0]), Double.parseDouble(endParts[1]), 0);
+        Coordinate end = new Coordinate(Double.parseDouble(endParts[0]) / 12, Double.parseDouble(endParts[1]) / 12, 0);
 
         mCoordinateGui.setStartAndStopPoints(start, end);
         mCoordinateGui.getLayerManager().render();
@@ -166,36 +193,16 @@ public class CoordinateGuiWidget extends AbstractWidget implements AnnotatedWidg
         mCoordinateGui.setWaypoints(coordinates);
     }
 
-    // private void handleUpdate()
-    // {
-    //
-    // boolean active = true;
-    // active &= mXProperty.isActive();
-    // active &= mYProperty.isActive();
-    // active &= mAngleProperty.isActive();
-    //
-    // if (active)
-    // {
-    // Coordinate coord = new Coordinate((Double) mXProperty.getData(), (Double)
-    // mYProperty.getData(), (Double) mAngleProperty.getData());
-    // mCoordinateGui.addCoordinate(coord);
-    // }
-    // else
-    // {
-    // System.out.println("Skipping update");
-    //
-    // mXProperty = NetworkTableSource.forKey("SmartDashboard/X");
-    // mYProperty = NetworkTableSource.forKey("SmartDashboard/Y");
-    // mAngleProperty = NetworkTableSource.forKey("SmartDashboard/Angle");
-    // }
-    //
-    // if (mRenderCtr % RENDER_FREQUENCY == 0)
-    // {
-    // mCoordinateGui.getLayerManager().render();
-    // }
-    //
-    // ++mRenderCtr;
-    // }
+    private void handlePositionUpdate(CoordinateData aCur)
+    {
+        double x = aCur.getX() / 12;
+        double y = aCur.getY() / 12;
+        double angle = aCur.getAngle();
+
+        Coordinate coord = new Coordinate(x, y, angle);
+        mCoordinateGui.addCoordinate(coord);
+        mCoordinateGui.getLayerManager().render();
+    }
 
     @Override
     public Pane getView()
