@@ -29,6 +29,9 @@ public class SmartDashboardNames
     // Autonomous Factory
     public static final String sPOSITION_CHOOSER = "Position Chooser";
 
+    // Winch
+    public static final String sWINCH_SPEED = "WinchSpeed";
+
     // Trajectory
     public static final String sSPLINE_NAMESPACE = "Spline Namespace";
     public static final String sSPLINE_IDEAL_POINTS = "Ideal Spline Points";
@@ -44,6 +47,7 @@ public class SmartDashboardNames
     public static final String sGO_TO_POSITION_TABLE_NAME = "GoToPosition";
     public static final String sGO_TO_POSITION_START = "Start";
     public static final String sGO_TO_POSITION_END = "End";
-
-
+    
+    // Claw
+    public static final String sSNOBOT_CLAW_POSITION = "Snobot Claw Position";
 }
