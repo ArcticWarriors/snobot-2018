@@ -2,7 +2,6 @@ package org.snobot.joystick;
 
 import org.snobot.Properties2018;
 import org.snobot.lib.logging.ILogger;
-import org.snobot.lib.ui.ToggleButton;
 import org.snobot.lib.ui.XboxButtonMap;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -12,7 +11,7 @@ public class SnobotDriveOperatorJoystick implements IOperatorJoystick
     private final Joystick mOperatorJoystick;
     private final ILogger mLogger;
     private double mElevatorSpeed;
-    private final ToggleButton mClawButton;
+    // private final ToggleButton mClawButton;
     private Double mRequestedHeight = null;
 
     /**
@@ -27,7 +26,7 @@ public class SnobotDriveOperatorJoystick implements IOperatorJoystick
     {
         mOperatorJoystick = aElevatorJoystick;
         mLogger = aLogger;
-        mClawButton = new ToggleButton(false);
+        // mClawButton = new ToggleButton(false);
     }
 
     public enum ElevatorHeights
@@ -50,7 +49,8 @@ public class SnobotDriveOperatorJoystick implements IOperatorJoystick
     public void update()
     {
         mElevatorSpeed = -mOperatorJoystick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
-        mClawButton.update(mOperatorJoystick.getRawButton(XboxButtonMap.RIGHT_TRIGGER));
+        // mClawButton.update(mOperatorJoystick.getRawButton(XboxButtonMap.RIGHT_TRIGGER));
+        
         if (mOperatorJoystick.getPOV() == XboxButtonMap.D_PAD_LEFT)
         {
             mRequestedHeight = ElevatorHeights.SCALE_LOW.mHeight;
@@ -117,7 +117,8 @@ public class SnobotDriveOperatorJoystick implements IOperatorJoystick
 
     public boolean clawOpen()
     {
-        return mClawButton.getState();
+        return mOperatorJoystick.getRawButton(XboxButtonMap.X_BUTTON);
+        // return mClawButton.getState();
     }
 
     @Override
