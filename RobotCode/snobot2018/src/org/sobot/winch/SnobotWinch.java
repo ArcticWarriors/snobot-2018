@@ -35,7 +35,14 @@ public class SnobotWinch implements IWinch, ISubsystem
     @Override
     public void setMotorSpeed(double aSpeed)
     {
-        mWinchMotor.set(aSpeed);
+        if (aSpeed < 0)
+        {
+            stop();
+        }
+        else
+        {
+            mWinchMotor.set(aSpeed);
+        }
     }
 
     @Override
@@ -72,5 +79,11 @@ public class SnobotWinch implements IWinch, ISubsystem
     public void updateSmartDashboard()
     {
         SmartDashboard.putNumber(SmartDashboardNames.sWINCH_SPEED, mWinchSpeed);
+    }
+
+    @Override
+    public double getWinchSpeed()
+    {
+        return mWinchMotor.get();
     }
 }

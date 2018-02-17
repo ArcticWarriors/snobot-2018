@@ -8,4 +8,6 @@ public interface IWinch
      * the speed to set the motor to.
      */
     void setMotorSpeed(double aSpeed);
+
+    double getWinchSpeed();
 }
