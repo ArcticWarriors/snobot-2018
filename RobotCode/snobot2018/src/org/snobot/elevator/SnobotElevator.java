@@ -19,14 +19,11 @@ public class SnobotElevator implements IElevator, ISubsystem
     private double mActualHeight;
     private double mJoystickSpeed;
     private final ILogger mLogger;
-    private double mTargetHeight;
-    private boolean mGotoHeight;
     private final double mKp;
     private final double mHeightDeadband;
     private final double mMaxHeight;
     private final double mMinHeight;
     private final double mDeadband;
-    private double mLastPressedHeight;
     private final InDeadbandHelper mDeadBandHelper;
 
     /**
@@ -50,13 +47,11 @@ public class SnobotElevator implements IElevator, ISubsystem
         mLogger = aLogger;
         mActualHeight = 0;
         mJoystickSpeed = 0;
-        mGotoHeight = false;
         mKp = Properties2018.sELEVATOR_K_P.getValue();
         mHeightDeadband = Properties2018.sELEVATOR_HEIGHT_DEADBAND.getValue();
         mMaxHeight = Properties2018.sELEVATOR_MAX_HEIGHT.getValue();
         mMinHeight = Properties2018.sELEVATOR_MIN_HEIGHT.getValue();
         mDeadband = Properties2018.sELEVATOR_DEADBAND.getValue();
-        mLastPressedHeight = mJoystick.currentPressed();
         mDeadBandHelper = new InDeadbandHelper(3);
     }
 
@@ -75,20 +70,24 @@ public class SnobotElevator implements IElevator, ISubsystem
     public void control()
     {
 
-        if (mGotoHeight)
+        if (mJoystick.currentPressed() != null) // NOPMD
         {
-            gotoHeight();
+            this.gotoHeight(mJoystick.currentPressed());
         }
-        else
+        else if (mDeadband < Math.abs(mJoystickSpeed))
         {
             setMotorSpeed(mJoystickSpeed);
         }
+        else
+        {
+            this.stop();
+        }
+
     }
 
     @Override
     public void stop()
     {
-        mGotoHeight = false;
         setMotorSpeed(0);
     }
 
@@ -97,17 +96,6 @@ public class SnobotElevator implements IElevator, ISubsystem
     {
         caluculateHeight();
         mJoystickSpeed = mJoystick.getElevatorSpeed();
-
-        if (mDeadband < Math.abs(mJoystickSpeed))
-        {
-            mGotoHeight = false;
-        }
-
-        if (mLastPressedHeight != mJoystick.currentPressed())
-        {
-            mLastPressedHeight = mJoystick.currentPressed();
-            this.setHeight(mJoystick.currentPressed());
-        }
     }
 
     @Override
@@ -179,16 +167,10 @@ public class SnobotElevator implements IElevator, ISubsystem
     }
 
     @Override
-    public void setHeight(double aHeight)
+    public boolean gotoHeight(double aHeight)
     {
-        mTargetHeight = aHeight;
-        mGotoHeight = true;
-    }
-
-    @Override
-    public boolean gotoHeight()
-    {
-        double deltaHeight = mTargetHeight - mActualHeight;
+        double targetHeight = aHeight;
+        double deltaHeight = targetHeight - mActualHeight;
 
         boolean isFinished = -mHeightDeadband < deltaHeight && deltaHeight < mHeightDeadband;
         boolean isAtHeight = mDeadBandHelper.isFinished(isFinished);

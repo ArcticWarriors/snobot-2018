@@ -55,14 +55,13 @@ public class GoToHeightCommand extends Command
     @Override
     protected void initialize()
     {
-        mElevator.setHeight(mHeight);
-        // System.out.println("GoToHeight: " + mHeight);
+        // nothing required
     }
 
     @Override
     protected void execute()
     {
-        mFinished = mElevator.gotoHeight();
+        mFinished = mElevator.gotoHeight(mHeight);
     }
 
     @Override

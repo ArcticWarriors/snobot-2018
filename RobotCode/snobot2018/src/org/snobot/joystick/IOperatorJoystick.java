@@ -20,5 +20,5 @@ public interface IOperatorJoystick extends IJoystick
      * 
      * @return height to go to.
      */
-    double currentPressed();
+    Double currentPressed();
 }

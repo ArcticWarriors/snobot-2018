@@ -13,7 +13,7 @@ public class SnobotDriveOperatorJoystick implements IOperatorJoystick
     private final ILogger mLogger;
     private double mElevatorSpeed;
     private final ToggleButton mClawButton;
-    private double mRequestedHeight = 0;
+    private Double mRequestedHeight = null;
 
     /**
      * The joystick constructor.
@@ -48,11 +48,11 @@ public class SnobotDriveOperatorJoystick implements IOperatorJoystick
     {
         mElevatorSpeed = mOperatorJoystick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
         mClawButton.update(mOperatorJoystick.getRawButton(XboxButtonMap.RIGHT_TRIGGER));
-        if (mOperatorJoystick.getRawButton(XboxButtonMap.B_BUTTON))
+        if (mOperatorJoystick.getPOV() == XboxButtonMap.D_PAD_LEFT)
         {
-            mRequestedHeight = ElevatorHeights.FLOOR.mHeight;
+            mRequestedHeight = ElevatorHeights.SCALE_LOW.mHeight;
         }
-        else if (mOperatorJoystick.getRawButton(XboxButtonMap.Y_BUTTON))
+        else if (mOperatorJoystick.getRawButton(XboxButtonMap.B_BUTTON))
         {
             mRequestedHeight = ElevatorHeights.SWITCH.mHeight;
         }
@@ -60,17 +60,21 @@ public class SnobotDriveOperatorJoystick implements IOperatorJoystick
         {
             mRequestedHeight = ElevatorHeights.EXCHANGE.mHeight;
         }
-        else if (mOperatorJoystick.getRawButton(XboxButtonMap.D_PAD_DOWN))
+        else if (mOperatorJoystick.getPOV() == XboxButtonMap.D_PAD_DOWN)
         {
-            mRequestedHeight = ElevatorHeights.SCALE_LOW.mHeight;
+            mRequestedHeight = ElevatorHeights.FLOOR.mHeight;
         }
-        else if (mOperatorJoystick.getRawButton(XboxButtonMap.D_PAD_RIGHT))
+        else if (mOperatorJoystick.getPOV() == XboxButtonMap.D_PAD_RIGHT)
         {
             mRequestedHeight = ElevatorHeights.SCALE_MID.mHeight;
         }
-        else if (mOperatorJoystick.getRawButton(XboxButtonMap.D_PAD_UP))
+        else if (mOperatorJoystick.getPOV() == XboxButtonMap.D_PAD_UP)
         {
             mRequestedHeight = ElevatorHeights.SCALE_HIGH.mHeight;
+        }
+        else
+        {
+            mRequestedHeight = null;
         }
     }
 
@@ -114,7 +118,7 @@ public class SnobotDriveOperatorJoystick implements IOperatorJoystick
     }
 
     @Override
-    public double currentPressed()
+    public Double currentPressed()
     {
 
         return mRequestedHeight;
