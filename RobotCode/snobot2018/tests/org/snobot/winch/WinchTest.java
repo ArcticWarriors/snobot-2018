@@ -3,12 +3,9 @@ package org.snobot.winch;
 import org.junit.Assert;
 import org.junit.Test;
 import org.snobot.test.utilities.BaseSimulatorTest;
-import org.sobot.winch.IWinch;
 
 public class WinchTest extends BaseSimulatorTest
 {
-    private static final String sBAD_WINCH_SPEED = "Winch Speed Wrong: ";
-
     public WinchTest()
     {
         super(false);

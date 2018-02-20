@@ -130,7 +130,7 @@ public class AutonomousFactory
         String gameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
         if ((gameSpecificMessage == null) || (gameSpecificMessage.length() != 3))
         {
-            sLOGGER.log(Level.WARN, "GAME DATA NOT SET!!!one!11!1!1");
+            sLOGGER.log(Level.WARN, "GAME DATA NOT SET!!!one!11!1!1 ('" + gameSpecificMessage + "')");
             return this.getDefaultCommand();
         }
 
@@ -156,6 +156,11 @@ public class AutonomousFactory
 
     private CommandGroup tryLoadFile(File aFile, String aScalePos, String aSwitchPos, CommandParser aCommandParser)
     {
+        if (aFile == null)
+        {
+            return null;
+        }
+
         CommandGroup commandGroup = aCommandParser.readFile(aFile.toString());
         boolean checkScale = Objects.equals(aCommandParser.getScaleTrigger(), aScalePos);
         boolean checkSwitch = Objects.equals(aCommandParser.getSwitchTrigger(), aSwitchPos);

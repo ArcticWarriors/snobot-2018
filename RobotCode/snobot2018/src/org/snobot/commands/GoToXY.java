@@ -114,7 +114,7 @@ public class GoToXY extends Command
         double angleKp = Properties2018.sGO_TO_XY_KPA.getValue();
         double leftSpeed = distanceError * distanceKp + angleKp * angleError;
         double rightSpeed = distanceError * distanceKp - angleKp * angleError;
-        
+
         boolean atPlace = Math.abs(distanceError) < mAllowedError;
         mFinished = mInDeadbandHelper.isFinished(atPlace);
 

@@ -15,8 +15,8 @@ import org.snobot.lib.ASnobot;
 import org.snobot.lib.logging.ILogger;
 import org.snobot.positioner.IPositioner;
 import org.snobot.positioner.Positioner;
-import org.sobot.winch.IWinch;
-import org.sobot.winch.WinchFactory;
+import org.snobot.winch.IWinch;
+import org.snobot.winch.WinchFactory;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;

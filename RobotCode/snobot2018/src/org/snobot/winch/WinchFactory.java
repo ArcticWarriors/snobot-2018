@@ -1,4 +1,4 @@
-package org.sobot.winch;
+package org.snobot.winch;
 
 import org.snobot.PortMappings2018;
 import org.snobot.joystick.IOperatorJoystick;

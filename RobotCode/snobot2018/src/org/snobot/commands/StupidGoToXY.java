@@ -70,23 +70,27 @@ public class StupidGoToXY extends Command
         dx = mX - xposition;
         dy = mY - yposition;
         double distance = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-        double angle = Math.atan2(dx, dy);
+        double angle = Math.toDegrees(Math.atan2(dx, dy));
         double angleError = mPositioner.getOrientationDegrees() - angle;
-        if (distance >= 5)
-        {
 
-            if (angleError > 0)
-            {
-                mDriveTrain.setLeftRightSpeed(mSpeed + .1, mSpeed - .1);
-            }
-            else if (angleError < 0)
-            {
-                mDriveTrain.setLeftRightSpeed(mSpeed - .1, mSpeed + .1);
-            }
-            else
-            {
-                mDriveTrain.setLeftRightSpeed(mSpeed, mSpeed);
-            }
+        double distancePart = distance > 0 ? mSpeed : -mSpeed;
+        double anglePart = 0;
+
+        if (angleError > 5)
+        {
+            anglePart = -0.3;
+        }
+        else if (angleError < -5)
+        {
+            anglePart = 0.3;
+        }
+
+        double leftSpeed = distancePart + anglePart;
+        double rightSpeed = distancePart - anglePart;
+
+        if (Math.abs(distance) >= 12)
+        {
+            mDriveTrain.setLeftRightSpeed(leftSpeed, rightSpeed);
         }
         else
         {

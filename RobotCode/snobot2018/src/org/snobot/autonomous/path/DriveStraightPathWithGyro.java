@@ -69,7 +69,7 @@ public class DriveStraightPathWithGyro extends DriveStraightPath
         List<PathSetpoint> dudeList = dudePathGenerator.generate(dudePathConfig);
         ISetpointIterator dudeSetpointIterator = new StaticSetpointIterator(dudeList);
 
-        return new DriveStraightPath(aSnobot.getDrivetrain(), aSnobot.getPositioner(), distance, dudeSetpointIterator);
+        return new DriveStraightPathWithGyro(aSnobot.getDrivetrain(), aSnobot.getPositioner(), distance, dudeSetpointIterator);
     }
 
     @Override

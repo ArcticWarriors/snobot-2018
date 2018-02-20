@@ -1,4 +1,4 @@
-package org.sobot.winch;
+package org.snobot.winch;
 
 public interface IWinch
 {
