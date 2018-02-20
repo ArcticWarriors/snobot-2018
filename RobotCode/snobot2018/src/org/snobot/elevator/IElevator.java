@@ -44,4 +44,9 @@ public interface IElevator extends ISubsystem
      * @return true
      */
     boolean gotoHeight(double aHeight);
+
+    /**
+     * Resets the Elevator's encoders.
+     */
+    void resetEncoders();
 }

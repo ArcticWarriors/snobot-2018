@@ -96,4 +96,11 @@ public class SnobotCtreElevator extends ASnobotElevator<WPI_TalonSRX>
         return mElevatorMotor.getMotorOutputPercent();
     }
 
+    @Override
+    public void resetEncoders()
+    {
+        mActualHeight = 0;
+        mElevatorMotor.setSelectedSensorPosition(0, 0, 0);
+    }
+
 }

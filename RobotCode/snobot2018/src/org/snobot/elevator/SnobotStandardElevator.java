@@ -62,4 +62,11 @@ public class SnobotStandardElevator extends ASnobotElevator<SpeedController>
     {
         return mElevatorMotor.get();
     }
+
+    @Override
+    public void resetEncoders()
+    {
+        mActualHeight = 0;
+        mElevatorEncoder.reset();
+    }
 }

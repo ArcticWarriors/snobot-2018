@@ -22,6 +22,8 @@ public abstract class ASnobotElevator<SpeedControllerType extends SpeedControlle
     protected final double mMinHeight;
     protected final double mJoystickDeadband;
     protected final InDeadbandHelper mDeadBandHelper;
+    protected final ResetElevatorCommand mResetElevatorCommand;
+
 
     /**
      * This is the constructor for the SnobotElevator.
@@ -46,6 +48,8 @@ public abstract class ASnobotElevator<SpeedControllerType extends SpeedControlle
         mMinHeight = Properties2018.sELEVATOR_MIN_HEIGHT.getValue();
         mJoystickDeadband = Properties2018.sELEVATOR_JOYSTICK_DEADBAND.getValue();
         mDeadBandHelper = new InDeadbandHelper(3);
+
+        mResetElevatorCommand = new ResetElevatorCommand(this);
     }
 
 
@@ -102,6 +106,8 @@ public abstract class ASnobotElevator<SpeedControllerType extends SpeedControlle
     {
         SmartDashboard.putNumber(SmartDashboardNames.sELEVATOR_HEIGHT, mActualHeight);
         SmartDashboard.putNumber(SmartDashboardNames.sELEVATOR_MOTOR_SPEED, getSpeed());
+
+        SmartDashboard.putData("Reset Encoders", mResetElevatorCommand);
     }
 
     @Override
