@@ -16,9 +16,11 @@ public interface IOperatorJoystick extends IJoystick
     boolean clawOpen();
 
     /**
-     * method that returns height.
+     * Returns if the operator wants a preset height.
      * 
      * @return height to go to.
      */
-    Double currentPressed();
+    Double getPresetHeight();
+
+    boolean useLedChooser();
 }

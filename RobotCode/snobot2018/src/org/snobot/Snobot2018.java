@@ -66,7 +66,7 @@ public class Snobot2018 extends ASnobot
         addModule(operatorJoystick);
 
         // LEDs
-        ILedManager ledManager = new SnobotLedManager();
+        ILedManager ledManager = new SnobotLedManager(this, operatorJoystick);
         addModule(ledManager);
 
         // DriveTrain
@@ -76,12 +76,12 @@ public class Snobot2018 extends ASnobot
 
         // Elevator
         ElevatorFactory elevatorFactory = new ElevatorFactory();
-        mElevator = elevatorFactory.createDrivetrain(mUseCan, operatorJoystick, logger);
+        mElevator = elevatorFactory.createDrivetrain(mUseCan, operatorJoystick, ledManager, logger);
         addModule(mElevator);
         
         // Claw
         DoubleSolenoid clawSolenoid = new DoubleSolenoid(PortMappings2018.sCLAW_FORWARD, PortMappings2018.sCLAW_REVERSE);
-        mClaw = new SnobotClaw(clawSolenoid, logger, operatorJoystick);
+        mClaw = new SnobotClaw(clawSolenoid, logger, operatorJoystick, ledManager);
         addModule(mClaw);
 
 
@@ -96,7 +96,7 @@ public class Snobot2018 extends ASnobot
 
 
         // This should be done last
-        mAutonFactory = new AutonomousFactory(this);
+        mAutonFactory = new AutonomousFactory(this, ledManager);
 
         // initialize the default auton command
         mAutonFactory.createAutonMode();

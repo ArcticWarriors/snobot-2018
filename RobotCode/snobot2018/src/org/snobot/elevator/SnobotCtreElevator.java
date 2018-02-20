@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.snobot.PortMappings2018;
 import org.snobot.Properties2018;
 import org.snobot.joystick.IOperatorJoystick;
+import org.snobot.leds.ILedManager;
 import org.snobot.lib.logging.ILogger;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -32,9 +33,9 @@ public class SnobotCtreElevator extends ASnobotElevator<WPI_TalonSRX>
      * @param aLogger
      *            logs the actions of the elevator in the log file.
      */
-    public SnobotCtreElevator(WPI_TalonSRX aElevatorMotor, IOperatorJoystick aJoystick, ILogger aLogger)
+    public SnobotCtreElevator(ILedManager aLedManager, WPI_TalonSRX aElevatorMotor, IOperatorJoystick aJoystick, ILogger aLogger)
     {
-        super(aElevatorMotor, aJoystick, aLogger);
+        super(aLedManager, aElevatorMotor, aJoystick, aLogger);
 
         mElevatorMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, sTIMEOUT, sTIMEOUT);
         mElevatorMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, sTIMEOUT, sTIMEOUT);
@@ -67,6 +68,8 @@ public class SnobotCtreElevator extends ASnobotElevator<WPI_TalonSRX>
         double deltaHeight = aHeight - mActualHeight;
         boolean isFinished = -mHeightDeadband < deltaHeight && deltaHeight < mHeightDeadband;
         boolean isAtHeight = mDeadBandHelper.isFinished(isFinished);
+
+        mLedManager.setElevatorError(mActualHeight, aHeight, isFinished);
 
         if (isAtHeight)
         {

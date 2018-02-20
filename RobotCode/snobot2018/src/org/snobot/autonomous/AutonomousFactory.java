@@ -9,6 +9,7 @@ import org.snobot.Properties2018;
 import org.snobot.SmartDashboardNames;
 import org.snobot.Snobot2018;
 import org.snobot.commands.StupidDriveStraight;
+import org.snobot.leds.ILedManager;
 import org.snobot.lib.autonomous.ObservableSendableChooser;
 import org.snobot.lib.autonomous.SnobotAutonCrawler;
 import org.snobot.positioner.IPositioner;
@@ -38,6 +39,8 @@ public class AutonomousFactory
 
     protected CommandParser mCommandParserA;
     protected CommandParser mCommandParserB;
+
+    protected ILedManager mLedManager;
 
     protected IPositioner mPositioner;
     protected Snobot2018 mSnobot;
@@ -83,8 +86,9 @@ public class AutonomousFactory
      * @param aSnobot
      *            The top level robot
      */
-    public AutonomousFactory(Snobot2018 aSnobot)
+    public AutonomousFactory(Snobot2018 aSnobot, ILedManager aLedManager)
     {
+        mLedManager = aLedManager;
         mSnobot = aSnobot;
 
         mPositionChooser = new ObservableSendableChooser<StartingPositions>();
@@ -141,16 +145,19 @@ public class AutonomousFactory
         CommandGroup outputB = this.tryLoadFile(mAutonModeChooserB.getSelected(), scalePosition, switchPosition, mCommandParserB); // NOPMD
         if (outputA != null)
         {
+            mLedManager.setAutoSelection(AutonSelectionType.PlanA);
             sLOGGER.log(Level.INFO, "Using Plan A");
             return outputA;
         }
         if (outputB != null)
         {
+            mLedManager.setAutoSelection(AutonSelectionType.PlanB);
             sLOGGER.log(Level.INFO, "Using Plan B");
             return outputB;
         }
-
+        mLedManager.setAutoSelection(AutonSelectionType.Default);
         sLOGGER.log(Level.WARN, "Using default autonomous");
+
         return getDefaultCommand();
     }
 

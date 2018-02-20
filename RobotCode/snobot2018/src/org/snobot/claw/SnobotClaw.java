@@ -2,6 +2,7 @@ package org.snobot.claw;
 
 import org.snobot.SmartDashboardNames;
 import org.snobot.joystick.IOperatorJoystick;
+import org.snobot.leds.ILedManager;
 import org.snobot.lib.logging.ILogger;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -16,6 +17,7 @@ public class SnobotClaw implements IClaw
     private final DoubleSolenoid mDoubleSolenoid;
     private final ILogger mLogger;
     private final IOperatorJoystick mOperatorJoystick;
+    private final ILedManager mLedManager;
 
     /**
      * This is the Snobot Claw constructor.
@@ -27,11 +29,13 @@ public class SnobotClaw implements IClaw
      * @param aOperatorJoystick
      *            the claw joystick.
      */
-    public SnobotClaw(DoubleSolenoid aDoubleSolenoid, ILogger aLogger, IOperatorJoystick aOperatorJoystick)
+    public SnobotClaw(DoubleSolenoid aDoubleSolenoid, ILogger aLogger, IOperatorJoystick aOperatorJoystick, ILedManager aLedManager)
     {
         mDoubleSolenoid = aDoubleSolenoid;
         mLogger = aLogger;
         mOperatorJoystick = aOperatorJoystick;
+        mLedManager = aLedManager;
+
     }
 
     @Override
@@ -68,8 +72,9 @@ public class SnobotClaw implements IClaw
     @Override
     public void update()
     {
-        // No action required.
+        mLedManager.setClawState(isOpen());
     }
+
 
     @Override
     public void initializeLogHeaders()

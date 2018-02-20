@@ -13,4 +13,13 @@ public enum SnobotLedPatterns
     PulsingBlue,
     PulsingOrange,
 
+    ChasingRed, 
+    ChasingBlue,
+
+    ClawLight,
+
+    AutoLight,
+
+    PercentError
+
 }

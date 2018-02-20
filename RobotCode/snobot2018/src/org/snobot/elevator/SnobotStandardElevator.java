@@ -2,6 +2,7 @@ package org.snobot.elevator;
 
 import org.snobot.Properties2018;
 import org.snobot.joystick.IOperatorJoystick;
+import org.snobot.leds.ILedManager;
 import org.snobot.lib.logging.ILogger;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -25,9 +26,10 @@ public class SnobotStandardElevator extends ASnobotElevator<SpeedController>
      * @param aLogger
      *            logs the actions of the elevator in the log file.
      */
-    public SnobotStandardElevator(SpeedController aElevatorMotor, Encoder aElevatorEncoder, IOperatorJoystick aJoystick, ILogger aLogger)
+    public SnobotStandardElevator(ILedManager aLedManager, SpeedController aElevatorMotor, Encoder aElevatorEncoder, IOperatorJoystick aJoystick,
+            ILogger aLogger)
     {
-        super(aElevatorMotor, aJoystick, aLogger);
+        super(aLedManager, aElevatorMotor, aJoystick, aLogger);
 
         mElevatorEncoder = aElevatorEncoder;
         mKp = Properties2018.sELEVATOR_K_P.getValue();
@@ -46,6 +48,9 @@ public class SnobotStandardElevator extends ASnobotElevator<SpeedController>
 
         boolean isFinished = -mHeightDeadband < deltaHeight && deltaHeight < mHeightDeadband;
         boolean isAtHeight = mDeadBandHelper.isFinished(isFinished);
+
+        mLedManager.setElevatorError(mActualHeight, aHeight, isFinished);
+
         if (isAtHeight)
         {
             stop();

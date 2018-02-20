@@ -2,6 +2,7 @@ package org.snobot.joystick;
 
 import org.snobot.Properties2018;
 import org.snobot.lib.logging.ILogger;
+import org.snobot.lib.ui.ToggleButton;
 import org.snobot.lib.ui.XboxButtonMap;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -13,6 +14,8 @@ public class SnobotDriveOperatorJoystick implements IOperatorJoystick
     private double mElevatorSpeed;
     // private final ToggleButton mClawButton;
     private Double mRequestedHeight = null;
+
+    private final ToggleButton mUseLedChooser;
 
     /**
      * The joystick constructor.
@@ -27,6 +30,7 @@ public class SnobotDriveOperatorJoystick implements IOperatorJoystick
         mOperatorJoystick = aElevatorJoystick;
         mLogger = aLogger;
         // mClawButton = new ToggleButton(false);
+        mUseLedChooser = new ToggleButton(false);
     }
 
     public enum ElevatorHeights
@@ -51,6 +55,8 @@ public class SnobotDriveOperatorJoystick implements IOperatorJoystick
         mElevatorSpeed = -mOperatorJoystick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
         // mClawButton.update(mOperatorJoystick.getRawButton(XboxButtonMap.RIGHT_TRIGGER));
         
+        mUseLedChooser.update(mOperatorJoystick.getRawButton(XboxButtonMap.LB_BUTTON));
+
         if (mOperatorJoystick.getPOV() == XboxButtonMap.D_PAD_LEFT)
         {
             mRequestedHeight = ElevatorHeights.SCALE_LOW.mHeight;
@@ -85,27 +91,23 @@ public class SnobotDriveOperatorJoystick implements IOperatorJoystick
     public void initializeLogHeaders()
     {
         mLogger.addHeader("ElevatorJoystickSpeed");
-
     }
 
     @Override
     public void updateLog()
     {
         mLogger.updateLogger(mElevatorSpeed);
-
     }
 
     @Override
     public void updateSmartDashboard()
     {
         // Nothing Right Now
-
     }
 
     @Override
     public double getElevatorSpeed()
     {
-
         return mElevatorSpeed;
     }
 
@@ -122,10 +124,15 @@ public class SnobotDriveOperatorJoystick implements IOperatorJoystick
     }
 
     @Override
-    public Double currentPressed()
+    public Double getPresetHeight()
     {
-
         return mRequestedHeight;
+    }
+
+    @Override
+    public boolean useLedChooser()
+    {
+        return mUseLedChooser.getState();
     }
 
 }

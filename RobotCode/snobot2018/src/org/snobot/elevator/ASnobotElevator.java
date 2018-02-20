@@ -3,6 +3,7 @@ package org.snobot.elevator;
 import org.snobot.Properties2018;
 import org.snobot.SmartDashboardNames;
 import org.snobot.joystick.IOperatorJoystick;
+import org.snobot.leds.ILedManager;
 import org.snobot.lib.InDeadbandHelper;
 import org.snobot.lib.logging.ILogger;
 
@@ -11,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public abstract class ASnobotElevator<SpeedControllerType extends SpeedController> implements IElevator
 {
+    protected final ILedManager mLedManager;
     protected final SpeedControllerType mElevatorMotor;
     protected final IOperatorJoystick mJoystick;
     protected final ILogger mLogger;
@@ -36,8 +38,9 @@ public abstract class ASnobotElevator<SpeedControllerType extends SpeedControlle
      * @param aLogger
      *            logs the actions of the elevator in the log file.
      */
-    public ASnobotElevator(SpeedControllerType aElevatorMotor, IOperatorJoystick aJoystick, ILogger aLogger)
+    public ASnobotElevator(ILedManager aLedManager, SpeedControllerType aElevatorMotor, IOperatorJoystick aJoystick, ILogger aLogger)
     {
+        mLedManager = aLedManager;
         mElevatorMotor = aElevatorMotor;
         mJoystick = aJoystick;
         mLogger = aLogger;
@@ -57,9 +60,9 @@ public abstract class ASnobotElevator<SpeedControllerType extends SpeedControlle
     public void control()
     {
 
-        if (mJoystick.currentPressed() != null) // NOPMD
+        if (mJoystick.getPresetHeight() != null) // NOPMD
         {
-            this.gotoHeight(mJoystick.currentPressed());
+            gotoHeight(mJoystick.getPresetHeight());
         }
         else if (mJoystickDeadband < Math.abs(mJoystickSpeed))
         {

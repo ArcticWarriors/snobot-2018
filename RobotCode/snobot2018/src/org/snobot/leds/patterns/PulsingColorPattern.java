@@ -12,9 +12,7 @@ public class PulsingColorPattern implements IAddressableLedStripPattern
     private final IAddressableLedStrip mLedStrip;
     private final double mPeriod;
     private final int mNumLeds;
-    private final int mRed;
-    private final int mGreen;
-    private final int mBlue;
+    private final Color mColor;
 
     private int mUpdateCtr;
 
@@ -30,7 +28,7 @@ public class PulsingColorPattern implements IAddressableLedStripPattern
      */
     public PulsingColorPattern(IAddressableLedStrip aLedStrip, int aNumLeds, Color aColor)
     {
-        this(aLedStrip, aNumLeds, aColor.getRed(), aColor.getGreen(), aColor.getBlue());
+        this(aLedStrip, aNumLeds, aColor, sDEFAULT_PERIOD);
     }
 
     /**
@@ -40,41 +38,16 @@ public class PulsingColorPattern implements IAddressableLedStripPattern
      *            The attached LED strip
      * @param aNumLeds
      *            The number of LEDs. Used to write the pattern
-     * @param aRed
-     *            The red component of the color, 0-255
-     * @param aGreen
-     *            The green component of the color, 0-255
-     * @param aBlue
-     *            The blue component of the color, 0-255
-     */
-    public PulsingColorPattern(IAddressableLedStrip aLedStrip, int aNumLeds, int aRed, int aGreen, int aBlue)
-    {
-        this(aLedStrip, aNumLeds, aRed, aGreen, aBlue, sDEFAULT_PERIOD);
-    }
-
-    /**
-     * Constructor.
-     * 
-     * @param aLedStrip
-     *            The attached LED strip
-     * @param aNumLeds
-     *            The number of LEDs. Used to write the pattern
-     * @param aRed
-     *            The red component of the color, 0-255
-     * @param aGreen
-     *            The green component of the color, 0-255
-     * @param aBlue
-     *            The blue component of the color, 0-255
+     * @param aColor
+     *            The color to draw
      * @param aPeriod
      *            The period, in loops, for a full pulse cycle to take place
      */
-    public PulsingColorPattern(IAddressableLedStrip aLedStrip, int aNumLeds, int aRed, int aGreen, int aBlue, int aPeriod)
+    public PulsingColorPattern(IAddressableLedStrip aLedStrip, int aNumLeds, Color aColor, int aPeriod)
     {
         mLedStrip = aLedStrip;
         mNumLeds = aNumLeds;
-        mRed = aRed;
-        mGreen = aGreen;
-        mBlue = aBlue;
+        mColor = aColor;
         mPeriod = aPeriod;
     }
 
@@ -86,7 +59,10 @@ public class PulsingColorPattern implements IAddressableLedStripPattern
 
         for (int i = 0; i < mNumLeds; ++i)
         {
-            mLedStrip.setColor(i, (int) (mRed * multiplier), (int) (mGreen * multiplier), (int) (mBlue * multiplier));
+            mLedStrip.setColor(i, 
+                    (int) (mColor.getRed() * multiplier), 
+                    (int) (mColor.getGreen() * multiplier),
+                    (int) (mColor.getBlue() * multiplier));
         }
 
         ++mUpdateCtr;
