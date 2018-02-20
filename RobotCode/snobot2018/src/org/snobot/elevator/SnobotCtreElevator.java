@@ -62,7 +62,7 @@ public class SnobotCtreElevator extends ASnobotElevator<WPI_TalonSRX>
     public boolean gotoHeight(double aHeight)
     {
         double destination = aHeight / mConversionFactor;
-        sLOGGER.log(Level.INFO, "Going to : " + aHeight + " (" + destination + ")");
+        sLOGGER.log(Level.DEBUG, "Going to : " + aHeight + " (" + destination + ")");
 
         double deltaHeight = aHeight - mActualHeight;
         boolean isFinished = -mHeightDeadband < deltaHeight && deltaHeight < mHeightDeadband;
@@ -85,7 +85,7 @@ public class SnobotCtreElevator extends ASnobotElevator<WPI_TalonSRX>
     {
         double rawPosition = mElevatorMotor.getSelectedSensorPosition(sDEFAULT_PID_SLOT);
         double output = rawPosition * mConversionFactor;
-        sLOGGER.log(Level.INFO, "Currently at " + output + " (" + rawPosition + ")");
+        sLOGGER.log(Level.DEBUG, "Currently at " + output + " (" + rawPosition + ")");
 
         return output;
     }

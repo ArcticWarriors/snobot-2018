@@ -3,6 +3,8 @@ package org.snobot.autonomous;
 import java.io.File;
 import java.util.Objects;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.snobot.Properties2018;
 import org.snobot.SmartDashboardNames;
 import org.snobot.Snobot2018;
@@ -22,6 +24,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutonomousFactory
 {
+    protected static final Logger sLOGGER = Logger.getLogger(AutonomousFactory.class);
+
     private static final double sY_START = 336 - 3 * 12;
 
     private static final double sX_RIGHT = -9 * 12;
@@ -126,6 +130,7 @@ public class AutonomousFactory
         String gameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
         if ((gameSpecificMessage == null) || (gameSpecificMessage.length() != 3))
         {
+            sLOGGER.log(Level.WARN, "GAME DATA NOT SET!!!one!11!1!1");
             return this.getDefaultCommand();
         }
 
@@ -136,29 +141,28 @@ public class AutonomousFactory
         CommandGroup outputB = this.tryLoadFile(mAutonModeChooserB.getSelected(), scalePosition, switchPosition, mCommandParserB); // NOPMD
         if (outputA != null)
         {
+            sLOGGER.log(Level.INFO, "Using Plan A");
             return outputA;
         }
         if (outputB != null)
         {
+            sLOGGER.log(Level.INFO, "Using Plan B");
             return outputB;
         }
+
+        sLOGGER.log(Level.WARN, "Using default autonomous");
         return getDefaultCommand();
     }
 
     private CommandGroup tryLoadFile(File aFile, String aScalePos, String aSwitchPos, CommandParser aCommandParser)
     {
-        if (aFile == null)
-        {
-            return getDefaultCommand();
-        }
-
         CommandGroup commandGroup = aCommandParser.readFile(aFile.toString());
         boolean checkScale = Objects.equals(aCommandParser.getScaleTrigger(), aScalePos);
         boolean checkSwitch = Objects.equals(aCommandParser.getSwitchTrigger(), aSwitchPos);
         boolean checkBothNull = (aCommandParser.getSwitchTrigger() == null) && (aCommandParser.getScaleTrigger() == null);
         setPosition();
         
-        if (checkScale || checkSwitch || checkBothNull)
+        if (aCommandParser.wasParsingSuccesful() && (checkScale || checkSwitch || checkBothNull))
         {
             return commandGroup;
         }

@@ -10,6 +10,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SnobotClaw implements IClaw
 {
+    private static final DoubleSolenoid.Value sCLAW_OPEN_VALUE = Value.kReverse;
+    private static final DoubleSolenoid.Value sCLAW_CLOSE_VALUE = Value.kForward;
+
     private final DoubleSolenoid mDoubleSolenoid;
     private final ILogger mLogger;
     private final IOperatorJoystick mOperatorJoystick;
@@ -34,13 +37,13 @@ public class SnobotClaw implements IClaw
     @Override
     public void open()
     {
-        mDoubleSolenoid.set(Value.kForward);
+        mDoubleSolenoid.set(sCLAW_OPEN_VALUE);
     }
 
     @Override
     public void close()
     {
-        mDoubleSolenoid.set(Value.kReverse);
+        mDoubleSolenoid.set(sCLAW_CLOSE_VALUE);
     }
 
     @Override
@@ -48,11 +51,11 @@ public class SnobotClaw implements IClaw
     {
         if (mOperatorJoystick.clawOpen())
         {
-            mDoubleSolenoid.set(Value.kForward);
+            open();
         }
         else
         {
-            mDoubleSolenoid.set(Value.kReverse);
+            close();
         }
     }
 
@@ -89,7 +92,7 @@ public class SnobotClaw implements IClaw
     @Override
     public boolean isOpen()
     {
-        return mDoubleSolenoid.get() == Value.kForward;
+        return mDoubleSolenoid.get() == sCLAW_OPEN_VALUE;
     }
 
 }

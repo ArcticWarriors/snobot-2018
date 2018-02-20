@@ -1,4 +1,3 @@
 Switch L
 Parallel TrajectoryAutonomous StartToSwitch/CenterToLeftSwitch.csv | GoToHeightCommand SWITCH
-DriveStraightPath 12 24 60
 Claw true

@@ -1,9 +1,7 @@
 package org.snobot.autonomous;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.List;
 
@@ -119,6 +117,22 @@ public class CommandParser extends ACommandParser
         return new WaitCommand(time);
     }
 
+    protected void parseLine(CommandGroup aGroup, String aLine, boolean aAddParallel)
+    {
+        if (aLine.startsWith(AutonomousCommandNames.sSWITCH_TRIGGER_COMMAND))
+        {
+            mSwitchTrigger = String.valueOf(aLine.charAt(7));
+        }
+        else if (aLine.startsWith(AutonomousCommandNames.sSCALE_TRIGGER_COMMAND))
+        {
+            mScaleTrigger = String.valueOf(aLine.charAt(6));
+        }
+        else
+        {
+            super.parseLine(aGroup, aLine, aAddParallel);
+        }
+    }
+
     @Override
     public CommandGroup readFile(String aFilePath)
     {
@@ -126,53 +140,7 @@ public class CommandParser extends ACommandParser
         mScaleTrigger = null;
         mAutonFilenameEntry.setString(aFilePath);
 
-        initReading();
-
-        CommandGroup output = createNewCommandGroup(aFilePath);
-
-        StringBuilder fileContents = new StringBuilder();
-
-        File file = new File(aFilePath);
-
-        if (file.exists())
-        {
-            try
-            {
-                BufferedReader br = new BufferedReader(new FileReader(aFilePath));
-
-                String line;
-                while ((line = br.readLine()) != null)
-                {
-                    if (line.startsWith(AutonomousCommandNames.sSWITCH_TRIGGER_COMMAND))
-                    {
-                        mSwitchTrigger = String.valueOf(line.charAt(7));
-                    }
-                    else if (line.startsWith(AutonomousCommandNames.sSCALE_TRIGGER_COMMAND))
-                    {
-                        mScaleTrigger = String.valueOf(line.charAt(6));
-                    }
-                    else
-                    {
-                        this.parseLine(output, line, false);
-                        fileContents.append(line).append('\n');
-                    }
-                }
-
-                br.close();
-            }
-            catch (Exception ex)
-            {
-                sLOGGER.log(Level.ERROR, "", ex);
-            }
-        }
-        else
-        {
-            addError("File " + aFilePath + " not found!");
-        }
-
-        publishParsingResults(fileContents.toString());
-
-        return output;
+        return super.readFile(aFilePath);
     }
 
     /**

@@ -1,0 +1,3 @@
+GoToHeightCommand SWITCH
+TrajectoryAutonomous Test/TestStraightForward10ftAt5ftsec.csv
+Claw true

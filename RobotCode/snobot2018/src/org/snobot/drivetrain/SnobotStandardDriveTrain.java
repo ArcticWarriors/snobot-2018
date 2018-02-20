@@ -6,7 +6,6 @@ import org.snobot.lib.logging.ILogger;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 
 public class SnobotStandardDriveTrain extends ASnobotDrivetrain<SpeedController>
 {
@@ -33,7 +32,7 @@ public class SnobotStandardDriveTrain extends ASnobotDrivetrain<SpeedController>
     public SnobotStandardDriveTrain(
             SpeedController aLeftMotor, SpeedController aRightMotor, 
             Encoder aLeftDriveEncoder, Encoder aRightDriveEncoder, 
-            Gyro aGyro,
+            SnobotADXRS450_Gyro aGyro,
             IDriveJoystick aDriverJoystick, ILogger aLogger)
     {
         super(aLeftMotor, aRightMotor, aGyro, aDriverJoystick, aLogger);

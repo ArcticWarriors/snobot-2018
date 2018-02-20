@@ -7,7 +7,6 @@ import org.snobot.lib.logging.ILogger;
 
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public abstract class ASnobotDrivetrain<SpeedControllerType extends SpeedController> implements IDriveTrain
@@ -18,7 +17,7 @@ public abstract class ASnobotDrivetrain<SpeedControllerType extends SpeedControl
     protected final SpeedControllerType mLeftMotor;
     protected final SpeedControllerType mRightMotor;
     protected final DifferentialDrive mRobotDrive;
-    private final Gyro mGyro;
+    protected final SnobotADXRS450_Gyro mGyro;
 
     protected double mRightMotorDistance;
     protected double mLeftMotorDistance;
@@ -40,7 +39,7 @@ public abstract class ASnobotDrivetrain<SpeedControllerType extends SpeedControl
      */
     public ASnobotDrivetrain(
             SpeedControllerType aLeftMotor, SpeedControllerType aRightMotor,
-            Gyro aGyro,
+            SnobotADXRS450_Gyro aGyro,
             IDriveJoystick aDriverJoystick, ILogger aLogger)
     {
         mLeftMotor = aLeftMotor;
@@ -87,6 +86,7 @@ public abstract class ASnobotDrivetrain<SpeedControllerType extends SpeedControl
     {
         SmartDashboard.putNumber(SmartDashboardNames.sLEFT_DRIVE_ENCODER_DISTANCE, mLeftMotorDistance);
         SmartDashboard.putNumber(SmartDashboardNames.sRIGHT_DRIVE_ENCODER_DISTANCE, mRightMotorDistance);
+        SmartDashboard.putBoolean(SmartDashboardNames.sGYRO_DETECTED, isGyroConnected());
     }
 
     @Override
@@ -148,4 +148,8 @@ public abstract class ASnobotDrivetrain<SpeedControllerType extends SpeedControl
         return mGyro.getAngle();
     }
 
+    public boolean isGyroConnected()
+    {
+        return mGyro.isGyroConnected();
+    }
 }

@@ -9,7 +9,6 @@ import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 
 /**
  * Drivetrain using CAN controllers.
@@ -41,7 +40,7 @@ public class SnobotCanDriveTrain extends ASnobotDrivetrain<WPI_TalonSRX>
      */
     public SnobotCanDriveTrain(
             WPI_TalonSRX aLeftMotor, WPI_TalonSRX aRightMotor,
-            Gyro aGyro,
+            SnobotADXRS450_Gyro aGyro,
             IDriveJoystick aDriverJoystick, ILogger aLogger)
     {
         super(aLeftMotor, aRightMotor, aGyro, aDriverJoystick, aLogger);
