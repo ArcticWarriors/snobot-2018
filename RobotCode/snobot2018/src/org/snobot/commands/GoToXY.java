@@ -3,17 +3,22 @@ package org.snobot.commands;
 import java.util.List;
 
 import org.snobot.Properties2018;
+import org.snobot.SmartDashboardNames;
 import org.snobot.Snobot2018;
 import org.snobot.drivetrain.IDriveTrain;
 import org.snobot.lib.InDeadbandHelper;
 import org.snobot.lib.Utilities;
 import org.snobot.positioner.IPositioner;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class GoToXY extends Command
 {
+    protected final NetworkTable mGoToPositionNetworkTable;
+
     private final double mX;
     private final double mY;
     private final IDriveTrain mDriveTrain;
@@ -47,6 +52,9 @@ public class GoToXY extends Command
         mDriveTrain = aDriveTrain;
         mPositioner = aPositioner;
         mInDeadbandHelper = new InDeadbandHelper(3);
+
+        mGoToPositionNetworkTable = NetworkTableInstance.getDefault().getTable(SmartDashboardNames.sGO_TO_POSITION_TABLE_NAME);
+        mGoToPositionNetworkTable.getEntry(".type").setString(SmartDashboardNames.sGO_TO_POSITION_TABLE_NAME);
     }
 
     /**
@@ -74,6 +82,21 @@ public class GoToXY extends Command
     }
 
     @Override
+    public void initialize()
+    {
+        double startX = mPositioner.getXPosition();
+        double startY = mPositioner.getYPosition();
+        double startAngle = mPositioner.getOrientationDegrees();
+
+        double endX = mX;
+        double endY = mY;
+        double endAngle = mPositioner.getOrientationDegrees();
+
+        mGoToPositionNetworkTable.getEntry(SmartDashboardNames.sGO_TO_POSITION_START).setString(startX + ", " + startY + ", " + startAngle);
+        mGoToPositionNetworkTable.getEntry(SmartDashboardNames.sGO_TO_POSITION_END).setString(endX + ", " + endY + ", " + endAngle);
+    }
+
+    @Override
     public void execute()
     {
         double xPosition = mPositioner.getXPosition();
@@ -91,7 +114,7 @@ public class GoToXY extends Command
         double angleKp = Properties2018.sGO_TO_XY_KPA.getValue();
         double leftSpeed = distanceError * distanceKp + angleKp * angleError;
         double rightSpeed = distanceError * distanceKp - angleKp * angleError;
-        
+
         boolean atPlace = Math.abs(distanceError) < mAllowedError;
         mFinished = mInDeadbandHelper.isFinished(atPlace);
 

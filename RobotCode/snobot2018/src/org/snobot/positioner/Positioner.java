@@ -6,6 +6,8 @@ import org.snobot.lib.Utilities;
 import org.snobot.lib.logging.ILogger;
 import org.snobot.lib.modules.ISubsystem;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -18,6 +20,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Positioner implements ISubsystem, IPositioner
 {
+    private final NetworkTable mPositionTable;
+
     private final Timer mTimer;
     private final IDriveTrain mDriveTrain;
     private final ILogger mLogger;
@@ -53,6 +57,9 @@ public class Positioner implements ISubsystem, IPositioner
         mTimer = new Timer();
         mLogger = aLogger;
         mStartAngle = 0;
+
+        mPositionTable = NetworkTableInstance.getDefault().getTable(SmartDashboardNames.sROBOT_POSITION_TABLE);
+        mPositionTable.getEntry(".type").setString(SmartDashboardNames.sROBOT_POSITION_TABLE);
     }
 
     /**
@@ -153,10 +160,16 @@ public class Positioner implements ISubsystem, IPositioner
     @Override
     public void updateSmartDashboard()
     {
+        double boundedAngle = Utilities.boundAngle0to360Degrees(mOrientation);
+
         SmartDashboard.putNumber(SmartDashboardNames.sX_POSITION, mXPosition);
         SmartDashboard.putNumber(SmartDashboardNames.sY_POSITION, mYPosition);
-        SmartDashboard.putNumber(SmartDashboardNames.sORIENTATION, Utilities.boundAngle0to360Degrees(mOrientation));
+        SmartDashboard.putNumber(SmartDashboardNames.sORIENTATION, boundedAngle);
         SmartDashboard.putNumber(SmartDashboardNames.sSPEED, mSpeed);
+
+        mPositionTable.getEntry(SmartDashboardNames.sX_POSITION).setDouble(mXPosition);
+        mPositionTable.getEntry(SmartDashboardNames.sY_POSITION).setDouble(mYPosition);
+        mPositionTable.getEntry(SmartDashboardNames.sORIENTATION).setDouble(boundedAngle);
     }
 
     /**

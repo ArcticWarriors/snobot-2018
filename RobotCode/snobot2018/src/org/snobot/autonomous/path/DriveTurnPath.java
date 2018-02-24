@@ -79,7 +79,7 @@ public class DriveTurnPath extends Command
         List<PathSetpoint> dudeList = dudePathGenerator.generate(dudePathConfig);
         ISetpointIterator dudeSetpointIterator = new StaticSetpointIterator(dudeList);
 
-        return new DriveStraightPath(aSnobot.getDrivetrain(), aSnobot.getPositioner(), dudeSetpointIterator);
+        return new DriveTurnPath(aSnobot.getDrivetrain(), aSnobot.getPositioner(), dudeSetpointIterator);
     }
 
     @Override

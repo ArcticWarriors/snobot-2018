@@ -30,9 +30,13 @@ public final class StandaloneDotstartPanelTester
         frame.setVisible(true);
 
         List<Integer> values = new ArrayList<>();
-        values.add(0xFF000000);
-        values.add(0x00FF0000);
-        values.add(0x0000FF00);
+
+        for (int i = 0; i < 144 / 3; ++i)
+        {
+            values.add(0xFF000000);
+            values.add(0x00FF0000);
+            values.add(0x0000FF00);
+        }
 
         panel.setValues(values);
 

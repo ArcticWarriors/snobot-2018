@@ -6,31 +6,31 @@ mDefaultI2CWrappers:
   1: None
 mDefaultSpiWrappers:
   0: ADXRS450
-  1: null
-  2: null
-  3: null
-  4: null
+  1: Dotstar
+  2: Dotstar
+  3: Dotstar
+  4: Dotstar
 mDigitalIO: []
 mEncoders:
-- mConnectedSpeedControllerHandle: 2
-  mHandle: 0
+- mConnectedSpeedControllerHandle: 103
+  mHandle: 103
+  mName: Drive Right
+- mConnectedSpeedControllerHandle: 101
+  mHandle: 101
+  mName: Drive Left
+- mConnectedSpeedControllerHandle: 105
+  mHandle: 105
   mName: Elevator
-- mConnectedSpeedControllerHandle: 100
-  mHandle: 100
-  mName: CAN Encoder (0)
-- mConnectedSpeedControllerHandle: 102
-  mHandle: 102
-  mName: CAN Encoder (2)
 mGyros:
 - mHandle: 100
   mName: SPI ADXRS450
 mPwm:
-- mHandle: 2
+- mHandle: 3
   mMotorModelConfig: null
   mMotorSimConfig: !!com.snobot.simulator.motor_sim.SimpleMotorSimulationConfig
-    mMaxSpeed: 20.0
-  mName: Elevator
-- mHandle: 100
+    mMaxSpeed: 0.0
+  mName: Winch
+- mHandle: 103
   mMotorModelConfig:
     mGearReduction: 12.0
     mGearboxEfficiency: 1.0
@@ -42,11 +42,11 @@ mPwm:
     mConversionFactor: 0.16666666666
     mLoad: 0.6
   mName: Drive Right (A)
-- mHandle: 101
+- mHandle: 104
   mMotorModelConfig: null
   mMotorSimConfig: null
   mName: Drive Right (B)
-- mHandle: 102
+- mHandle: 101
   mMotorModelConfig:
     mGearReduction: 12.0
     mGearboxEfficiency: 1.0
@@ -58,16 +58,26 @@ mPwm:
     mConversionFactor: 0.16666666666
     mLoad: 0.6
   mName: Drive Left (A)
-- mHandle: 103
+- mHandle: 106
   mMotorModelConfig: null
   mMotorSimConfig: null
   mName: Drive Left (B)
+- mHandle: 105
+  mMotorModelConfig: null
+  mMotorSimConfig: !!com.snobot.simulator.motor_sim.SimpleMotorSimulationConfig
+    mMaxSpeed: 20.0
+  mName: Elevator (A)
+- mHandle: 102
+  mMotorModelConfig: null
+  mMotorSimConfig: !!com.snobot.simulator.motor_sim.SimpleMotorSimulationConfig
+    mMaxSpeed: 0.0
+  mName: Elevator (B)
 mRelays: []
 mSimulatorComponents:
 - !!com.snobot.simulator.simulator_components.TankDriveGyroSimulator$TankDriveConfig
   mGyroHandle: 100
-  mLeftEncoderHandle: 102
-  mRightEncoderHandle: 100
+  mLeftEncoderHandle: 101
+  mRightEncoderHandle: 103
   mTurnKp: 33.33
 mSolenoids:
 - mHandle: 1

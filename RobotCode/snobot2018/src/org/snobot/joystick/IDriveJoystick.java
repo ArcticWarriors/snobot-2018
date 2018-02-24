@@ -18,4 +18,19 @@ public interface IDriveJoystick extends IJoystick
      * @return Returns the Left Speed
      */
     double getLeftspeed();
+
+    /**
+     * Indicates if the driver wants the slow modifier placed on the joysticks.
+     * 
+     * @return True if slow mode
+     */
+    boolean isSlowMode();
+
+    /**
+     * Indicates if the driver wants the super slow modifier placed on the
+     * joysticks.
+     * 
+     * @return True if slow mode
+     */
+    boolean isSuperSlowMode();
 }

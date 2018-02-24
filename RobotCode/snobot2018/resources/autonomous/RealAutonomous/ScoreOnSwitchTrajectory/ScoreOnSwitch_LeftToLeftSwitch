@@ -1,0 +1,3 @@
+Switch L
+Parallel TrajectoryAutonomous StartToSwitch/LeftToLeftSwitch.csv | GoToHeightCommand SWITCH
+Claw true

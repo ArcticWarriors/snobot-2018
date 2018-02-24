@@ -2,7 +2,10 @@ package org.snobot.elevator;
 
 import org.snobot.PortMappings2018;
 import org.snobot.joystick.IOperatorJoystick;
+import org.snobot.leds.ILedManager;
 import org.snobot.lib.logging.ILogger;
+
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -21,22 +24,26 @@ public class ElevatorFactory
      *            The logger
      * @return The created elevator
      */
-    public IElevator createDrivetrain(boolean aUseCan, IOperatorJoystick aJoystick, ILogger aLogger)
+    public IElevator createDrivetrain(boolean aUseCan, IOperatorJoystick aJoystick, ILedManager aLedManager, ILogger aLogger)
     {
         if (aUseCan)
         {
-            // TODO create CAN only implementation
-            SpeedController elevatorMotor = new VictorSP(PortMappings2018.sELEVATOR_PWM_A_PORT);
-            Encoder elevatorEncoder = new Encoder(PortMappings2018.sELEVATOR_ENCODER_PORT_A, PortMappings2018.sELEVATOR_ENCODER_PORT_B);
+            WPI_TalonSRX elevatorMotoA = new WPI_TalonSRX(PortMappings2018.sELEVATOR_CTRE_A_PORT);
+            WPI_TalonSRX elevatorMotoB = new WPI_TalonSRX(PortMappings2018.sELEVATOR_CTRE_B_PORT);
 
-            return new SnobotElevator(elevatorMotor, elevatorEncoder, aJoystick, aLogger);
+            elevatorMotoB.follow(elevatorMotoA);
+
+            elevatorMotoA.setInverted(true);
+            elevatorMotoB.setInverted(true);
+
+            return new SnobotCtreElevator(aLedManager, elevatorMotoA, aJoystick, aLogger);
         }
         else
         {
             SpeedController elevatorMotor = new VictorSP(PortMappings2018.sELEVATOR_PWM_A_PORT);
             Encoder elevatorEncoder = new Encoder(PortMappings2018.sELEVATOR_ENCODER_PORT_A, PortMappings2018.sELEVATOR_ENCODER_PORT_B);
 
-            return new SnobotElevator(elevatorMotor, elevatorEncoder, aJoystick, aLogger);
+            return new SnobotStandardElevator(aLedManager, elevatorMotor, elevatorEncoder, aJoystick, aLogger);
         }
     }
 }

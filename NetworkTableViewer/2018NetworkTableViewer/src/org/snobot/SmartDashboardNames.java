@@ -20,13 +20,17 @@ public class SmartDashboardNames
 
     // Autonomous
     public static final String sSAVE_AUTON = "Save Auton";
-    public static final String sAUTON_TABLE_NAME = "AutonTable";
+    public static final String sAUTON_TABLE_A_NAME = "AutonTableA";
+    public static final String sAUTON_TABLE_B_NAME = "AutonTableB";
     public static final String sAUTON_CHOOSER = "Autonomous Selection";
     public static final String sAUTON_FILENAME = "Auton Filename";
     public static final String sSUCCESFULLY_PARSED_AUTON = "Parsed Command";
 
     // Autonomous Factory
     public static final String sPOSITION_CHOOSER = "Position Chooser";
+
+    // Winch
+    public static final String sWINCH_SPEED = "WinchSpeed";
 
     // Trajectory
     public static final String sSPLINE_NAMESPACE = "Spline Namespace";
@@ -43,6 +47,7 @@ public class SmartDashboardNames
     public static final String sGO_TO_POSITION_TABLE_NAME = "GoToPosition";
     public static final String sGO_TO_POSITION_START = "Start";
     public static final String sGO_TO_POSITION_END = "End";
-
-
+    
+    // Claw
+    public static final String sSNOBOT_CLAW_POSITION = "Snobot Claw Position";
 }

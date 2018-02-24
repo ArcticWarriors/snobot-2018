@@ -117,10 +117,12 @@ public class TrajectoryPathCommand extends Command
         double goalHeading = mFollowerLeft.getHeading();
         double observedHeading = mPositioner.getOrientationDegrees();
 
-        double angleDiff = Utilities.getDifferenceInAngleDegrees(observedHeading, goalHeading);
-
-        double turn = mKTurn * angleDiff;
-
+        double turn = 0;
+        if (mDrivetrain.isGyroConnected())
+        {
+            double angleDiff = Utilities.getDifferenceInAngleDegrees(observedHeading, goalHeading);
+            turn = mKTurn * angleDiff;
+        }
         mDrivetrain.setLeftRightSpeed(speedLeft + turn, speedRight - turn);
 
         double dt = .02;

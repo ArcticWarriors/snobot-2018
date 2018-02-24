@@ -9,10 +9,14 @@ import org.snobot.elevator.ElevatorFactory;
 import org.snobot.elevator.IElevator;
 import org.snobot.joystick.SnobotDriveOperatorJoystick;
 import org.snobot.joystick.SnobotDriveXbaxJoystick;
+import org.snobot.leds.ILedManager;
+import org.snobot.leds.SnobotLedManager;
 import org.snobot.lib.ASnobot;
 import org.snobot.lib.logging.ILogger;
 import org.snobot.positioner.IPositioner;
 import org.snobot.positioner.Positioner;
+import org.snobot.winch.IWinch;
+import org.snobot.winch.WinchFactory;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
@@ -25,6 +29,7 @@ public class Snobot2018 extends ASnobot
     // RoboSubsystems
     private IDriveTrain mDriveTrain;
     private IElevator mElevator;
+    private IWinch mWinch;
     private IClaw mClaw;
 
     // Autonomous
@@ -51,7 +56,6 @@ public class Snobot2018 extends ASnobot
     {
         ILogger logger = getLogger();
 
-
         // Joystick
         Joystick driverJoystickRaw = new Joystick(PortMappings2018.sDRIVER_JOYSTICK_PORT);
         SnobotDriveXbaxJoystick driverJoystick = new SnobotDriveXbaxJoystick(driverJoystickRaw, logger);
@@ -61,6 +65,10 @@ public class Snobot2018 extends ASnobot
         SnobotDriveOperatorJoystick operatorJoystick = new SnobotDriveOperatorJoystick(elevatorJoystickRaw, logger);
         addModule(operatorJoystick);
 
+        // LEDs
+        ILedManager ledManager = new SnobotLedManager(this, operatorJoystick);
+        addModule(ledManager);
+
         // DriveTrain
         DrivetrainFactory drivetrainFactory = new DrivetrainFactory();
         mDriveTrain = drivetrainFactory.createDrivetrain(mUseCan, driverJoystick, logger);
@@ -68,24 +76,33 @@ public class Snobot2018 extends ASnobot
 
         // Elevator
         ElevatorFactory elevatorFactory = new ElevatorFactory();
-        mElevator = elevatorFactory.createDrivetrain(mUseCan, operatorJoystick, logger);
+        mElevator = elevatorFactory.createDrivetrain(mUseCan, operatorJoystick, ledManager, logger);
         addModule(mElevator);
         
         // Claw
         DoubleSolenoid clawSolenoid = new DoubleSolenoid(PortMappings2018.sCLAW_FORWARD, PortMappings2018.sCLAW_REVERSE);
-        mClaw = new SnobotClaw(clawSolenoid, logger, operatorJoystick);
+        mClaw = new SnobotClaw(clawSolenoid, logger, operatorJoystick, ledManager);
         addModule(mClaw);
 
+
+        // Winch
+        WinchFactory winchFactory = new WinchFactory();
+        mWinch = winchFactory.createWinch(mUseCan, operatorJoystick, logger);
+        addModule(mWinch);
 
         // Position
         mPositioner = new Positioner(mDriveTrain, logger);
         addModule(mPositioner);
 
+
         // This should be done last
-        mAutonFactory = new AutonomousFactory(this);
+        mAutonFactory = new AutonomousFactory(this, ledManager);
+
+        // initialize the default auton command
+        mAutonFactory.createAutonMode();
     }
 
-
+    @Override
     protected CommandGroup createAutonomousCommand()
     {
         return mAutonFactory.createAutonMode();
@@ -104,6 +121,11 @@ public class Snobot2018 extends ASnobot
     public IElevator getElevator()
     {
         return mElevator;
+    }
+
+    public IWinch getWinch()
+    {
+        return mWinch;
     }
 
     public IClaw getClaw()

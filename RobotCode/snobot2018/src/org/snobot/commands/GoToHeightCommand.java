@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.snobot.Snobot2018;
 import org.snobot.elevator.IElevator;
+import org.snobot.joystick.SnobotDriveOperatorJoystick.ElevatorHeights;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -38,43 +39,40 @@ public class GoToHeightCommand extends Command
      */
     public static Command parseCommand(List<String> aArgs, Snobot2018 aSnobot)
     {
-        double height = Double.parseDouble(aArgs.get(1));
+        double height;
+        try
+        {
+            height = ElevatorHeights.valueOf(aArgs.get(1)).mHeight;
+        }
+        catch (Exception ex)
+        {
+            height = Double.parseDouble(aArgs.get(1));
+        }
         IElevator snobot = aSnobot.getElevator();
         return new GoToHeightCommand(height, snobot);
     }
 
     @Override
     protected void initialize()
-
     {
-        mElevator.setHeight(mHeight);
-        // System.out.println("GoToHeight: " + mHeight);
+        // nothing required
     }
 
     @Override
     protected void execute()
-
     {
-
-        mFinished = mElevator.gotoHeight();
-
+        mFinished = mElevator.gotoHeight(mHeight);
     }
 
     @Override
-
     protected boolean isFinished()
-
     {
         return mFinished;
-
     }
 
     @Override
     protected void end()
-
     {
-        // System.out.println("GoToHeightCommand: END");
-
+        // Nothing ToDo
     }
-
 }

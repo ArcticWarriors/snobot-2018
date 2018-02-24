@@ -3,10 +3,13 @@ package org.snobot.autonomous;
 import java.io.File;
 import java.util.Objects;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.snobot.Properties2018;
 import org.snobot.SmartDashboardNames;
 import org.snobot.Snobot2018;
 import org.snobot.commands.StupidDriveStraight;
+import org.snobot.leds.ILedManager;
 import org.snobot.lib.autonomous.ObservableSendableChooser;
 import org.snobot.lib.autonomous.SnobotAutonCrawler;
 import org.snobot.positioner.IPositioner;
@@ -22,14 +25,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutonomousFactory
 {
+    protected static final Logger sLOGGER = Logger.getLogger(AutonomousFactory.class);
+
     private static final double sY_START = 336 - 3 * 12;
+
+    private static final double sX_RIGHT = -9 * 12;
+    private static final double sX_CENTER = 0;
+    private static final double sX_LEFT = 9 * 12;
 
     protected ObservableSendableChooser<File> mAutonModeChooserA;
     protected ObservableSendableChooser<File> mAutonModeChooserB;
     protected ObservableSendableChooser<StartingPositions> mPositionChooser;
-    protected NetworkTable mAutoModeTable;
 
-    protected CommandParser mCommandParser;
+    protected CommandParser mCommandParserA;
+    protected CommandParser mCommandParserB;
+
+    protected ILedManager mLedManager;
 
     protected IPositioner mPositioner;
     protected Snobot2018 mSnobot;
@@ -40,11 +51,12 @@ public class AutonomousFactory
      * @author Owner
      *
      */
-    // TODO make the starting positions accurate for this year
     public enum StartingPositions
     {
-        RedLeft("Red Left", 0, -sY_START, 0), RedMiddle("Red Middle", 0, -sY_START, 0), RedRight("Red Right", 0, -sY_START, 0), BlueLeft("Blue Left",
-                0, sY_START, 180), BlueMiddle("Blue Middle", 0, sY_START, 180), BlueRight("Blue Right", 0, sY_START, 180), Origin("Origin", 0, 0, 0);
+        Left("Left", sX_RIGHT, -sY_START, 0), 
+        Center("Center", sX_CENTER, -sY_START, 0), 
+        Right("Right", sX_LEFT, -sY_START, 0), 
+        Origin("Origin", 0, 0, 0);
 
         // The name, position and angle of the starting positions.
         public final String mDisplayName;
@@ -74,32 +86,42 @@ public class AutonomousFactory
      * @param aSnobot
      *            The top level robot
      */
-    public AutonomousFactory(Snobot2018 aSnobot)
+    public AutonomousFactory(Snobot2018 aSnobot, ILedManager aLedManager)
     {
+        mLedManager = aLedManager;
         mSnobot = aSnobot;
+
         mPositionChooser = new ObservableSendableChooser<StartingPositions>();
-        mCommandParser = new CommandParser(aSnobot, mPositionChooser);
-        mAutoModeTable = NetworkTableInstance.getDefault().getTable(SmartDashboardNames.sAUTON_TABLE_NAME);
+        for (StartingPositions pos : StartingPositions.values())
+        {
+            if (pos == StartingPositions.Center)
+            {
+                mPositionChooser.addDefault(pos.mDisplayName, pos);
+            }
+            else
+            {
+                mPositionChooser.addObject(pos.toString(), pos);
+            }
+        }
+        SmartDashboard.putData(SmartDashboardNames.sPOSITION_CHOOSER, mPositionChooser);
+
+        NetworkTable autoModeTableA = NetworkTableInstance.getDefault().getTable(SmartDashboardNames.sAUTON_TABLE_A_NAME);
+        mCommandParserA = new CommandParser(aSnobot, autoModeTableA);
+        mAutonModeChooserA = new SnobotAutonCrawler(Properties2018.sAUTON_FILE_FILTER.getValue())
+                .loadAutonFiles(Properties2018.sAUTON_DIRECTORY.getValue() + "/", Properties2018.sAUTON_DEFAULT_FILE.getValue());
+        SmartDashboard.putData(SmartDashboardNames.sAUTON_CHOOSER_A, mAutonModeChooserA);
+
+        NetworkTable autoModeTableB = NetworkTableInstance.getDefault().getTable(SmartDashboardNames.sAUTON_TABLE_B_NAME);
+        mCommandParserB = new CommandParser(aSnobot, autoModeTableB);
+        mAutonModeChooserB = new SnobotAutonCrawler(Properties2018.sAUTON_FILE_FILTER.getValue())
+                .loadAutonFiles(Properties2018.sAUTON_DIRECTORY.getValue() + "/", Properties2018.sAUTON_DEFAULT_FILE.getValue());
+        SmartDashboard.putData(SmartDashboardNames.sAUTON_CHOOSER_B, mAutonModeChooserB);
 
         mPositioner = aSnobot.getPositioner();
 
-        mAutonModeChooserA = new SnobotAutonCrawler(Properties2018.sAUTON_FILE_FILTER.getValue())
-                .loadAutonFiles(Properties2018.sAUTON_DIRECTORY.getValue() + "/", Properties2018.sAUTON_DEFAULT_FILE.getValue());
-
-        mAutonModeChooserB = new SnobotAutonCrawler(Properties2018.sAUTON_FILE_FILTER.getValue())
-                .loadAutonFiles(Properties2018.sAUTON_DIRECTORY.getValue() + "/", Properties2018.sAUTON_DEFAULT_FILE.getValue());
-
-        SmartDashboard.putData(SmartDashboardNames.sAUTON_CHOOSER_A, mAutonModeChooserA);
-
-        SmartDashboard.putData(SmartDashboardNames.sAUTON_CHOOSER_B, mAutonModeChooserB);
-
-        for (StartingPositions pos : StartingPositions.values())
-        {
-            mPositionChooser.addObject(pos.toString(), pos);
-        }
-
-        SmartDashboard.putData(SmartDashboardNames.sPOSITION_CHOOSER, mPositionChooser);
-        addListeners();
+        addListeners(autoModeTableA, mAutonModeChooserA, mCommandParserA);
+        addListeners(autoModeTableB, mAutonModeChooserB, mCommandParserB);
+        addPositionLister();
     }
 
     /**
@@ -112,38 +134,47 @@ public class AutonomousFactory
         String gameSpecificMessage = DriverStation.getInstance().getGameSpecificMessage();
         if ((gameSpecificMessage == null) || (gameSpecificMessage.length() != 3))
         {
+            sLOGGER.log(Level.WARN, "GAME DATA NOT SET!!!one!11!1!1 ('" + gameSpecificMessage + "')");
             return this.getDefaultCommand();
         }
 
         String switchPosition = String.valueOf(gameSpecificMessage.charAt(0));
         String scalePosition = String.valueOf(gameSpecificMessage.charAt(1));
 
-        CommandGroup output = this.tryLoadFile(mAutonModeChooserA.getSelected(), scalePosition, switchPosition);
-        if (output != null)
+        CommandGroup outputA = this.tryLoadFile(mAutonModeChooserA.getSelected(), scalePosition, switchPosition, mCommandParserA);
+        CommandGroup outputB = this.tryLoadFile(mAutonModeChooserB.getSelected(), scalePosition, switchPosition, mCommandParserB); // NOPMD
+        if (outputA != null)
         {
-            return output;
+            mLedManager.setAutoSelection(AutonSelectionType.PlanA);
+            sLOGGER.log(Level.INFO, "Using Plan A");
+            return outputA;
         }
-        output = this.tryLoadFile(mAutonModeChooserB.getSelected(), scalePosition, switchPosition);
-        if (output != null)
+        if (outputB != null)
         {
-            return output;
+            mLedManager.setAutoSelection(AutonSelectionType.PlanB);
+            sLOGGER.log(Level.INFO, "Using Plan B");
+            return outputB;
         }
+        mLedManager.setAutoSelection(AutonSelectionType.Default);
+        sLOGGER.log(Level.WARN, "Using default autonomous");
+
         return getDefaultCommand();
     }
 
-    private CommandGroup tryLoadFile(File aFile, String aScalePos, String aSwitchPos)
+    private CommandGroup tryLoadFile(File aFile, String aScalePos, String aSwitchPos, CommandParser aCommandParser)
     {
         if (aFile == null)
         {
-            return getDefaultCommand();
+            return null;
         }
 
-        CommandGroup commandGroup = mCommandParser.readFile(aFile.toString());
-        boolean checkScale = Objects.equals(mCommandParser.getSwitchTrigger(), aScalePos);
-        boolean checkSwitch = Objects.equals(mCommandParser.getSwitchTrigger(), aSwitchPos);
-        boolean checkBothNull = (mCommandParser.getSwitchTrigger() == null) && (mCommandParser.getScaleTrigger() == null);
+        CommandGroup commandGroup = aCommandParser.readFile(aFile.toString());
+        boolean checkScale = Objects.equals(aCommandParser.getScaleTrigger(), aScalePos);
+        boolean checkSwitch = Objects.equals(aCommandParser.getSwitchTrigger(), aSwitchPos);
+        boolean checkBothNull = (aCommandParser.getSwitchTrigger() == null) && (aCommandParser.getScaleTrigger() == null);
         setPosition();
-        if (checkScale || checkSwitch || checkBothNull)
+        
+        if (aCommandParser.wasParsingSuccesful() && (checkScale || checkSwitch || checkBothNull))
         {
             return commandGroup;
         }
@@ -165,7 +196,21 @@ public class AutonomousFactory
 
     }
 
-    private void addListeners()
+    private void addPositionLister()
+    {
+        TableEntryListener setPositionListener = new TableEntryListener()
+        {
+            @Override
+            public void valueChanged(NetworkTable aTable, String aKey, NetworkTableEntry aEntry, NetworkTableValue aValue, int aFlags)
+            {
+                setPosition();
+            }
+        };
+
+        mPositionChooser.addSelectionChangedListener(setPositionListener);
+    }
+
+    private void addListeners(NetworkTable aNetworkTable, ObservableSendableChooser<File> aFileChooser, CommandParser aCommandParser)
     {
         TableEntryListener buildAutonListener = new TableEntryListener()
         {
@@ -177,32 +222,28 @@ public class AutonomousFactory
             }
         };
 
-        TableEntryListener setPositionListener = new TableEntryListener()
-        {
-            @Override
-            public void valueChanged(NetworkTable aTable, String aKey, NetworkTableEntry aEntry, NetworkTableValue aValue, int aFlags)
-            {
-                setPosition();
-            }
-        };
-
         TableEntryListener saveListener = new TableEntryListener()
         {
 
             @Override
             public void valueChanged(NetworkTable aTable, String aKey, NetworkTableEntry aEntry, NetworkTableValue aValue, int aFlags)
             {
-                if (mAutoModeTable.getEntry(SmartDashboardNames.sSAVE_AUTON).getBoolean(false))
+                if (aValue.getBoolean())
                 {
-                    mCommandParser.saveAutonMode();
+                    aCommandParser.saveAutonMode();
+
+                    // Reload the autonomous on a change
+                    createAutonMode();
+
+                    // Clear the save flag after re-reading the file
+                    aNetworkTable.getEntry(SmartDashboardNames.sSAVE_AUTON).setBoolean(false);
                 }
             }
         };
 
-        mAutoModeTable.addEntryListener(SmartDashboardNames.sSAVE_AUTON, saveListener, 0xFF);
+        aNetworkTable.addEntryListener(SmartDashboardNames.sSAVE_AUTON, saveListener, 0xFF);
 
-        mPositionChooser.addSelectionChangedListener(setPositionListener);
-        mAutonModeChooserA.addSelectionChangedListener(buildAutonListener);
+        aFileChooser.addSelectionChangedListener(buildAutonListener);
     }
 
     // Sets the starting position for the robot

@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 
 public class DotstarSimulatorPanel extends JPanel
 {
-    private static final int sPIXEL_SIZE = 10;
+    private static final int sDEFAULT_PIXEL_SIZE = 5;
 
     private final List<Integer> mLedValues;
     private int mNumLeds;
@@ -23,7 +23,7 @@ public class DotstarSimulatorPanel extends JPanel
      */
     public DotstarSimulatorPanel(int aLedCount)
     {
-        setPreferredSize(new Dimension(sPIXEL_SIZE * aLedCount, sPIXEL_SIZE));
+        setPreferredSize(new Dimension(sDEFAULT_PIXEL_SIZE * aLedCount, sDEFAULT_PIXEL_SIZE));
         mNumLeds = aLedCount;
 
         mLedValues = new ArrayList<>();
@@ -32,10 +32,15 @@ public class DotstarSimulatorPanel extends JPanel
     @Override
     public void paint(Graphics aGraphics)
     {
+        int widthSizeFactor = getWidth() / mNumLeds;
+        int heightSizeFactor = getHeight();
+
+        int sizeFactor = Math.max(1, Math.min(widthSizeFactor, heightSizeFactor));
+
         aGraphics.setColor(Color.black);
         aGraphics.fillRect(0, 0, getWidth(), getHeight());
         aGraphics.setColor(Color.white);
-        aGraphics.drawRect(0, 0, mNumLeds * sPIXEL_SIZE, sPIXEL_SIZE);
+        aGraphics.drawRect(0, 0, (int) (mNumLeds * sizeFactor), (int) sizeFactor);
 
         for (int i = 0; i < mLedValues.size(); ++i)
         {
@@ -47,7 +52,7 @@ public class DotstarSimulatorPanel extends JPanel
 
             Color color = new Color(r, g, b);
             aGraphics.setColor(color);
-            aGraphics.fillOval(i * sPIXEL_SIZE, 0, sPIXEL_SIZE, sPIXEL_SIZE);
+            aGraphics.fillOval((int) (i * sizeFactor), 0, (int) sizeFactor, (int) sizeFactor);
         }
     }
 

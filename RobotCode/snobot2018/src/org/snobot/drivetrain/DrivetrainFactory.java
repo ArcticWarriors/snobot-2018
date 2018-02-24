@@ -6,11 +6,9 @@ import org.snobot.lib.logging.ILogger;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.VictorSP;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 
 public class DrivetrainFactory
 {
@@ -28,7 +26,7 @@ public class DrivetrainFactory
      */
     public IDriveTrain createDrivetrain(boolean aUseCan, IDriveJoystick aJoystick, ILogger aLogger)
     {
-        Gyro gyro = new ADXRS450_Gyro();
+        SnobotADXRS450_Gyro gyro = new SnobotADXRS450_Gyro();
 
         if (aUseCan)
         {

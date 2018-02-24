@@ -1,5 +1,7 @@
 package org.snobot.elevator;
 
+import org.snobot.lib.modules.ISubsystem;
+
 /**
  * This is the interface for the elevator that allows someone to move the
  * elevator up and down.
@@ -7,7 +9,7 @@ package org.snobot.elevator;
  * @author Josh
  *
  */
-public interface IElevator
+public interface IElevator extends ISubsystem
 {
     /**
      * Gets the elevator height in inches.
@@ -25,22 +27,26 @@ public interface IElevator
     void setMotorSpeed(double aSpeed);
 
     /**
-     * This sets the height of the elevator.
+     * Gets the speed (percent output) of the motor.
      * 
-     * @param aHeight
-     *            is the height that we want to go to in inches.
-     * 
+     * @return The speed
      */
-    void setHeight(double aHeight);
+    double getSpeed();
 
     /**
      * This calculates the deltaHeight and sets the InDeadbandHelper with 3
      * loops and if the deltaHeight is in between -Deadband and Deadband the
      * program finishes but if it is not then it sets the motor speed using Kp.
-     * and the delta Distance
+     * and the delta Distance.
      * 
-     * @return True if height reached.
+     * @param aHeight
+     *            Height to go to
+     * @return true
      */
-    boolean gotoHeight();
+    boolean gotoHeight(double aHeight);
 
+    /**
+     * Resets the Elevator's encoders.
+     */
+    void resetEncoders();
 }

@@ -1,25 +1,20 @@
 package org.snobot.autonomous;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.List;
 
 import org.apache.log4j.Level;
 import org.snobot.SmartDashboardNames;
 import org.snobot.Snobot2018;
-import org.snobot.autonomous.AutonomousFactory.StartingPositions;
 import org.snobot.lib.autonomous.ACommandParser;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 /**
  * Creates commands from a file path and adds them to a CommandGroup.
@@ -47,24 +42,23 @@ public class CommandParser extends ACommandParser
      */
     private String mScaleTrigger;
 
-    private static final NetworkTable sAUTON_TABLE = NetworkTableInstance.getDefault().getTable(SmartDashboardNames.sAUTON_TABLE_NAME);
-
     /**
      * Creates a CommandParser object.
      * 
      * @param aSnobot
      *            The robot using the CommandParser.
-     * @param aPositionChooser
-     *            The chooser which indicates the starting position
      */
-    public CommandParser(Snobot2018 aSnobot, SendableChooser<StartingPositions> aPositionChooser)
+    public CommandParser(Snobot2018 aSnobot, NetworkTable aNetworkTable)
     {
-        super(sAUTON_TABLE.getEntry(SmartDashboardNames.sROBOT_COMMAND_TEXT), sAUTON_TABLE.getEntry(SmartDashboardNames.sSUCCESFULLY_PARSED_AUTON),
+        super(aNetworkTable.getEntry(SmartDashboardNames.sROBOT_COMMAND_TEXT), aNetworkTable.getEntry(SmartDashboardNames.sSUCCESFULLY_PARSED_AUTON),
                 " ", "#");
+
+        aNetworkTable.getEntry(".type").setString("AutonWidget");
 
         mSnobot = aSnobot;
 
-        mAutonFilenameEntry = sAUTON_TABLE.getEntry(SmartDashboardNames.sAUTON_FILENAME);
+        mAutonFilenameEntry = aNetworkTable.getEntry(SmartDashboardNames.sAUTON_FILENAME);
+
     }
 
     /**
@@ -123,6 +117,22 @@ public class CommandParser extends ACommandParser
         return new WaitCommand(time);
     }
 
+    protected void parseLine(CommandGroup aGroup, String aLine, boolean aAddParallel)
+    {
+        if (aLine.startsWith(AutonomousCommandNames.sSWITCH_TRIGGER_COMMAND))
+        {
+            mSwitchTrigger = String.valueOf(aLine.charAt(7));
+        }
+        else if (aLine.startsWith(AutonomousCommandNames.sSCALE_TRIGGER_COMMAND))
+        {
+            mScaleTrigger = String.valueOf(aLine.charAt(6));
+        }
+        else
+        {
+            super.parseLine(aGroup, aLine, aAddParallel);
+        }
+    }
+
     @Override
     public CommandGroup readFile(String aFilePath)
     {
@@ -130,53 +140,7 @@ public class CommandParser extends ACommandParser
         mScaleTrigger = null;
         mAutonFilenameEntry.setString(aFilePath);
 
-        initReading();
-
-        CommandGroup output = createNewCommandGroup(aFilePath);
-
-        StringBuilder fileContents = new StringBuilder();
-
-        File file = new File(aFilePath);
-
-        if (file.exists())
-        {
-            try
-            {
-                BufferedReader br = new BufferedReader(new FileReader(aFilePath));
-
-                String line;
-                while ((line = br.readLine()) != null)
-                {
-                    if (line.startsWith(AutonomousCommandNames.sSWITCH_TRIGGER_COMMAND))
-                    {
-                        mSwitchTrigger = String.valueOf(line.charAt(7));
-                    }
-                    else if (line.startsWith(AutonomousCommandNames.sSCALE_TRIGGER_COMMAND))
-                    {
-                        mScaleTrigger = String.valueOf(line.charAt(6));
-                    }
-                    else
-                    {
-                        this.parseLine(output, line, false);
-                        fileContents.append(line).append('\n');
-                    }
-                }
-
-                br.close();
-            }
-            catch (Exception ex)
-            {
-                sLOGGER.log(Level.ERROR, "", ex);
-            }
-        }
-        else
-        {
-            addError("File " + aFilePath + " not found!");
-        }
-
-        publishParsingResults(fileContents.toString());
-
-        return output;
+        return super.readFile(aFilePath);
     }
 
     /**
@@ -187,7 +151,9 @@ public class CommandParser extends ACommandParser
         String newText = mAutonSdTableTextName.getString("");
         String filename = mAutonFilenameEntry.getString("auton_file.txt");
 
-        sLOGGER.log(Level.INFO, "\n" + "*****************************************\n" + "Saving auton mode to " + filename + "\n"
+        sLOGGER.log(Level.INFO, "\n" 
+                + "*****************************************\n" 
+                + "Saving auton mode to " + filename + "\n"
                 + "*****************************************");
 
         try
@@ -200,7 +166,6 @@ public class CommandParser extends ACommandParser
         {
             sLOGGER.log(Level.INFO, ex);
         }
-
     }
 
     /**

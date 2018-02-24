@@ -11,13 +11,13 @@ public class AutonomousCommandNames
 
     // Stupid
     public static final String sSTUPID_DRIVE_STRAIGHT_COMMAND = "StupidDriveStraight";
+    public static final String sSTUPID_TURN_COMMAND = "StupidTurn";
+    public static final String sSTUPID_GO_TO_XY_COMMAND = "StupidGoToXY";
     
     //Triggers
     public static final String sSWITCH_TRIGGER_COMMAND = "Switch";
     public static final String sSCALE_TRIGGER_COMMAND = "Scale";
   
-    public static final String sSTUPID_TURN_COMMAND = "StupidTurn";
-    public static final String sSTUPID_GO_TO_XY_COMMAND = "StupidGoToXY";
 
     // Trajectory
     public static final String sTRAJECTORY_PATH_AUTONOMOUS = "TrajectoryAutonomous";
@@ -27,6 +27,9 @@ public class AutonomousCommandNames
 
     // Autonomous
     public static final String sGO_TO_XY_COMMAND = "GoToXY";
+
+    // ClawCommand
+    public static final String sCLAW_COMMAND = "Claw";
 
     // GoToHeight
     public static final String sGO_TO_HEIGHT_COMMAND = "GoToHeightCommand";

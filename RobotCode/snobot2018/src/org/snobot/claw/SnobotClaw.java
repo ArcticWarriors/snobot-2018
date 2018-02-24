@@ -2,6 +2,7 @@ package org.snobot.claw;
 
 import org.snobot.SmartDashboardNames;
 import org.snobot.joystick.IOperatorJoystick;
+import org.snobot.leds.ILedManager;
 import org.snobot.lib.logging.ILogger;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -10,9 +11,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SnobotClaw implements IClaw
 {
+    private static final DoubleSolenoid.Value sCLAW_OPEN_VALUE = Value.kReverse;
+    private static final DoubleSolenoid.Value sCLAW_CLOSE_VALUE = Value.kForward;
+
     private final DoubleSolenoid mDoubleSolenoid;
     private final ILogger mLogger;
     private final IOperatorJoystick mOperatorJoystick;
+    private final ILedManager mLedManager;
 
     /**
      * This is the Snobot Claw constructor.
@@ -24,23 +29,25 @@ public class SnobotClaw implements IClaw
      * @param aOperatorJoystick
      *            the claw joystick.
      */
-    public SnobotClaw(DoubleSolenoid aDoubleSolenoid, ILogger aLogger, IOperatorJoystick aOperatorJoystick)
+    public SnobotClaw(DoubleSolenoid aDoubleSolenoid, ILogger aLogger, IOperatorJoystick aOperatorJoystick, ILedManager aLedManager)
     {
         mDoubleSolenoid = aDoubleSolenoid;
         mLogger = aLogger;
         mOperatorJoystick = aOperatorJoystick;
+        mLedManager = aLedManager;
+
     }
 
     @Override
     public void open()
     {
-        mDoubleSolenoid.set(Value.kForward);
+        mDoubleSolenoid.set(sCLAW_OPEN_VALUE);
     }
 
     @Override
     public void close()
     {
-        mDoubleSolenoid.set(Value.kReverse);
+        mDoubleSolenoid.set(sCLAW_CLOSE_VALUE);
     }
 
     @Override
@@ -48,12 +55,11 @@ public class SnobotClaw implements IClaw
     {
         if (mOperatorJoystick.clawOpen())
         {
-            mDoubleSolenoid.set(Value.kForward);
+            open();
         }
-        
         else
         {
-            mDoubleSolenoid.set(Value.kReverse);
+            close();
         }
     }
 
@@ -66,8 +72,9 @@ public class SnobotClaw implements IClaw
     @Override
     public void update()
     {
-        // No action required.
+        mLedManager.setClawState(isOpen());
     }
+
 
     @Override
     public void initializeLogHeaders()
@@ -85,6 +92,12 @@ public class SnobotClaw implements IClaw
     public void updateSmartDashboard()
     {
         SmartDashboard.putString(SmartDashboardNames.sSNOBOT_CLAW_POSITION, mDoubleSolenoid.get().toString());
+    }
+
+    @Override
+    public boolean isOpen()
+    {
+        return mDoubleSolenoid.get() == sCLAW_OPEN_VALUE;
     }
 
 }

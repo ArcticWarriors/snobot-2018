@@ -3,6 +3,7 @@ package org.snobot.autonomous.path;
 import java.util.List;
 
 import org.snobot.Properties2018;
+import org.snobot.SmartDashboardNames;
 import org.snobot.Snobot2018;
 import org.snobot.drivetrain.IDriveTrain;
 import org.snobot.lib.motion_profile.ISetpointIterator;
@@ -12,6 +13,8 @@ import org.snobot.lib.motion_profile.PathSetpoint;
 import org.snobot.lib.motion_profile.StaticSetpointIterator;
 import org.snobot.positioner.IPositioner;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -22,10 +25,13 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class DriveStraightPath extends Command
 {
-    protected IDriveTrain mDriveTrain;
-    protected IPositioner mPositioner;
-    private PathFollower mPathFollower;
-    private double mStartDistance;
+    protected final NetworkTable mGoToPositionNetworkTable;
+
+    protected final IDriveTrain mDriveTrain;
+    protected final IPositioner mPositioner;
+    protected final PathFollower mPathFollower;
+    protected final double mDistance;
+    protected double mStartDistance;
 
     /**
      * Calls the drive train stuff from the positionser.
@@ -37,9 +43,9 @@ public class DriveStraightPath extends Command
      * @param aSetpointIterator
      *            A setpoint iterator for the path follower
      */
-    public DriveStraightPath(IDriveTrain aDriveTrain, IPositioner aPositioner, ISetpointIterator aSetpointIterator)
+    public DriveStraightPath(IDriveTrain aDriveTrain, IPositioner aPositioner, double aDistance, ISetpointIterator aSetpointIterator)
     {
-        this(aDriveTrain, aPositioner, aSetpointIterator, 
+        this(aDriveTrain, aPositioner, aDistance, aSetpointIterator,
                 Properties2018.sDRIVE_PATH_KP.getValue(), 
                 Properties2018.sDRIVE_PATH_KV.getValue(), 
                 Properties2018.sDRIVE_PATH_KA.getValue());
@@ -61,13 +67,17 @@ public class DriveStraightPath extends Command
      * @param aKa
      *            tbd
      */
-    public DriveStraightPath(IDriveTrain aDriveTrain, IPositioner aPositioner, ISetpointIterator aSetpointIterator,
+    public DriveStraightPath(IDriveTrain aDriveTrain, IPositioner aPositioner, double aDistance, ISetpointIterator aSetpointIterator,
             double aKp, double aKv, double aKa)
     {
         mDriveTrain = aDriveTrain;
         mPositioner = aPositioner;
+        mDistance = aDistance;
 
         mPathFollower = new PathFollower(aSetpointIterator, aKv, aKa, aKp);
+
+        mGoToPositionNetworkTable = NetworkTableInstance.getDefault().getTable(SmartDashboardNames.sGO_TO_POSITION_TABLE_NAME);
+        mGoToPositionNetworkTable.getEntry(".type").setString(SmartDashboardNames.sGO_TO_POSITION_TABLE_NAME);
     }
 
     @Override
@@ -75,6 +85,20 @@ public class DriveStraightPath extends Command
     {
         mStartDistance = mPositioner.getTotalDistance();
         mPathFollower.init();
+
+        double startX = mPositioner.getXPosition();
+        double startY = mPositioner.getYPosition();
+        double startAngle = mPositioner.getOrientationDegrees();
+
+        double dx = Math.sin(startAngle) * mDistance;
+        double dy = Math.cos(startAngle) * mDistance;
+
+        double endX = startX + dx;
+        double endY = startY + dy;
+        double endAngle = mPositioner.getOrientationDegrees();
+
+        mGoToPositionNetworkTable.getEntry(SmartDashboardNames.sGO_TO_POSITION_START).setString(startX + ", " + startY + ", " + startAngle);
+        mGoToPositionNetworkTable.getEntry(SmartDashboardNames.sGO_TO_POSITION_END).setString(endX + ", " + endY + ", " + endAngle);
     }
 
     protected double calculatePathSpeed()
@@ -116,7 +140,8 @@ public class DriveStraightPath extends Command
 
     public static Command parseCommand(List<String> aArgs, Snobot2018 aSnobot)
     {
-        PathConfig dudePathConfig = new PathConfig(Double.parseDouble(aArgs.get(1)), // Endpoint
+        double distance = Double.parseDouble(aArgs.get(1));
+        PathConfig dudePathConfig = new PathConfig(distance, // Endpoint
                 Double.parseDouble(aArgs.get(2)), // Max Velocity
                 Double.parseDouble(aArgs.get(3)), // Max Acceleration
                 .02);
@@ -125,6 +150,6 @@ public class DriveStraightPath extends Command
         List<PathSetpoint> dudeList = dudePathGenerator.generate(dudePathConfig);
         ISetpointIterator dudeSetpointIterator = new StaticSetpointIterator(dudeList);
 
-        return new DriveStraightPath(aSnobot.getDrivetrain(), aSnobot.getPositioner(), dudeSetpointIterator);
+        return new DriveStraightPath(aSnobot.getDrivetrain(), aSnobot.getPositioner(), distance, dudeSetpointIterator);
     }
 }

@@ -58,4 +58,6 @@ public interface IDriveTrain extends ISubsystem
      * @return gyro angle
      */
     double getHeading();
+    
+    boolean isGyroConnected();
 }

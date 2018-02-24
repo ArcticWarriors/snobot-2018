@@ -13,4 +13,11 @@ public interface IClaw extends ISubsystem
      * Closes claw.
      */
     void close();
+
+    /**
+     * return if it is open.
+     *
+     * @return true if it is open and false if it is closed.
+     */
+    boolean isOpen();
 }
