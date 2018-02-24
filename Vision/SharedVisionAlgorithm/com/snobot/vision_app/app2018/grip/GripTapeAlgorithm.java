@@ -36,10 +36,6 @@ public class GripTapeAlgorithm {
     double[] hslThresholdSaturation = {123.29111287241389, 255.0};
     double[] hslThresholdLuminance = {69.36069788237208, 255.0};
 
-	static {
-		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-	}
-
 	/**
 	 * This is the primary method that runs the entire pipeline and updates the outputs.
 	 */

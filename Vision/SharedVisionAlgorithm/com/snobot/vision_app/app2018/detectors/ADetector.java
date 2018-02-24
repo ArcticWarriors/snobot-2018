@@ -116,9 +116,16 @@ public abstract class ADetector implements IDetector
         mDisplayType = aDisplayType;
     }
 
+    @Override
     public void setFilterParams(FilterParams aFilterParams)
     {
         mFilterParams = aFilterParams;
+    }
+
+    @Override
+    public FilterParams getFilterParams()
+    {
+        return mFilterParams;
     }
     
     protected void filterTargets(List<FilterPair> aContours)
@@ -252,7 +259,7 @@ public abstract class ADetector implements IDetector
         // operation
         for (int i = 0; i < aInputContours.size(); i++)
         {
-            mLogger.debug("Checking contour " + i);
+            mLogger.debug(getClass(), "Checking contour " + i);
             FilterResult filterResult = FilterResult.Success;
 
             final MatOfPoint contour = aInputContours.get(i);
@@ -261,27 +268,27 @@ public abstract class ADetector implements IDetector
             if (bb.width < mFilterParams.mMinWidth || bb.width > mFilterParams.mMaxWidth)
             {
                 filterResult = FilterResult.BadWidth;
-                mLogger.debug("  Bad Width " + bb.width + "(" + mFilterParams.mMinWidth + ", " + mFilterParams.mMaxWidth + ")");
+                mLogger.debug(getClass(), "  Bad Width " + bb.width + "(" + mFilterParams.mMinWidth + ", " + mFilterParams.mMaxWidth + ")");
             }
 
             if (bb.height < mFilterParams.mMinHeight || bb.height > mFilterParams.mMaxHeight)
             {
                 filterResult = FilterResult.BadHeight;
-                mLogger.debug("  Bad Height " + bb.height + "(" + mFilterParams.mMinHeight + ", " + mFilterParams.mMaxHeight + ")");
+                mLogger.debug(getClass(), "  Bad Height " + bb.height + "(" + mFilterParams.mMinHeight + ", " + mFilterParams.mMaxHeight + ")");
             }
 
             final double area = Imgproc.contourArea(contour);
             if (area < mFilterParams.mMinArea)
             {
                 filterResult = FilterResult.BadArea;
-                mLogger.debug("  Bad Area " + area + "(" + mFilterParams.mMinArea + ")");
+                mLogger.debug(getClass(), "  Bad Area " + area + "(" + mFilterParams.mMinArea + ")");
             }
 
             double perimeter = Imgproc.arcLength(new MatOfPoint2f(contour.toArray()), true);
             if (perimeter < mFilterParams.mMinPerimeter)
             {
                 filterResult = FilterResult.BadPerimeter;
-                mLogger.debug("  Bad Perimeter " + perimeter + "(" + mFilterParams.mMinPerimeter + ")");
+                mLogger.debug(getClass(), "  Bad Perimeter " + perimeter + "(" + mFilterParams.mMinPerimeter + ")");
             }
 
             Imgproc.convexHull(contour, hull);
@@ -298,18 +305,18 @@ public abstract class ADetector implements IDetector
             if (solid < mFilterParams.mMinContoursSolidity || solid > mFilterParams.mMaxContoursSolidity)
             {
                 filterResult = FilterResult.BadSolidarity;
-                mLogger.debug("  Bad Solidarity " + solid + "(" + mFilterParams.mMinContoursSolidity + ", " + mFilterParams.mMaxContoursSolidity + ")");
+                mLogger.debug(getClass(), "  Bad Solidarity " + solid + "(" + mFilterParams.mMinContoursSolidity + ", " + mFilterParams.mMaxContoursSolidity + ")");
             }
             if (contour.rows() < mFilterParams.mMinVertices || contour.rows() > mFilterParams.mMaxVertices)
             {
                 filterResult = FilterResult.BadVertices;
-                mLogger.debug("  Bad Vertices " + contour.rows() + "(" + mFilterParams.mMinVertices + ", " + mFilterParams.mMaxVertices + ")");
+                mLogger.debug(getClass(), "  Bad Vertices " + contour.rows() + "(" + mFilterParams.mMinVertices + ", " + mFilterParams.mMaxVertices + ")");
             }
             final double ratio = bb.width / (double) bb.height;
             if (ratio < mFilterParams.mMinRatio || ratio > mFilterParams.mMaxRatio)
             {
                 filterResult = FilterResult.BadAspectRatio;
-                mLogger.debug("  Bad Aspect Ratio " + ratio + "(" + mFilterParams.mMinRatio + ", " + mFilterParams.mMaxRatio + ")");
+                mLogger.debug(getClass(), "  Bad Aspect Ratio " + ratio + "(" + mFilterParams.mMinRatio + ", " + mFilterParams.mMaxRatio + ")");
             }
             mRealTargets.add(new FilterPair(contour, filterResult));
         }

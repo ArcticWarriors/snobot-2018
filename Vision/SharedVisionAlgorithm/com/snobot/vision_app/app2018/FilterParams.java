@@ -23,4 +23,13 @@ public class FilterParams
 
     public double mMinRatio = 0.0;
     public double mMaxRatio = 0.0;
+
+    @Override
+    public String toString()
+    {
+        return "FilterParams{" + "mMinArea=" + mMinArea + ", mMinPerimeter=" + mMinPerimeter + ", mMinWidth=" + mMinWidth + ", mMaxWidth=" + mMaxWidth
+                + ", mMinHeight=" + mMinHeight + ", mMaxHeight=" + mMaxHeight + ", mMinContoursSolidity=" + mMinContoursSolidity
+                + ", mMaxContoursSolidity=" + mMaxContoursSolidity + ", mMaxVertices=" + mMaxVertices + ", mMinVertices=" + mMinVertices
+                + ", mMinRatio=" + mMinRatio + ", mMaxRatio=" + mMaxRatio + '}';
+    }
 }

@@ -28,10 +28,6 @@ public class GripPortalBlue {
 	private Mat cvErode1Output = new Mat();
 	private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
 
-	static {
-		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-	}
-
 	/**
 	 * This is the primary method that runs the entire pipeline and updates the outputs.
 	 */

@@ -31,7 +31,6 @@ public class SnobotVisionStandardActivity extends Activity implements VisionRobo
     private static final int REQUEST_CAMERA_PERMISSION = 200;
 
     private VisionRobotConnection mRobotConnection;
-    private VisionAlgorithmPreferences mPreferences;
 
     private TextureView textureView;
 
@@ -43,8 +42,6 @@ public class SnobotVisionStandardActivity extends Activity implements VisionRobo
 
         mRobotConnection = new VisionRobotConnection(this);
         mRobotConnection.start();
-
-        mPreferences = new VisionAlgorithmPreferences(this);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_snobot_vision_standard);
@@ -76,7 +73,7 @@ public class SnobotVisionStandardActivity extends Activity implements VisionRobo
         }
 
         cameraRenderer = new CameraRenderer(this, captureRequests, textureView);
-        visionAlgorithm = new JavaVisionAlgorithm(mRobotConnection, mPreferences);
+        visionAlgorithm = new JavaVisionAlgorithm(mRobotConnection, this);
 
     }
 

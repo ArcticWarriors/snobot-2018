@@ -1,15 +1,16 @@
 package com.snobot.vision_app.app2018.java_algorithm;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Environment;
 import android.util.Log;
 import android.util.Pair;
 
+import com.snobot.vision_app.app2018.FilterParams;
 import com.snobot.vision_app.app2018.IDebugLogger;
 import com.snobot.vision_app.app2018.VisionAlgorithmPreferences;
 import com.snobot.vision_app.app2018.VisionRobotConnection;
 import com.snobot.vision_app.app2018.detectors.CubeDetector;
-import com.snobot.vision_app.app2018.FilterParams;
 import com.snobot.vision_app.app2018.detectors.IDetector;
 import com.snobot.vision_app.app2018.detectors.PortalDetector;
 import com.snobot.vision_app.app2018.detectors.TapeDetector;
@@ -20,6 +21,8 @@ import org.opencv.core.Mat;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by PJ on 2/8/2018.
@@ -28,10 +31,9 @@ import java.io.IOException;
 public class JavaVisionAlgorithm
 {
     private int mCameraDirection;
-    private VisionAlgorithmPreferences mPreferences;
-    private IDetector mTapeDetector;
-    private IDetector mCubeDetector;
-    private IDetector mPortalDetector;
+    private Map<CameraMode, IDetector> mDetectors;
+    private Map<CameraMode, VisionAlgorithmPreferences> mDetectorsPreferences;
+    private IDetector mActiveDetetor;
 
     private VisionRobotConnection mRobotConnection;
     private String mImagePrefix;
@@ -39,26 +41,37 @@ public class JavaVisionAlgorithm
     private boolean mRecordingImages;
     private boolean mRobotConnected;
     private DisplayType mDisplayType;
-    private FilterParams mFilterParams;
-    private cameraMode mMode = cameraMode.SwitchTape;
+    private CameraMode mMode = CameraMode.SwitchTape;
 
-    public JavaVisionAlgorithm(VisionRobotConnection aRobotConnection, VisionAlgorithmPreferences aPreferences) {
+    public JavaVisionAlgorithm(VisionRobotConnection aRobotConnection, Context aContext) {
 
         IDebugLogger debugLogger = new IDebugLogger() {
             @Override
-            public void debug(String aMessage) {
-                Log.d(getClass().getName(), aMessage);
+            public void debug(Class<?> aClass, String aMessage) {
+                Log.d(aClass.getName(), aMessage);
             }
         };
 
-        mPreferences = aPreferences;
         mRobotConnection = aRobotConnection;
-        mTapeDetector = new TapeDetector(debugLogger);
-        mCubeDetector =  new CubeDetector(debugLogger);
-        mPortalDetector = new PortalDetector(debugLogger);
+
+        mDetectors = new HashMap<>();
+        mDetectors.put(CameraMode.SwitchTape, new TapeDetector(debugLogger));
+        mDetectors.put(CameraMode.Cube, new CubeDetector(debugLogger));
+        mDetectors.put(CameraMode.Exchange, new PortalDetector(debugLogger));
+
+        mDetectorsPreferences = new HashMap<>();
+        mDetectorsPreferences.put(CameraMode.SwitchTape, new VisionAlgorithmPreferences(CameraMode.SwitchTape.name(), aContext));
+        mDetectorsPreferences.put(CameraMode.Cube, new VisionAlgorithmPreferences(CameraMode.Cube.name(), aContext));
+        mDetectorsPreferences.put(CameraMode.Exchange, new VisionAlgorithmPreferences(CameraMode.Exchange.name(), aContext));
+
+        mActiveDetetor = mDetectors.get(mMode);
     }
 
-    public enum cameraMode
+    public VisionAlgorithmPreferences getActivePreferences() {
+        return mDetectorsPreferences.get(mMode);
+    }
+
+    public enum CameraMode
     {
         SwitchTape, Cube, Exchange
     }
@@ -92,23 +105,22 @@ public class JavaVisionAlgorithm
 
     public Mat processImage(Mat aMat, long aSystemTimeNs)
     {
-        Pair<Integer, Integer> hue = mPreferences.getHueThreshold();
-        Pair<Integer, Integer> sat = mPreferences.getSatThreshold();
-        Pair<Integer, Integer> lum = mPreferences.getLumThreshold();
+        VisionAlgorithmPreferences preferences = getActivePreferences();
+        Pair<Integer, Integer> filterWidth = preferences.getFilterWidthThreshold();
+        Pair<Integer, Integer> filterHeight = preferences.getFilterHeightThreshold();
+        Pair<Integer, Integer> filterVertices = preferences.getFilterVerticesThreshold();
+        Pair<Float, Float> filterRatio = preferences.getFilterRatioRange();
 
-        Pair<Integer, Integer> filterWidth = mPreferences.getFilterWidthThreshold();
-        Pair<Integer, Integer> filterHeight = mPreferences.getFilterHeightThreshold();
-        Pair<Integer, Integer> filterVertices = mPreferences.getFilterVerticesThreshold();
-        Pair<Float, Float> filterRatio = mPreferences.getFilterRatioRange();
-
-        mFilterParams.mMinWidth = filterWidth.first;
-        mFilterParams.mMaxWidth = filterWidth.second;
-        mFilterParams.mMinHeight = filterHeight.first;
-        mFilterParams.mMaxHeight = filterHeight.second;
-        mFilterParams.mMinVertices = filterVertices.first;
-        mFilterParams.mMaxVertices = filterVertices.second;
-        mFilterParams.mMinRatio = filterRatio.first;
-        mFilterParams.mMaxRatio = filterRatio.second;
+        FilterParams filterParams = mActiveDetetor.getFilterParams();
+        filterParams.mMinWidth = filterWidth.first;
+        filterParams.mMaxWidth = filterWidth.second;
+        filterParams.mMinHeight = filterHeight.first;
+        filterParams.mMaxHeight = filterHeight.second;
+        filterParams.mMinVertices = filterVertices.first;
+        filterParams.mMaxVertices = filterVertices.second;
+        filterParams.mMinRatio = filterRatio.first;
+        filterParams.mMaxRatio = filterRatio.second;
+        mActiveDetetor.setFilterParams(filterParams);
 
         Bitmap bitmap = Bitmap.createBitmap(aMat.cols(), aMat.rows(), Bitmap.Config.ARGB_8888);
 
@@ -116,18 +128,7 @@ public class JavaVisionAlgorithm
             writeImage(bitmap);
         }
 
-        if(mMode == cameraMode.SwitchTape) {
-            return mTapeDetector.process(aMat, aSystemTimeNs);
-        }
-        else if(mMode == cameraMode.Cube)
-        {
-            return mCubeDetector.process(aMat, aSystemTimeNs);
-        }
-        else if(mMode == cameraMode.Exchange)
-        {
-            return mPortalDetector.process(aMat, aSystemTimeNs);
-        }
-        return null;
+        return mActiveDetetor.process(aMat, aSystemTimeNs);
     }
 
     private void writeImage(final Bitmap aImage)

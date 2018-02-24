@@ -39,8 +39,6 @@ public class SnobotVisionGLActivity extends Activity implements VisionRobotConne
     private SnobotVisionGLSurfaceView mView;
     private JavaVisionAlgorithm mAlgorithm;
 
-    private VisionAlgorithmPreferences mPreferences;
-
     private RobotConnectionStatusBroadcastReceiver mRobotConnectionBroadcastReceiver;
 
     @Override
@@ -50,7 +48,6 @@ public class SnobotVisionGLActivity extends Activity implements VisionRobotConne
         mRobotConnection = new VisionRobotConnection(this);
         mRobotConnection.start();
 
-        mPreferences = new VisionAlgorithmPreferences(this);
         mRobotConnectionBroadcastReceiver = new RobotConnectionStatusBroadcastReceiver(this, this);
 
         if (!OpenCVLoader.initDebug()) {
@@ -99,7 +96,7 @@ public class SnobotVisionGLActivity extends Activity implements VisionRobotConne
             return;
         }
 
-        mAlgorithm = new JavaVisionAlgorithm(mRobotConnection, mPreferences);
+        mAlgorithm = new JavaVisionAlgorithm(mRobotConnection, this);
         mAlgorithm.setDisplayType(JavaVisionAlgorithm.DisplayType.MarkedUpImage);
 
         mView = (SnobotVisionGLSurfaceView) findViewById(R.id.texture);
@@ -134,15 +131,17 @@ public class SnobotVisionGLActivity extends Activity implements VisionRobotConne
         final RangeSeekBar<Integer> satSeek = (RangeSeekBar<Integer>) view.findViewById(R.id.satSeekBar);
         final RangeSeekBar<Integer> lumSeek = (RangeSeekBar<Integer>) view.findViewById(R.id.lumSeekBar);
 
-        populateRangePair(hueSeek, mPreferences.getHueThreshold());
-        populateRangePair(satSeek, mPreferences.getSatThreshold());
-        populateRangePair(lumSeek, mPreferences.getLumThreshold());
+        final VisionAlgorithmPreferences preferences = mAlgorithm.getActivePreferences();
+
+        populateRangePair(hueSeek, preferences.getHueThreshold());
+        populateRangePair(satSeek, preferences.getSatThreshold());
+        populateRangePair(lumSeek, preferences.getLumThreshold());
 
         Button restoreButton = (Button) view.findViewById(R.id.restoreAlgorithimDefaultsButton);
         restoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPreferences.restoreHslDefaults();
+                preferences.restoreHslDefaults();
                 dialog.dismiss();
             }
         });
@@ -151,9 +150,9 @@ public class SnobotVisionGLActivity extends Activity implements VisionRobotConne
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPreferences.setHueThreshold(getRangePair(hueSeek));
-                mPreferences.setSatThreshold(getRangePair(satSeek));
-                mPreferences.setLumThreshold(getRangePair(lumSeek));
+                preferences.setHueThreshold(getRangePair(hueSeek));
+                preferences.setSatThreshold(getRangePair(satSeek));
+                preferences.setLumThreshold(getRangePair(lumSeek));
                 dialog.dismiss();
             }
         });
@@ -179,16 +178,18 @@ public class SnobotVisionGLActivity extends Activity implements VisionRobotConne
         final RangeSeekBar<Integer> verticesSeek = (RangeSeekBar<Integer>) view.findViewById(R.id.num_vertices_settings);
         final RangeSeekBar<Float> ratioSeek = (RangeSeekBar<Float>) view.findViewById(R.id.ratio_settings);
 
-        populateRangePair(widthSeek, mPreferences.getFilterWidthThreshold());
-        populateRangePair(heightSeek, mPreferences.getFilterHeightThreshold());
-        populateRangePair(verticesSeek, mPreferences.getFilterVerticesThreshold());
-        populateRangePair(ratioSeek, mPreferences.getFilterRatioRange());
+        final VisionAlgorithmPreferences preferences = mAlgorithm.getActivePreferences();
+
+        populateRangePair(widthSeek, preferences.getFilterWidthThreshold());
+        populateRangePair(heightSeek, preferences.getFilterHeightThreshold());
+        populateRangePair(verticesSeek, preferences.getFilterVerticesThreshold());
+        populateRangePair(ratioSeek, preferences.getFilterRatioRange());
 
         Button restoreButton = (Button) view.findViewById(R.id.restore_filter_settings);
         restoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPreferences.restoreFilterDefaults();
+                preferences.restoreFilterDefaults();
                 dialog.dismiss();
             }
         });
@@ -197,10 +198,10 @@ public class SnobotVisionGLActivity extends Activity implements VisionRobotConne
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPreferences.setFilterWidthRange(getRangePair(widthSeek));
-                mPreferences.setFilterHeightRange(getRangePair(heightSeek));
-                mPreferences.setFilterVerticesRange(getRangePair(verticesSeek));
-                mPreferences.setFilterRatioRange(getRangePair(ratioSeek));
+                preferences.setFilterWidthRange(getRangePair(widthSeek));
+                preferences.setFilterHeightRange(getRangePair(heightSeek));
+                preferences.setFilterVerticesRange(getRangePair(verticesSeek));
+                preferences.setFilterRatioRange(getRangePair(ratioSeek));
                 dialog.dismiss();
             }
         });

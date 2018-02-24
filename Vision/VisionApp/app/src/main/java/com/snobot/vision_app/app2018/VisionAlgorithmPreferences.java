@@ -38,35 +38,40 @@ public class VisionAlgorithmPreferences
     private Pair<Integer, Integer> mFilterVerticesRange;
     private Pair<Float, Float> mFilterRatioRange;
 
+    private String mKeyPrefix;
     private SharedPreferences mPreferences;
 
-    public VisionAlgorithmPreferences(Context aContext)
+    public VisionAlgorithmPreferences(String aKeyPrefix, Context aContext)
     {
+        mKeyPrefix = aKeyPrefix;
         mPreferences = PreferenceManager.getDefaultSharedPreferences(aContext);
+        SharedPreferences.Editor editor = mPreferences.edit();
+        editor.clear();
+        editor.commit();
 
         setHueThreshold(new Pair<>(
-                mPreferences.getInt("HueMin", sDEFAULT_HUE_MIN),
-                mPreferences.getInt("HueMax", sDEFAULT_HUE_MAX)));
+                mPreferences.getInt(mKeyPrefix + "HueMin", sDEFAULT_HUE_MIN),
+                mPreferences.getInt(mKeyPrefix + "HueMax", sDEFAULT_HUE_MAX)));
 
         setSatThreshold(new Pair<>(
-                mPreferences.getInt("SatMin", sDEFAULT_SAT_MIN),
-                mPreferences.getInt("SatMax", sDEFAULT_SAT_MAX)));
+                mPreferences.getInt(mKeyPrefix + "SatMin", sDEFAULT_SAT_MIN),
+                mPreferences.getInt(mKeyPrefix + "SatMax", sDEFAULT_SAT_MAX)));
 
         setLumThreshold(new Pair<>(
-                mPreferences.getInt("LumMin", sDEFAULT_LUM_MIN),
-                mPreferences.getInt("LumMax", sDEFAULT_LUM_MAX)));
+                mPreferences.getInt(mKeyPrefix + "LumMin", sDEFAULT_LUM_MIN),
+                mPreferences.getInt(mKeyPrefix + "LumMax", sDEFAULT_LUM_MAX)));
 
         setFilterWidthRange(new Pair<>(
-                mPreferences.getInt("FilterWidthMin", sDEFAULT_FILTER_WIDTH_MIN),
-                mPreferences.getInt("FilterWidthMax", sDEFAULT_FILTER_WIDTH_MAX)));
+                mPreferences.getInt(mKeyPrefix + "FilterWidthMin", sDEFAULT_FILTER_WIDTH_MIN),
+                mPreferences.getInt(mKeyPrefix + "FilterWidthMax", sDEFAULT_FILTER_WIDTH_MAX)));
 
         setFilterHeightRange(new Pair<>(
-                mPreferences.getInt("FilterHeightMin", sDEFAULT_FILTER_HEIGHT_MIN),
-                mPreferences.getInt("FilterHeightMax", sDEFAULT_FILTER_HEIGHT_MAX)));
+                mPreferences.getInt(mKeyPrefix + "FilterHeightMin", sDEFAULT_FILTER_HEIGHT_MIN),
+                mPreferences.getInt(mKeyPrefix + "FilterHeightMax", sDEFAULT_FILTER_HEIGHT_MAX)));
 
         setFilterVerticesRange(new Pair<>(
-                mPreferences.getInt("FilterVerticesMin", sDEFAULT_FILTER_VERTICES_MIN),
-                mPreferences.getInt("FilterVerticesMax", sDEFAULT_FILTER_VERTICES_MAX)));
+                mPreferences.getInt(mKeyPrefix + "FilterVerticesMin", sDEFAULT_FILTER_VERTICES_MIN),
+                mPreferences.getInt(mKeyPrefix + "FilterVerticesMax", sDEFAULT_FILTER_VERTICES_MAX)));
 
         setFilterRatioRange(new Pair<>(
                 mPreferences.getFloat("FilterRatioMin", sDEFAULT_FILTER_RATIO_MIN),
@@ -76,39 +81,39 @@ public class VisionAlgorithmPreferences
     public void setHueThreshold(Pair<Integer, Integer> aThreshold)
     {
         mHueRange = aThreshold;
-        saveIntRange("Hue", mHueRange);
+        saveIntRange(mKeyPrefix + "Hue", mHueRange);
     }
 
     public void setSatThreshold(Pair<Integer, Integer> aThreshold)
     {
         mSatRange = aThreshold;
-        saveIntRange("Sat", mSatRange);
+        saveIntRange(mKeyPrefix + "Sat", mSatRange);
     }
 
     public void setLumThreshold(Pair<Integer, Integer> aThreshold)
     {
         mLumRange = aThreshold;
-        saveIntRange("Lum", mLumRange);
+        saveIntRange(mKeyPrefix + "Lum", mLumRange);
     }
 
     public void setFilterWidthRange(Pair<Integer, Integer> aFilterWidthRange) {
         mFilterWidthRange = aFilterWidthRange;
-        saveIntRange("FilterWidth", mFilterWidthRange);
+        saveIntRange(mKeyPrefix + "FilterWidth", mFilterWidthRange);
     }
 
     public void setFilterHeightRange(Pair<Integer, Integer> aFilterHeightRange) {
         mFilterHeightRange = aFilterHeightRange;
-        saveIntRange("FilterHeight", mFilterHeightRange);
+        saveIntRange(mKeyPrefix + "FilterHeight", mFilterHeightRange);
     }
 
     public void setFilterVerticesRange(Pair<Integer, Integer> aFilterVerticesRange) {
         mFilterVerticesRange = aFilterVerticesRange;
-        saveIntRange("FilterVertices", mFilterVerticesRange);
+        saveIntRange(mKeyPrefix + "FilterVertices", mFilterVerticesRange);
     }
 
     public void setFilterRatioRange(Pair<Float, Float> aFilterRatioRange) {
         mFilterRatioRange = aFilterRatioRange;
-        saveFloatRange("FilterRatio", mFilterRatioRange);
+        saveFloatRange(mKeyPrefix + "FilterRatio", mFilterRatioRange);
     }
 
     private void saveIntRange(String aName, Pair<Integer, Integer> aRange)

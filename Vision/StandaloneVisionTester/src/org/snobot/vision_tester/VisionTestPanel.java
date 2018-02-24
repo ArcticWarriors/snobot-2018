@@ -43,7 +43,7 @@ public class VisionTestPanel extends JPanel
         {
 
             @Override
-            public void debug(String aMessage)
+            public void debug(Class<?> aClass, String aMessage)
             {
                 System.out.println(aMessage); // NOPMD
             }
