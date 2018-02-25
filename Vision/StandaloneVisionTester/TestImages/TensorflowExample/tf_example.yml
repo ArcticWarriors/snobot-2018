@@ -1,0 +1,24 @@
+!!org.snobot.vision_tester.TestConfig
+cameraMode: Tensorflow
+displayType: MarkedUpImage
+tensorflowGraphFile: TestImages/TensorflowExample/ssd_mobilenet_v1_android_export.pb
+tensorflowLabelsFile: TestImages/TensorflowExample/coco_labels_list.txt
+files:
+
+- /home/pj/GitHub/FIRST/2018/snobot-2018/Vision/StandaloneVisionTester/TestImages/TensorflowExample/10446939.jpg
+- /home/pj/GitHub/FIRST/2018/snobot-2018/Vision/StandaloneVisionTester/TestImages/TensorflowExample/can-i-park-in-front-of-a-fire-hydrant-1.jpg
+
+filterParams:
+  mMaxContoursSolidity: 100.0
+  mMaxHeight: 300.0
+  mMaxRatio: 4.0
+  mMaxVertices: 300.0
+  mMaxWidth: 320.0
+  mMinArea: 2000.0
+  mMinContoursSolidity: 0.0
+  mMinHeight: 0.0
+  mMinPerimeter: 0.0
+  mMinRatio: 0.0
+  mMinVertices: 0.0
+  mMinWidth: 5.0
+  

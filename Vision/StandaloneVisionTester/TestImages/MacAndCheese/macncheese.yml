@@ -1,0 +1,174 @@
+!!org.snobot.vision_tester.TestConfig
+cameraMode: Tensorflow
+displayType: MarkedUpImage
+tensorflowGraphFile: TestImages/MacAndCheese/frozen_inference_graph.pb
+tensorflowLabelsFile: TestImages/MacAndCheese/labels.txt
+files:
+- /home/pj/git/ml_testing/mac_and_cheese/images/0ShAyPFRqBeO60QkYN7w_Mac Cheese 2.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/2-mac-cheese.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/6FDfYvWRFuNVUOxKShsR_crockpot mac and cheese (2 of 4).jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/7a81fab96a5d8e207e2ea9286edf5b3a.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/8zK38q8BS32Ag1Fxk5bT_crockpot mac and cheese (3 of 4).jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/50-BEST-Kids-Lunch-and-Snack-Ideas-19.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/3330-1.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/21334b09-910f-4578-ba9f-e49f953447e1.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/29515lrg.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/52089_640x428.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/66046_640x428.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/66595-1-zoom.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/0185982_630x355.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/8665133_f520 2.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/20121009-mac-n-cheese-bowl-lowfat-4.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/20121009-mac-n-cheese-bowl-trad-4.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/103685735_2aa24be930.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/179995429_65f1c7d0a3.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/183381595.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/212948802_8666ee604c.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/225334988_e03f7fe841.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/245078954_87c68b3a96.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/347454191_a7c008cbf4.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/497275589_6122445b93.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/745321781_722417c591.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/856725503_8a8c72a412.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/1253354606_2a367f0ea4.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/1308097031_bf968f5ea9.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/1433575121_2357315e45.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/1479184790-macaroni-and-cheese-caf-world-wiki-cookbook-recipes-gifts-and-ii6uiq-clipart.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/1533281537_cc9f8fd200.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/1822299888_b79ff78c3e.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/1857474341_266db93e10.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/2055218911_928dbeeffe.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/2140081397_9e0bcd6fd3.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/2188374941_3dab28deb8.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/2292821189_64cc5d5d52.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/2353762154_554c656a0d.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/2419092593_d65e7a3be1.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/2434969347_849f697be1.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/2601915049_b60551e8e1.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/2717733730_9802848175.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/2755589202_5309e9410a.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/2766319850_b4f2acae04.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/2818714181_08ca544c02.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/2909020041_7c46d3d4d3.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/2954529837_ce356cfb18.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/2970868575_b64cc734da.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/3001170276_3e0d7a9f43.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/3022958512_9cce5ff4d5.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/3057139983_dbd0e9656d.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/3084114272_4aa0ac83c8.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/3088081360_205a0e8b1b.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/3162303155_312704bc3a.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/3241451461_524cb9250a.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/3304945663_bcd8f65eba.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/3326310350_31bced12f2.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/3343412742_86e2ec0558.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/3412562474_ba8d3a8eb4.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/3419625407_06f7d9852b.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/3420434144_92f9882243.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/3448533367_097dc338a0.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/3540990880_f6c59b11ac.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/3553276452_0915930a17.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/3605201776_cbf59d62c2.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/3696283549_76e0d222b3.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/3719167751_ff1691239c.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/3856722940_71d6a650ea.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/3871372110_f467b9c0b5.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/4021474273_1c384cdfbe.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/4051761918_96cff046d0.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/4116943184_c689b8a0dc.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/4130931018_03f009df62.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/4148574215_672f96118e.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/4184355025_84b5438658.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/4198067551_9dffd546c0.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/4198821240_cbe5e8c63b.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/4223552117_888f8296fd.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/1415761812945.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/ad43da3c-1142-484c-947a-de74d0e0d416.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/aid118052-v4-728px-Make-Creamy-Mac-N-Cheese-Step-9.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/baked-macaroni-cheese-08-18-57bbb6bc3df78c876365e361.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/Betty Crockers Family Favorite Macaroni and Cheese.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/Bistro-Mac---Cheese_exps47665_SD143203C10_24_5bC_RMS.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/Broccoli-Shells-and-Cheese-fork.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/c17777058e3a5a7abc173063eae1129d--homemade-macaroni-cheese-mac-cheese.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/copycat-panera-mac-and-cheese-2.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/creamy-macaroni-and-cheese-recipe_16801.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/DSC05307.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/DSC_0261-1024x685.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/DSC_0368-1024x685.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/dscf5377.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/Easy-Shells-and-Cheese-labeled.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/FRZ4YCQIGSBKGH2.MEDIUM.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/Gluten Free Macaroni and cheese recipe.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/gluten-free_mac_n_cheese.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/Homemade-One-Pot-Stovetop-Macaroni-and-Cheese-Cooked-in-Milk-by-Five-Heart-Home_700pxTitle1.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/images.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/instant-mac-cheese.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/Instant-Pot-Meatless-Monday-Best-Ever-Macaroni-Cheese.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/JWYBZJMdS2uM1SwQaI7Q_stovetop-macaroni-cheese-8831.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/KFC Macaroni and Cheese.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/kraft macaroni and cheese.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/large_1238130420.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/maasdfasfsacaroni-and-cheese.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/maasdfasfscaroni-and-cheese.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/mac-and-cheese.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/mac+and+cheese61.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/mac-and-cheese-for-one-image.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/Macaroni-and-casdfasfsaheese.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/macaroni-and-cheese-ring-600x450.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/macaroni-cheese-17959445.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/macaroni-cheese-23595283.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/macaroni-cheese-master768.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/macaronicheesemug.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/macaroni-cheese-rs-640874-x.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/macasfsfasaroni_and_cheese.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/mac_cheese.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/mac-cheese-3.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/MAcCheeseCD-640x360.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/maccheesefry4.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/Mac_Cheese_vert.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/MAC-CHEESE_zpse7f7e8d6.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/mac_csafheese.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/mac-n-cheedafsafafse.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/masdfasfsacaroni-and-cheese.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/Midwest-Macaroni-and-Cheese-Recipe.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/Miracle Mac front.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/One-pot-Creamy-Shells-and-Cheese-Taco-Maco.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/one-pot-macaroni-cheese-11-620x616.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/Pumpin-Macaroni.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/Pumpkin_Mac_and_Cheese_Square_full.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/Pumpkin-Pasta.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/Quick-Shells-and-Cheese-labeled.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/rice-cooker-mac-and-cheese-with-ham-featured-450x450.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/shells_and_cheese_1.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/shells-and-cheese.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/shells_and_cheese_azm9zn.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/Slow Cooker Macaroni and Cheese.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/slow-cooker-mac-cheese-1.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/slow-cooker-mac-cheese-26-600.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/SomethingEdible-Stove_Top_One_Pot_Macaroni_and_Cheese06.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/Southern-Mac-Cheese.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/ss_R130854.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/Still_1_One_Pot_Mac_Cheese.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/Still_3_170213_Stove_Top_Mac_Cheese.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/Stovetop-Butternut-Squash-Shells-and-Cheese-300x300.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/Stovetop-Mac-N-Cheese.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/th.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/thumb_600.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/TP07_camping_recipe_macncheese_article.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/vegan shells mac and cheese 2[7].jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/velveetashellsandcheese.jpg
+- /home/pj/git/ml_testing/mac_and_cheese/images/White-Cheddar-Pasta-Shells.jpg
+filterParams:
+  mMaxContoursSolidity: 100.0
+  mMaxHeight: 300.0
+  mMaxRatio: 4.0
+  mMaxVertices: 300.0
+  mMaxWidth: 320.0
+  mMinArea: 2000.0
+  mMinContoursSolidity: 0.0
+  mMinHeight: 0.0
+  mMinPerimeter: 0.0
+  mMinRatio: 0.0
+  mMinVertices: 0.0
+  mMinWidth: 5.0
+  

@@ -13,6 +13,8 @@ repositories {
     maven {
         url "https://plugins.gradle.org/m2/"
     }
+    
+    mavenCentral()
 }
 
 sourceSets {
@@ -34,6 +36,9 @@ dependencies {
     
     compile 'org.opencv:opencv-java:3.2.0'
     runtime 'org.opencv:opencv-jni:3.2.0:all'
+
+    compile 'org.tensorflow:tensorflow:1.6.0-rc1'
+    
 }
 
 /////////////////////////////////////////////////////////////////////////////////

@@ -16,7 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.snobot.vision_app.app2018.java_algorithm.JavaVisionAlgorithm;
+import com.snobot.vision_app.app2018.java_algorithm.JavaVisionAlgorithmInterface;
 import com.snobot.vision_app.standard_renderer.CameraRenderer;
 import com.snobot.vision_app.utils.MjpgServer;
 
@@ -35,7 +35,7 @@ public class SnobotVisionStandardActivity extends Activity implements VisionRobo
     private TextureView textureView;
 
     private CameraRenderer cameraRenderer;
-    private JavaVisionAlgorithm visionAlgorithm;
+    private JavaVisionAlgorithmInterface visionAlgorithm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +73,7 @@ public class SnobotVisionStandardActivity extends Activity implements VisionRobo
         }
 
         cameraRenderer = new CameraRenderer(this, captureRequests, textureView);
-        visionAlgorithm = new JavaVisionAlgorithm(mRobotConnection, this);
+        visionAlgorithm = new JavaVisionAlgorithmInterface(mRobotConnection, this);
 
     }
 
@@ -145,7 +145,7 @@ public class SnobotVisionStandardActivity extends Activity implements VisionRobo
 
     @Override
     public void iterateDisplayType() {
-        visionAlgorithm.iterateDisplayType();
+        Toast.makeText(SnobotVisionStandardActivity.this, "iterateDisplayType is not supported!", Toast.LENGTH_SHORT).show();
     }
 
     @Override

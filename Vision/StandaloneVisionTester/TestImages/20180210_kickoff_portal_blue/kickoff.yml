@@ -2,9 +2,9 @@
 cameraMode: Exchange
 displayType: MarkedUpImage
 files:
-- TestImages/20180210_kickoff_portal_blue/IMG_6619.jpg
-- TestImages/20180210_kickoff_portal_blue/IMG_6620.jpg
-- TestImages/20180210_kickoff_portal_blue/IMG_6624.jpg
+- TestImages/20180210_kickoff_portal_blue/IMG_6619.JPG
+- TestImages/20180210_kickoff_portal_blue/IMG_6620.JPG
+- TestImages/20180210_kickoff_portal_blue/IMG_6624.JPG
 filterParams:
   mMaxContoursSolidity: 100.0
   mMaxHeight: 300.0

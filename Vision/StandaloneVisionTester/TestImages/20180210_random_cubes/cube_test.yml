@@ -11,15 +11,15 @@ files:
 - TestImages/20180210_random_cubes/IMG_20180210_152437.jpg
 - TestImages/20180210_random_cubes/IMG_20180210_152445.jpg
 filterParams:
-  maxContoursSolidity: 100.0
-  maxHeight: 300.0
-  maxRatio: 4.0
-  maxVertices: 300.0
-  maxWidth: 320.0
-  minArea: 2000.0
-  minContoursSolidity: 0.0
-  minHeight: 0.0
-  minPerimeter: 0.0
-  minRatio: 0.0
-  minVertices: 0.0
-  minWidth: 5.0
+  mMaxContoursSolidity: 100.0
+  mMaxHeight: 300.0
+  mMaxRatio: 4.0
+  mMaxVertices: 300.0
+  mMaxWidth: 320.0
+  mMinArea: 2000.0
+  mMinContoursSolidity: 0.0
+  mMinHeight: 0.0
+  mMinPerimeter: 0.0
+  mMinRatio: 0.0
+  mMinVertices: 0.0
+  mMinWidth: 5.0

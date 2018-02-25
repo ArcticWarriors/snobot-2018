@@ -84,7 +84,7 @@ public abstract class VisionTrackerGLSurfaceView extends BetterCameraGLSurfaceVi
         // FPS
         frameCounter++;
         if (frameCounter >= 30) {
-            final int fps = (int) (frameCounter * 1e9 / (System.nanoTime() - lastNanoTime));
+            final double fps = (frameCounter * 1e9 / (System.nanoTime() - lastNanoTime));
             Log.i(LOGTAG, "drawFrame() FPS: " + fps);
             if (mFpsText != null) {
                 Runnable fpsUpdater = new Runnable() {

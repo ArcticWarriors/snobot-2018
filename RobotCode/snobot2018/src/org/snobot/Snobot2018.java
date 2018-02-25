@@ -15,6 +15,7 @@ import org.snobot.lib.ASnobot;
 import org.snobot.lib.logging.ILogger;
 import org.snobot.positioner.IPositioner;
 import org.snobot.positioner.Positioner;
+import org.snobot.vision.VisionManager;
 import org.snobot.winch.IWinch;
 import org.snobot.winch.WinchFactory;
 
@@ -31,6 +32,7 @@ public class Snobot2018 extends ASnobot
     private IElevator mElevator;
     private IWinch mWinch;
     private IClaw mClaw;
+    private VisionManager mVisionManager;
 
     // Autonomous
     private AutonomousFactory mAutonFactory;
@@ -94,6 +96,8 @@ public class Snobot2018 extends ASnobot
         mPositioner = new Positioner(mDriveTrain, logger);
         addModule(mPositioner);
 
+        mVisionManager = new VisionManager(this, mPositioner);
+        addModule(mVisionManager);
 
         // This should be done last
         mAutonFactory = new AutonomousFactory(this, ledManager);

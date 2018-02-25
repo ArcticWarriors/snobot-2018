@@ -7,7 +7,7 @@ import android.opengl.GLES20;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-import com.snobot.vision_app.app2018.java_algorithm.JavaVisionAlgorithm;
+import com.snobot.vision_app.app2018.java_algorithm.JavaVisionAlgorithmInterface;
 import com.snobot.vision_app.opengl_renderer.VisionTrackerGLSurfaceView;
 import com.snobot.vision_app.utils.MjpgServer;
 
@@ -24,13 +24,13 @@ import java.nio.ByteBuffer;
 
 public class SnobotVisionGLSurfaceView extends VisionTrackerGLSurfaceView {
 
-    private JavaVisionAlgorithm mVisionAlgorithm;
+    private JavaVisionAlgorithmInterface mVisionAlgorithm;
 
     public SnobotVisionGLSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public void setVisionAlgorithm(JavaVisionAlgorithm aVisionAlgorithm)
+    public void setVisionAlgorithm(JavaVisionAlgorithmInterface aVisionAlgorithm)
     {
         mVisionAlgorithm = aVisionAlgorithm;
     }

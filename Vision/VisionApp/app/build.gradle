@@ -4,7 +4,7 @@ android {
     compileSdkVersion 24
     buildToolsVersion "26.0.2"
     defaultConfig {
-        applicationId "snobot.com.visionapp"
+        applicationId "org.snobot.visionapp"
         minSdkVersion 21
         targetSdkVersion 24
         versionCode 1
@@ -43,4 +43,5 @@ dependencies {
     implementation 'com.android.support:support-v4:24.2.1'
     testImplementation 'junit:junit:4.12'
     implementation 'com.yahoo.mobile.client.android.util.rangeseekbar:rangeseekbar-library:0.1.0'
+    compile 'org.tensorflow:tensorflow-android:+'
 }

@@ -110,4 +110,15 @@ public class TargetLocation
     {
         return mDistanceFromVert;
     }
+
+    public double getDistanceFromVert()
+    {
+        return mDistanceFromVert;
+    }
+
+    public double getDistanceFromHoriz()
+    {
+        return mDistanceFromHoriz;
+    }
+
 }

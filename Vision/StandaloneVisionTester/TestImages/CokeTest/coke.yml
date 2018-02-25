@@ -1,0 +1,122 @@
+!!org.snobot.vision_tester.TestConfig
+cameraMode: Tensorflow
+displayType: MarkedUpImage
+tensorflowGraphFile: TestImages/CokeTest/frozen_inference_graph.pb
+tensorflowLabelsFile: TestImages/CokeTest/labels.txt
+files:
+
+#- /home/pj/git/ml_testing/mac_and_cheese/images/66595-1-zoom.jpg
+#- /home/pj/git/ml_testing/mac_and_cheese/images/7a81fab96a5d8e207e2ea9286edf5b3a.jpg
+#- /home/pj/git/ml_testing/mac_and_cheese/images/66046_640x428.jpg
+#- /home/pj/git/ml_testing/mac_and_cheese/images/52089_640x428.jpg
+#- /home/pj/git/ml_testing/mac_and_cheese/images/29515lrg.jpg
+#- /home/pj/git/ml_testing/mac_and_cheese/images/29515lrg.jpg
+
+# Quick tests
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180225_182530.jpg               # Can and Bottle
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_233955.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234003.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180225_182542.jpg               # Can in front
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180225_182548.jpg               # Can in back
+- /home/pj/git/ml_testing/mac_and_cheese/images/7a81fab96a5d8e207e2ea9286edf5b3a.jpg # macncheese
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_233927.jpg               # "Correct" orientation
+
+# All code images
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_233811.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_233815.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_233822.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_233832.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_233843.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_233845.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_233852.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_233911.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_233916.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_233919.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_233922.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_233927.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_233931.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_233934.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_233938.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_233943.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_233950.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_233955.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234003.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234009.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234012.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234016.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234021.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234031.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234038.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234045.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234056.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234059.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234122.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234128.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234139.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234144.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234157.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234203.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234208.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234214.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234218.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234226.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234231.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234239.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234241.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234244.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234246.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234248.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234251.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234720.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234721.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234723.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234727.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234728.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234731.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234732.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234733.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180224_234734.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180225_182242.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180225_182246.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180225_182252.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180225_182258.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180225_182302.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180225_182311.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180225_182323.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180225_182327.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180225_182337.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180225_182340.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180225_182342.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180225_182347.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180225_182359.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180225_182403.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180225_182406.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180225_182413.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180225_182416.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180225_182428.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180225_182431.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180225_182439.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180225_182442.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180225_182456.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180225_182501.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180225_182510.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180225_182530.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180225_182538.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180225_182542.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180225_182548.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180225_182551.jpg
+- /home/pj/workspace/ml_testing/CokeTrainer/images/20180225_182557.jpg
+filterParams:
+  mMaxContoursSolidity: 100.0
+  mMaxHeight: 300.0
+  mMaxRatio: 4.0
+  mMaxVertices: 300.0
+  mMaxWidth: 320.0
+  mMinArea: 2000.0
+  mMinContoursSolidity: 0.0
+  mMinHeight: 0.0
+  mMinPerimeter: 0.0
+  mMinRatio: 0.0
+  mMinVertices: 0.0
+  mMinWidth: 5.0
+  

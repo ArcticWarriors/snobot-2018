@@ -20,7 +20,8 @@ import android.widget.Toast;
 
 import com.snobot.vision_app.app2018.broadcastReceivers.RobotConnectionStateListener;
 import com.snobot.vision_app.app2018.broadcastReceivers.RobotConnectionStatusBroadcastReceiver;
-import com.snobot.vision_app.app2018.java_algorithm.JavaVisionAlgorithm;
+import com.snobot.vision_app.app2018.detectors.DisplayType;
+import com.snobot.vision_app.app2018.java_algorithm.JavaVisionAlgorithmInterface;
 import com.snobot.vision_app.utils.MjpgServer;
 import com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar;
 
@@ -37,7 +38,7 @@ public class SnobotVisionGLActivity extends Activity implements VisionRobotConne
     private VisionRobotConnection mRobotConnection;
 
     private SnobotVisionGLSurfaceView mView;
-    private JavaVisionAlgorithm mAlgorithm;
+    private JavaVisionAlgorithmInterface mAlgorithm;
 
     private RobotConnectionStatusBroadcastReceiver mRobotConnectionBroadcastReceiver;
 
@@ -96,8 +97,8 @@ public class SnobotVisionGLActivity extends Activity implements VisionRobotConne
             return;
         }
 
-        mAlgorithm = new JavaVisionAlgorithm(mRobotConnection, this);
-        mAlgorithm.setDisplayType(JavaVisionAlgorithm.DisplayType.MarkedUpImage);
+        mAlgorithm = new JavaVisionAlgorithmInterface(mRobotConnection, this);
+        mAlgorithm.setDisplayType(DisplayType.MarkedUpImage);
 
         mView = (SnobotVisionGLSurfaceView) findViewById(R.id.texture);
         mView.setCameraTextureListener(mView);
@@ -220,7 +221,7 @@ public class SnobotVisionGLActivity extends Activity implements VisionRobotConne
 
     @Override
     public void iterateDisplayType() {
-        mAlgorithm.iterateDisplayType();
+        Toast.makeText(SnobotVisionGLActivity.this, "iterateDisplayType is not supported!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -257,7 +258,9 @@ public class SnobotVisionGLActivity extends Activity implements VisionRobotConne
         View  connectionStateView = findViewById(R.id.connectionState);
         Toast.makeText(this, "Connected to Robot", Toast.LENGTH_SHORT).show();
         connectionStateView.setBackgroundColor(ContextCompat.getColor(this, R.color.app_connected));
-        mAlgorithm.setRobotConnected(true);
+        if(mAlgorithm != null) {
+            mAlgorithm.setRobotConnected(true);
+        }
     }
 
     @Override
@@ -265,6 +268,8 @@ public class SnobotVisionGLActivity extends Activity implements VisionRobotConne
         View  connectionStateView = findViewById(R.id.connectionState);
         Toast.makeText(this, "Lost connection to Robot", Toast.LENGTH_SHORT).show();
         connectionStateView.setBackgroundColor(ContextCompat.getColor(this, R.color.app_disconnected));
-        mAlgorithm.setRobotConnected(false);
+        if(mAlgorithm != null) {
+            mAlgorithm.setRobotConnected(false);
+        }
     }
 }

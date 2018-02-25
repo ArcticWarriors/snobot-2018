@@ -22,13 +22,14 @@ public class TargetUpdateMessage implements IVisionMessage
      */
     public static class TargetInfo
     {
+        private String mTargetType;
         private double mAngle;
         private double mDistance;
         private boolean mAmbiguous;
 
         public TargetInfo()
         {
-            this(0, 0, false);
+            this("UNKNOWN", 0, 0, false);
         }
 
         /**
@@ -41,8 +42,9 @@ public class TargetUpdateMessage implements IVisionMessage
          * @param aAmbiguous
          *            True if the target is ambiguous
          */
-        public TargetInfo(double aAngle, double aDistance, boolean aAmbiguous)
+        public TargetInfo(String aTargetType, double aAngle, double aDistance, boolean aAmbiguous)
         {
+            mTargetType = aTargetType;
             mAngle = aAngle;
             mDistance = aDistance;
             mAmbiguous = aAmbiguous;
@@ -57,10 +59,18 @@ public class TargetUpdateMessage implements IVisionMessage
         public TargetInfo(JSONObject aJson) throws JSONException
         {
             this(
+                    aJson.get("target_type").toString(),
                     Double.parseDouble(aJson.get("angle").toString()),
                     Double.parseDouble(aJson.get("distance").toString()),
                     Boolean.parseBoolean(aJson.get("ambiguous").toString()));
         }
+
+        @Override
+        public String toString()
+        {
+            return "TargetInfo [mDistance=" + mDistance + ", mAngle=" + mAngle + ", mAmbiguous=" + mAmbiguous + "]";
+        }
+
     }
 
     /**
@@ -142,6 +152,12 @@ public class TargetUpdateMessage implements IVisionMessage
         output.put("type", sMESSAGE_TYPE);
 
         return output;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "TargetUpdateMessage [mLatencySec=" + mLatencySec + ", mTargets=" + mTargets + "]";
     }
 
 }

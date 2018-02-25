@@ -20,16 +20,16 @@ files:
 - 'TestImages/20170209_last_years_tape_images/8ft_0deg.jpg'
 - 'TestImages/20170209_last_years_tape_images/9ft_0deg.jpg'
 filterParams: 
-  maxContoursSolidity: 100.0
-  maxHeight: 250.0
-  maxRatio: 5.0
-  maxVertices: 1000000.0
-  maxWidth: 200.0
-  minArea: 250.0
-  minContoursSolidity: 0.0
-  minHeight: 0.0
-  minPerimeter: 0.0
-  minRatio: 0.0
-  minVertices: 0.0
-  minWidth: 5.0
+  mMaxContoursSolidity: 100.0
+  mMaxHeight: 250.0
+  mMaxRatio: 5.0
+  mMaxVertices: 1000000.0
+  mMaxWidth: 200.0
+  mMinArea: 250.0
+  mMinContoursSolidity: 0.0
+  mMinHeight: 0.0
+  mMinPerimeter: 0.0
+  mMinRatio: 0.0
+  mMinVertices: 0.0
+  mMinWidth: 5.0
   

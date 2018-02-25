@@ -4,4 +4,6 @@ public interface IDebugLogger
 {
 
     void debug(Class<?> aClass, String aMessage);
+
+    void info(Class<?> aClass, String aMessage);
 }

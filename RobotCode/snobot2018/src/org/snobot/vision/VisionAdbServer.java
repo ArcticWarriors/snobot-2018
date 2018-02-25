@@ -5,6 +5,7 @@ import java.nio.ByteBuffer;
 import org.apache.log4j.Level;
 import org.json.JSONObject;
 import org.snobot.lib.adb.IAdbBridge;
+import org.snobot.lib.adb.NativeAdbBridge;
 import org.snobot.lib.external_connection.RobotConnectionServer;
 
 import com.snobot.vision_app.app2018.messages.HeartbeatMessage;
@@ -14,9 +15,8 @@ import com.snobot.vision_app.app2018.messages.TargetUpdateMessage;
 
 public class VisionAdbServer extends RobotConnectionServer
 {
-    // private static final String sAPP_PACKAGE = "snobot.com.visionapp";
-    // private static final String sAPP_MAIN_ACTIVITY =
-    // "com.snobot.vision_app.app2017.SnobotVisionGLActivity";
+    private static final String sAPP_PACKAGE = "org.snobot.visionapp";
+    private static final String sAPP_MAIN_ACTIVITY = "com.snobot.vision_app.app2017.SnobotVisionGLActivity";
 
     private static final double sTIMEOUT_PERIOD = 1.1; // Based on how often the App sends the heartbeat
 
@@ -37,7 +37,7 @@ public class VisionAdbServer extends RobotConnectionServer
     {
         super(aAppBindPort, sTIMEOUT_PERIOD);
 
-        IAdbBridge adbBridge = new NullAdbBridge();
+        IAdbBridge adbBridge = new NativeAdbBridge("/home/pj/Android/Sdk/platform-tools/adb", sAPP_PACKAGE, sAPP_MAIN_ACTIVITY, true);
 
         adbBridge.reversePortForward(aAppBindPort, aAppBindPort);
         adbBridge.portForward(aAppMjpegBindPort, aAppForwardedMjpegBindPort);
@@ -62,7 +62,6 @@ public class VisionAdbServer extends RobotConnectionServer
             }
             else if (TargetUpdateMessage.sMESSAGE_TYPE.equals(type))
             {
-                logLevel = Level.DEBUG;
                 mLatestTargetUpdate = new TargetUpdateMessage(jsonObject, getTimestamp());
                 mFreshImage = true;
             }
@@ -104,14 +103,14 @@ public class VisionAdbServer extends RobotConnectionServer
         send(ByteBuffer.wrap(message.getBytes()));
     }
 
-    public void sendStartRecordingMessage(String aName)
+    public void sendStartRecordingMessage(String aMatchType, String aMatchNumber, String aMatchMode)
     {
-        send(new SetRecordingMessage(true, aName).asJson());
+        send(new SetRecordingMessage(true, aMatchType, aMatchNumber, aMatchMode).asJson());
     }
 
     public void sendStopRecordingMessage()
     {
-        send(new SetRecordingMessage(false, "").asJson());
+        send(new SetRecordingMessage(false).asJson());
     }
 
     public void iterateShownImage()

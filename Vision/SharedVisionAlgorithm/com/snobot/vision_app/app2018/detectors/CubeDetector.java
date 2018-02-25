@@ -13,7 +13,7 @@ import com.snobot.vision_app.app2018.grip.GripCubeAlgorithm;
  * Created by Andrew Johnson on 1/25/2018.
  */
 
-public class CubeDetector extends ADetector
+public class CubeDetector<RawImageType> extends ADetector<RawImageType>
 {
 
     private final GripCubeAlgorithm mGripAlgorithm;
@@ -32,7 +32,7 @@ public class CubeDetector extends ADetector
     }
 
     @Override
-    public Mat process(Mat aOriginalImage, long aSystemTimeNs)
+    public Mat process(RawImageType aRawImage, Mat aOriginalImage, long aSystemTimeNs)
     {
         mGripAlgorithm.process(aOriginalImage);
 

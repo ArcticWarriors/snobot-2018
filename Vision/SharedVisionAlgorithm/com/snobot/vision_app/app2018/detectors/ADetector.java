@@ -30,19 +30,14 @@ import com.snobot.vision_app.app2018.TargetLocation;
  * Created by PJ on 2/20/2017.
  */
 
-public abstract class ADetector implements IDetector 
+public abstract class ADetector<RawImageType> implements IDetector<RawImageType>
 {
-
-    protected static final int sIMAGE_WIDTH = 640;
-    protected static final int sIMAGE_HEIGHT = 480;
-    protected static final double sHORIZONTAL_FOV_ANGLE = Math.toRadians(62.69 / 2);
-    protected static final double sVERTICAL_FOV_ANGLE = Math.toRadians(49.48 / 2);
 
     protected static final double sTARGET_WIDTH = 2;
     protected static final double sTARGET_HEIGHT = 5;
 
-    protected static final Point sCENTER_LINE_START = new Point(sIMAGE_WIDTH / 2, 0);
-    protected static final Point sCENTER_LINE_END = new Point(sIMAGE_WIDTH / 2, sIMAGE_HEIGHT);
+    protected static final Point sCENTER_LINE_START = new Point(DistanceCalculationUtility.sIMAGE_WIDTH / 2, 0);
+    protected static final Point sCENTER_LINE_END = new Point(DistanceCalculationUtility.sIMAGE_WIDTH / 2, DistanceCalculationUtility.sIMAGE_HEIGHT);
 
     protected static final Scalar sCENTER_LINE_COLOR = new Scalar(0, 255, 0);
     protected static final Scalar sBLACK_COLOR = new Scalar(0, 0, 0);
@@ -67,13 +62,6 @@ public abstract class ADetector implements IDetector
     protected Set<TargetLocation> mTargetInfos;
 
     protected final IDebugLogger mLogger;
-
-    public enum DisplayType
-    {
-        OriginalImage,
-        PostThreshold,
-        MarkedUpImage
-    }
 
     protected static final Map<FilterResult, Scalar> sFILTERED_COLORS;
 
@@ -145,20 +133,11 @@ public abstract class ADetector implements IDetector
 
             MatOfPoint contour = filterPair.mContour;
             Rect rect = Imgproc.boundingRect(contour);
-            double aspectRatio = rect.width * 1.0 / rect.height;
 
-            double distanceFromHorz = (sTARGET_WIDTH * sIMAGE_WIDTH) / (2 * rect.width * Math.tan(sHORIZONTAL_FOV_ANGLE));
-            double distanceFromVert = (sTARGET_HEIGHT * sIMAGE_HEIGHT) / (2 * rect.height * Math.tan(sVERTICAL_FOV_ANGLE));
-
-            // Calculate the angle by calculating how far off the center the
-            // bounding box is. Assume that the ratio of pixels to angle is
-            // linear, meaning that it is off by the FOV
-            double xCentroid = rect.x + rect.width / 2;
-            double distanceFromCenterPixel = xCentroid - sIMAGE_WIDTH / 2;
-            double percentOffCenter = distanceFromCenterPixel / sIMAGE_WIDTH * 100;
-            double yawAngle = percentOffCenter * sHORIZONTAL_FOV_ANGLE;
-
-            mTargetInfos.add(new TargetLocation(contour, yawAngle, distanceFromHorz, distanceFromVert, aspectRatio));
+            TargetLocation location = DistanceCalculationUtility.calculate(
+                    sTARGET_WIDTH, sTARGET_HEIGHT, 
+                    rect.width, rect.height, rect.x, contour);
+            mTargetInfos.add(location);
         }
     }
 

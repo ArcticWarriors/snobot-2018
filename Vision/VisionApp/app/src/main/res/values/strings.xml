@@ -3,6 +3,7 @@
     <string name="take_picture">Take Picture</string>
 
     <string name="title_activity_snobot_vision">SnobotVisionActivity</string>
+    <string name="title_activity_file_cleanup">Snobot Vision File Cleanup</string>
 
     <string name="fps_text">FPS:</string>
 </resources>

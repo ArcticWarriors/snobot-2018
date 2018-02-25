@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.opencv.core.Mat;
+import org.snobot.vision_tester.utils.OpenCvUtilities;
 
 public class ImagePreviewPanel extends JPanel
 {

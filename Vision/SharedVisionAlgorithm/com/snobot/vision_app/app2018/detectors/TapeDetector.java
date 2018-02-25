@@ -17,7 +17,7 @@ import com.snobot.vision_app.app2018.grip.GripTapeAlgorithm;
  */
 
 
-public class TapeDetector extends ADetector
+public class TapeDetector<RawImageType> extends ADetector<RawImageType>
 {
 
     private final GripTapeAlgorithm mGripAlgorithm;
@@ -36,7 +36,7 @@ public class TapeDetector extends ADetector
     }
 
     @Override
-    public Mat process(Mat aOriginalImage, long aSystemTimeNs)
+    public Mat process(RawImageType aRawImage, Mat aOriginalImage, long aSystemTimeNs)
     {
         mGripAlgorithm.process(aOriginalImage);
 
@@ -48,7 +48,7 @@ public class TapeDetector extends ADetector
         double angleToThePeg = Double.NaN;
         boolean ambgiuous = true;
 
-        double centroidOfImageX = sIMAGE_WIDTH / 2;
+        double centroidOfImageX = DistanceCalculationUtility.sIMAGE_WIDTH / 2;
         if (mTargetInfos.size() >= 2)
         {
             Iterator<TargetLocation> targetIterator = mTargetInfos.iterator();
@@ -63,7 +63,7 @@ public class TapeDetector extends ADetector
             double pegX = (centroidOfBoundingBoxOne + centroidOfBoundingBoxTwo) / 2;
             double pegToCenterOfImagePixels = centroidOfImageX - pegX;
 
-            double angleToPegRadians = Math.atan((pegToCenterOfImagePixels / centroidOfImageX) * Math.tan(sHORIZONTAL_FOV_ANGLE));
+            double angleToPegRadians = Math.atan((pegToCenterOfImagePixels / centroidOfImageX) * Math.tan(DistanceCalculationUtility.sHORIZONTAL_FOV_ANGLE));
             angleToThePeg = Math.toDegrees(angleToPegRadians);
 
             distance = (target1.getPreferredDistance() + target2.getPreferredDistance()) / 2;
@@ -88,6 +88,6 @@ public class TapeDetector extends ADetector
     protected void sendTargetInformation(Collection<TargetLocation> aTargetInfos, boolean aAmbigious, double aDistance, double aAngleToPeg,
             double aLatencySec)
     {
-        System.out.println("Sending target info: " + aTargetInfos); // NOPMD
+        mLogger.info(getClass(), "Sending target info: " + aTargetInfos);
     }
 }
