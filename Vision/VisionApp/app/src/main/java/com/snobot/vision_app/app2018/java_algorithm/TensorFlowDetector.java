@@ -89,7 +89,7 @@ public class TensorFlowDetector extends MachineLearningDetector<Bitmap>
 
         for(Detection detection : boxes)
         {
-            targets.add(new TargetUpdateMessage.TargetInfo(detection.mAngle, detection.mDistanceFromHoriz, false));
+            targets.add(new TargetUpdateMessage.TargetInfo(detection.mClassificationName, detection.mAngle, detection.mDistanceFromHoriz, false));
         }
 
         mRobotConnection.sendVisionUpdate(targets, latencySec);

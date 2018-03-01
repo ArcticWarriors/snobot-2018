@@ -149,7 +149,7 @@ public class SnobotVisionStandardActivity extends Activity implements VisionRobo
     }
 
     @Override
-    public void setRecording(final boolean aRecord, final String aName) {
+    public void setRecording(final boolean aRecord, final String aMatchType, String aMatchNumber, String aMatchMode) {
         String toastText = aRecord ? "Recording video" : "Not recording video";
         Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show();
         visionAlgorithm.setRecording(aRecord, aName);
