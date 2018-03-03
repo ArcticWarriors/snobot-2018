@@ -9,6 +9,7 @@ import org.snobot.Properties2018;
 import org.snobot.SmartDashboardNames;
 import org.snobot.Snobot2018;
 import org.snobot.drivetrain.IDriveTrain;
+import org.snobot.leds.ILedManager;
 import org.snobot.lib.Utilities;
 import org.snobot.lib.motion_profile.trajectory.IdealSplineSerializer;
 import org.snobot.lib.motion_profile.trajectory.SplineSegment;
@@ -33,6 +34,7 @@ public class TrajectoryPathCommand extends Command
 
     private final IDriveTrain mDrivetrain;
     private final IPositioner mPositioner;
+    private final ILedManager mLedManager;
     private final TrajectoryFollower mFollowerLeft;
     private final TrajectoryFollower mFollowerRight;
     private final Path mPath;
@@ -58,10 +60,11 @@ public class TrajectoryPathCommand extends Command
      * @param aPath
      *            Trajectory path
      */
-    public TrajectoryPathCommand(IDriveTrain aDrivetrain, IPositioner aPositioner, Path aPath)
+    public TrajectoryPathCommand(IDriveTrain aDrivetrain, IPositioner aPositioner, ILedManager aLedManager, Path aPath)
     {
         mDrivetrain = aDrivetrain;
         mPositioner = aPositioner;
+        mLedManager = aLedManager;
         mPath = aPath;
 
         mFollowerLeft = new TrajectoryFollower("left");
@@ -108,6 +111,8 @@ public class TrajectoryPathCommand extends Command
     @Override
     public void execute()
     {
+        mLedManager.setTrajectoryPercentageComplete(getPercentComplete());
+
         double distanceL = mDrivetrain.getLeftDistance() - mStartingLeftDistance;
         double distanceR = mDrivetrain.getRightDistance() - mStartingRightDistance;
 
@@ -218,7 +223,7 @@ public class TrajectoryPathCommand extends Command
         TextFileDeserializer deserializer = new TextFileDeserializer();
         Path p = deserializer.deserializeFromFile(pathFile);
 
-        return new TrajectoryPathCommand(aSnobot.getDrivetrain(), aSnobot.getPositioner(), p);
+        return new TrajectoryPathCommand(aSnobot.getDrivetrain(), aSnobot.getPositioner(), aSnobot.getLedManager(), p);
     }
 }
 

@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 public class DotstarSimulatorPanel extends JPanel
 {
     private static final int sDEFAULT_PIXEL_SIZE = 5;
+    private static final int sDEFAULT_SEPERATION = 50;
 
     private final List<Integer> mLedValues;
     private int mNumLeds;
@@ -23,7 +24,7 @@ public class DotstarSimulatorPanel extends JPanel
      */
     public DotstarSimulatorPanel(int aLedCount)
     {
-        setPreferredSize(new Dimension(sDEFAULT_PIXEL_SIZE * aLedCount, sDEFAULT_PIXEL_SIZE));
+        setPreferredSize(new Dimension(sDEFAULT_PIXEL_SIZE * 2 + sDEFAULT_SEPERATION, sDEFAULT_PIXEL_SIZE * aLedCount / 2));
         mNumLeds = aLedCount;
 
         mLedValues = new ArrayList<>();
@@ -32,15 +33,13 @@ public class DotstarSimulatorPanel extends JPanel
     @Override
     public void paint(Graphics aGraphics)
     {
-        int widthSizeFactor = getWidth() / mNumLeds;
-        int heightSizeFactor = getHeight();
+        int widthSizeFactor = (getWidth() - sDEFAULT_SEPERATION) / 2;
+        int heightSizeFactor = getHeight() / (mNumLeds / 2);
 
         int sizeFactor = Math.max(1, Math.min(widthSizeFactor, heightSizeFactor));
 
         aGraphics.setColor(Color.black);
         aGraphics.fillRect(0, 0, getWidth(), getHeight());
-        aGraphics.setColor(Color.white);
-        aGraphics.drawRect(0, 0, (int) (mNumLeds * sizeFactor), (int) sizeFactor);
 
         for (int i = 0; i < mLedValues.size(); ++i)
         {
@@ -52,7 +51,23 @@ public class DotstarSimulatorPanel extends JPanel
 
             Color color = new Color(r, g, b);
             aGraphics.setColor(color);
-            aGraphics.fillOval((int) (i * sizeFactor), 0, (int) sizeFactor, (int) sizeFactor);
+
+            int x;
+            int y;
+            
+            if (i < mNumLeds / 2)
+            {
+                x = 0;
+                y = i * sizeFactor;
+            }
+            else
+            {
+                x = sDEFAULT_SEPERATION + sizeFactor;
+                y = (mNumLeds - i - 1) * sizeFactor;
+            }
+            
+
+            aGraphics.fillOval(x, y, (int) sizeFactor, (int) sizeFactor);
         }
     }
 

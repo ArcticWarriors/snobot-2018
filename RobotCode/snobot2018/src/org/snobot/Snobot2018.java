@@ -31,6 +31,7 @@ public class Snobot2018 extends ASnobot
     private IElevator mElevator;
     private IWinch mWinch;
     private IClaw mClaw;
+    private ILedManager mLedManager;
 
     // Autonomous
     private AutonomousFactory mAutonFactory;
@@ -66,8 +67,8 @@ public class Snobot2018 extends ASnobot
         addModule(operatorJoystick);
 
         // LEDs
-        ILedManager ledManager = new SnobotLedManager(this, operatorJoystick);
-        addModule(ledManager);
+        mLedManager = new SnobotLedManager(this, operatorJoystick);
+        addModule(mLedManager);
 
         // DriveTrain
         DrivetrainFactory drivetrainFactory = new DrivetrainFactory();
@@ -76,12 +77,12 @@ public class Snobot2018 extends ASnobot
 
         // Elevator
         ElevatorFactory elevatorFactory = new ElevatorFactory();
-        mElevator = elevatorFactory.createDrivetrain(mUseCan, operatorJoystick, ledManager, logger);
+        mElevator = elevatorFactory.createDrivetrain(mUseCan, operatorJoystick, mLedManager, logger);
         addModule(mElevator);
         
         // Claw
         DoubleSolenoid clawSolenoid = new DoubleSolenoid(PortMappings2018.sCLAW_FORWARD, PortMappings2018.sCLAW_REVERSE);
-        mClaw = new SnobotClaw(clawSolenoid, logger, operatorJoystick, ledManager);
+        mClaw = new SnobotClaw(clawSolenoid, logger, operatorJoystick, mLedManager);
         addModule(mClaw);
 
 
@@ -96,10 +97,18 @@ public class Snobot2018 extends ASnobot
 
 
         // This should be done last
-        mAutonFactory = new AutonomousFactory(this, ledManager);
+        mAutonFactory = new AutonomousFactory(this, mLedManager);
 
         // initialize the default auton command
         mAutonFactory.createAutonMode();
+    }
+
+    @Override
+    public void disabledPeriodic()
+    {
+        super.disabledPeriodic();
+
+        mLedManager.update();
     }
 
     @Override
@@ -131,6 +140,11 @@ public class Snobot2018 extends ASnobot
     public IClaw getClaw()
     {
         return mClaw;
+    }
+
+    public ILedManager getLedManager()
+    {
+        return mLedManager;
     }
 
 }

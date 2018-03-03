@@ -29,6 +29,12 @@ public class SmartDashboardNames
     public static final String sAUTON_FILENAME = "Auton Filename";
     public static final String sSUCCESFULLY_PARSED_AUTON = "Parsed Command";
 
+    // LED Manager
+    public static final String sLED_PATTERN_CHOOSER = "LED Patterns";
+    public static final String sLED_SD_PATTERN_RED = "SD LED Pattern (red)";
+    public static final String sLED_SD_PATTERN_GREEN = "SD LED Pattern (green)";
+    public static final String sLED_SD_PATTERN_BLUE = "SD LED Pattern (blue)";
+
     // Autonomous Factory
     public static final String sPOSITION_CHOOSER = "Position Chooser";
 

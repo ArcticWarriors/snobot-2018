@@ -17,4 +17,6 @@ public interface ILedManager extends IUpdateableModule
     void setAutoSelection(AutonSelectionType aSelection);
 
     void setElevatorError(double aActual, double aDesired, boolean aWithinDeadband);
+
+    void setTrajectoryPercentageComplete(double aPercentComplete);
 }
