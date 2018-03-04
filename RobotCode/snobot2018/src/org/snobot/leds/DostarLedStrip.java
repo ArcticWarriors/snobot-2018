@@ -1,6 +1,7 @@
 package org.snobot.leds;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.Arrays;
 
 import edu.wpi.first.wpilibj.SPI;
@@ -10,11 +11,14 @@ public class DostarLedStrip implements IAddressableLedStrip
     private static final int sSPI_CLK_RATE = 13000000;
     private static final int sMAX_BYTES_PER_MESSAGE = 124; // Max size the hardware supports is 127.  Rounding down to an 4 byte boundary
 
+    private static final double sMAX_BRIGHTNESS = 1; // Brightness scaling factor, 0-1
+
     private static final int sBYTES_PER_LED = 4;
     private static final int sLED_ZERO_OFFSET = 4;
 
     private final int mBufferSize;
 
+    private final int mColorUnusedOffset;
     private final int mColorOffsetRed;
     private final int mColorOffsetGreen; // Note: Green and blue are backwards
     private final int mColorOffsetBlue;
@@ -35,10 +39,12 @@ public class DostarLedStrip implements IAddressableLedStrip
     {
         mBufferSize = aNumLeds * sBYTES_PER_LED + 4 + 4;
         mDataBuffer = ByteBuffer.allocate(mBufferSize);
+        mDataBuffer.order(ByteOrder.LITTLE_ENDIAN);
 
+        mColorUnusedOffset = 0;
         mColorOffsetRed = 3;
-        mColorOffsetGreen = 1; // Note: Green and blue are backwards
-        mColorOffsetBlue = 2;
+        mColorOffsetGreen = 2; // Note: Green and blue are backwards
+        mColorOffsetBlue = 1;
 
         mSpi = new SPI(SPI.Port.kMXP);
         mSpi.setMSBFirst();
@@ -83,9 +89,9 @@ public class DostarLedStrip implements IAddressableLedStrip
     @Override
     public void setColor(int aLedIndex, int aRed, int aGreen, int aBlue)
     {
-        mDataBuffer.put(aLedIndex * sBYTES_PER_LED + sLED_ZERO_OFFSET + 0, (byte) 1);
-        mDataBuffer.put(aLedIndex * sBYTES_PER_LED + sLED_ZERO_OFFSET + mColorOffsetRed, (byte) aRed);
-        mDataBuffer.put(aLedIndex * sBYTES_PER_LED + sLED_ZERO_OFFSET + mColorOffsetGreen, (byte) aGreen);
-        mDataBuffer.put(aLedIndex * sBYTES_PER_LED + sLED_ZERO_OFFSET + mColorOffsetBlue, (byte) aBlue);
+        mDataBuffer.put(aLedIndex * sBYTES_PER_LED + sLED_ZERO_OFFSET + mColorUnusedOffset, (byte) 255);
+        mDataBuffer.put(aLedIndex * sBYTES_PER_LED + sLED_ZERO_OFFSET + mColorOffsetRed, (byte) (aRed * sMAX_BRIGHTNESS));
+        mDataBuffer.put(aLedIndex * sBYTES_PER_LED + sLED_ZERO_OFFSET + mColorOffsetGreen, (byte) (aGreen * sMAX_BRIGHTNESS));
+        mDataBuffer.put(aLedIndex * sBYTES_PER_LED + sLED_ZERO_OFFSET + mColorOffsetBlue, (byte) (aBlue * sMAX_BRIGHTNESS));
     }
 }

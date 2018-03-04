@@ -1,21 +1,15 @@
 package org.snobot.autonomous.trajectory;
 
 import java.text.DecimalFormat;
-import java.util.List;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.snobot.Properties2018;
-import org.snobot.Snobot2018;
 
-import com.team254.lib.trajectory.Path;
 import com.team254.lib.trajectory.Trajectory;
 import com.team254.lib.trajectory.Trajectory.Segment;
-import com.team254.lib.trajectory.io.TextFileDeserializer;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * PID + Feedforward controller for following a Trajectory.
@@ -154,26 +148,5 @@ public class TrajectoryFollower
     public int getNumSegments()
     {
         return mProfile.getNumSegments();
-    }
-
-    /**
-     * This parses the command.
-     * 
-     * @param aCommandName
-     *            The file name of the trajectory
-     * @param aCommandArgs
-     *            The command name for the file
-     * @param aSnobot
-     *            The robot
-     * @return Trajectory auto modes
-     */
-    public Command createCommand(String aCommandName, List<String> aCommandArgs, Snobot2018 aSnobot)
-    {
-        String pathFile = Properties2018.sAUTON_PATH_DIRECTORY.getValue() + "/" + aCommandArgs.get(1).trim();
-        TextFileDeserializer deserializer = new TextFileDeserializer();
-        Path p = deserializer.deserializeFromFile(pathFile);
-
-
-        return new TrajectoryPathCommand(aSnobot.getDrivetrain(), aSnobot.getPositioner(), p);
     }
 }

@@ -8,6 +8,8 @@ import org.snobot.leds.IAddressableLedStripPattern;
 
 public class ElevatorHeightPattern implements IAddressableLedStripPattern
 {
+    private static final Color sDEFAULT_COLOR = Color.black;
+
     private final IAddressableLedStrip mLedStrip;
     private final int mNumUsableLeds;
     private final int mTopLeds;
@@ -49,39 +51,47 @@ public class ElevatorHeightPattern implements IAddressableLedStripPattern
     {
         if (mIsFinished)
         {
-            drawColor(mNumUsableLeds, mAtHeightColor);
+            drawColor(0, mNumUsableLeds, mAtHeightColor);
         }
         else
         {
             double maxHeight = Properties2018.sELEVATOR_MAX_HEIGHT.getValue();
 
-            int desiredLeds = (int) (mDesiredHeight / maxHeight * mNumUsableLeds);
-            int actualLeds = (int) (mActualHeight / maxHeight * mNumUsableLeds);
+            int halfLeds = mNumUsableLeds / 2;
 
-            desiredLeds = Math.min(mNumUsableLeds, Math.max(0, desiredLeds));
-            actualLeds = Math.min(mNumUsableLeds, Math.max(0, actualLeds));
+            int ledsForDesiredHeight = (int) (mDesiredHeight / maxHeight * halfLeds);
+            int ledsForActualHeight = (int) (mActualHeight / maxHeight * halfLeds);
 
-            drawColor(mNumUsableLeds, Color.black);
+            ledsForDesiredHeight = Math.min(halfLeds, Math.max(0, ledsForDesiredHeight));
+            ledsForActualHeight = Math.min(halfLeds, Math.max(0, ledsForActualHeight));
 
-            if (desiredLeds < actualLeds)
+            drawColor(0, mNumUsableLeds, sDEFAULT_COLOR);
+
+            if (ledsForDesiredHeight < ledsForActualHeight)
             {
-                drawColor(actualLeds, mActualColor);
-                drawColor(desiredLeds, mDesiredColor);
+                drawColor(halfLeds - ledsForActualHeight, ledsForActualHeight, mActualColor);
+                drawColor(halfLeds, ledsForActualHeight, mActualColor);
+
+                drawColor(halfLeds - ledsForDesiredHeight, ledsForDesiredHeight, mDesiredColor);
+                drawColor(halfLeds, ledsForDesiredHeight, mDesiredColor);
             }
             else
             {
-                drawColor(desiredLeds, mDesiredColor);
-                drawColor(actualLeds, mActualColor);
+                drawColor(halfLeds - ledsForDesiredHeight, ledsForDesiredHeight, mDesiredColor);
+                drawColor(halfLeds, ledsForDesiredHeight, mDesiredColor);
+                
+                drawColor(halfLeds - ledsForActualHeight, ledsForActualHeight, mActualColor);
+                drawColor(halfLeds, ledsForActualHeight, mActualColor);
             }
         }
 
         return true;
     }
 
-    private void drawColor(int aLedCount, Color aColor)
+    private void drawColor(int aStart, int aLedCount, Color aColor)
     {
 
-        for (int i = 0; i < aLedCount; ++i)
+        for (int i = aStart; i < (aStart + aLedCount); ++i)
         {
             mLedStrip.setColor(i + mTopLeds, aColor.getRed(), aColor.getGreen(), aColor.getBlue());
         }

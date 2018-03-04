@@ -4,12 +4,16 @@ public enum SnobotLedPatterns
 {
     Off,
     TestPattern,
+    SmoothRainbow,
+    SmartDashboardPattern,
     
     SolidRed,
+    SolidGreen,
     SolidBlue,
     SolidOrange,
 
     PulsingRed,
+    PulsingGreen,
     PulsingBlue,
     PulsingOrange,
 
@@ -20,6 +24,6 @@ public enum SnobotLedPatterns
 
     AutoLight,
 
-    PercentError
-
+    PercentError,
+    ElevatorPosition,
 }
