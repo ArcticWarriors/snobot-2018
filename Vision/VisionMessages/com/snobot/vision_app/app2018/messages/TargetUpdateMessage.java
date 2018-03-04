@@ -10,6 +10,8 @@ import org.json.JSONObject;
 public class TargetUpdateMessage implements IVisionMessage
 {
     public static final String sMESSAGE_TYPE = "target_update";
+    private static final String sLATENCY_KEY = "camera_latency_sec";
+    private static final String sTARGETS_KEY = "targets";
 
     private final List<TargetInfo> mTargets;
     private final double mLatencySec;
@@ -22,6 +24,11 @@ public class TargetUpdateMessage implements IVisionMessage
      */
     public static class TargetInfo
     {
+        private static final String sTARGET_TYPE_KEY = "target_type";
+        private static final String sANGLE_KEY = "angle";
+        private static final String sDISTANCE_KEY = "distance";
+        private static final String sAMBIGUOUS_KEY = "ambiguous";
+
         private String mTargetType;
         private double mAngle;
         private double mDistance;
@@ -59,10 +66,10 @@ public class TargetUpdateMessage implements IVisionMessage
         public TargetInfo(JSONObject aJson) throws JSONException
         {
             this(
-                    aJson.get("target_type").toString(),
-                    Double.parseDouble(aJson.get("angle").toString()),
-                    Double.parseDouble(aJson.get("distance").toString()),
-                    Boolean.parseBoolean(aJson.get("ambiguous").toString()));
+                    aJson.get(sTARGET_TYPE_KEY).toString(), 
+                    Double.parseDouble(aJson.get(sANGLE_KEY).toString()),
+                    Double.parseDouble(aJson.get(sDISTANCE_KEY).toString()), 
+                    Boolean.parseBoolean(aJson.get(sAMBIGUOUS_KEY).toString()));
         }
 
         @Override
@@ -99,10 +106,10 @@ public class TargetUpdateMessage implements IVisionMessage
     {
         mTargets = new ArrayList<>();
 
-        mLatencySec = Double.parseDouble(aJson.get("camera_latency_sec").toString());
+        mLatencySec = Double.parseDouble(aJson.get(sLATENCY_KEY).toString());
         // mTimestamp = aCurrentTime - latency_sec;
 
-        JSONArray targets = (JSONArray) aJson.get("targets");
+        JSONArray targets = (JSONArray) aJson.get(sTARGETS_KEY);
 
         for (int i = 0; i < targets.length(); ++i)
         {
@@ -141,15 +148,16 @@ public class TargetUpdateMessage implements IVisionMessage
         for (TargetInfo targetInfo : mTargets)
         {
             JSONObject targetInfoJson = new JSONObject();
-            targetInfoJson.put("angle", targetInfo.mAngle);
-            targetInfoJson.put("distance", targetInfo.mDistance);
-            targetInfoJson.put("ambiguous", targetInfo.mAmbiguous);
+            targetInfoJson.put(TargetInfo.sTARGET_TYPE_KEY, targetInfo.mTargetType);
+            targetInfoJson.put(TargetInfo.sANGLE_KEY, targetInfo.mAngle);
+            targetInfoJson.put(TargetInfo.sDISTANCE_KEY, targetInfo.mDistance);
+            targetInfoJson.put(TargetInfo.sAMBIGUOUS_KEY, targetInfo.mAmbiguous);
             targetJson.put(targetInfoJson);
         }
 
-        output.put("camera_latency_sec", mLatencySec);
-        output.put("targets", targetJson);
-        output.put("type", sMESSAGE_TYPE);
+        output.put(sLATENCY_KEY, mLatencySec);
+        output.put(sTARGETS_KEY, targetJson);
+        output.put(sTYPE_KEY, sMESSAGE_TYPE);
 
         return output;
     }

@@ -12,7 +12,7 @@ public class HeartbeatMessage implements IVisionMessage
     {
         JSONObject output = new JSONObject();
 
-        output.put("type", sMESSAGE_TYPE);
+        output.put(sTYPE_KEY, sMESSAGE_TYPE);
 
         return output;
     }

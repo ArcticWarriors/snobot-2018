@@ -32,7 +32,6 @@ public class Snobot2018 extends ASnobot
     private IElevator mElevator;
     private IWinch mWinch;
     private IClaw mClaw;
-    private VisionManager mVisionManager;
     private ILedManager mLedManager;
 
     // Autonomous
@@ -97,8 +96,8 @@ public class Snobot2018 extends ASnobot
         mPositioner = new Positioner(mDriveTrain, logger);
         addModule(mPositioner);
 
-        mVisionManager = new VisionManager(this, mPositioner);
-        addModule(mVisionManager);
+        VisionManager visionManager = new VisionManager(this);
+        addModule(visionManager);
 
         // This should be done last
         mAutonFactory = new AutonomousFactory(this, mLedManager);

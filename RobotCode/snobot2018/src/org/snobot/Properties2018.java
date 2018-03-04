@@ -73,15 +73,28 @@ public class Properties2018
     // Winch
     public static final DoubleProperty sWINCH_DEADBAND = new DoubleProperty("WinchDeadband", 0.05);
 
+    // Vision
+    public static final StringProperty sADB_PATH;
+
     static
     {
         String resourcesDir;
         String homeDirectory;
+        String adbLocation;
 
         if (RobotBase.isSimulation())
         {
             homeDirectory = "./";
             resourcesDir = "resources/";
+
+            if (System.getProperty("os.name").contains("Windows"))
+            {
+                adbLocation = System.getProperty("user.home") + "/AppData/Local/Android/sdk/platform-tools/adb.exe";
+            }
+            else
+            {
+                adbLocation = System.getProperty("user.home") + "/Android/Sdk/platform-tools/adb";
+            }
 
             sLOGGER.log(Level.INFO, "Using simulation constants");
         }
@@ -89,6 +102,7 @@ public class Properties2018
         {
             homeDirectory = "/home/lvuser/";
             resourcesDir = homeDirectory + "/resources";
+            adbLocation = "/tmp/adb";
 
             sLOGGER.log(Level.INFO, "Using tactical constants");
         }
@@ -97,6 +111,7 @@ public class Properties2018
 
         sAUTON_DIRECTORY = new StringProperty("AutonDir", resourcesDir + "autonomous/");
         sAUTON_PATH_DIRECTORY = new StringProperty("AutonDirPaths", resourcesDir + "trajectories");
+        sADB_PATH = new StringProperty("AdbLocation", adbLocation);
     }
 
 }

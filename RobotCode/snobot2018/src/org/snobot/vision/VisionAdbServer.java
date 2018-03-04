@@ -4,6 +4,7 @@ import java.nio.ByteBuffer;
 
 import org.apache.log4j.Level;
 import org.json.JSONObject;
+import org.snobot.Properties2018;
 import org.snobot.lib.adb.IAdbBridge;
 import org.snobot.lib.adb.NativeAdbBridge;
 import org.snobot.lib.external_connection.RobotConnectionServer;
@@ -37,7 +38,7 @@ public class VisionAdbServer extends RobotConnectionServer
     {
         super(aAppBindPort, sTIMEOUT_PERIOD);
 
-        IAdbBridge adbBridge = new NativeAdbBridge("/home/pj/Android/Sdk/platform-tools/adb", sAPP_PACKAGE, sAPP_MAIN_ACTIVITY, true);
+        IAdbBridge adbBridge = new NativeAdbBridge(Properties2018.sADB_PATH.getValue(), sAPP_PACKAGE, sAPP_MAIN_ACTIVITY, true);
 
         adbBridge.reversePortForward(aAppBindPort, aAppBindPort);
         adbBridge.portForward(aAppMjpegBindPort, aAppForwardedMjpegBindPort);
@@ -105,7 +106,8 @@ public class VisionAdbServer extends RobotConnectionServer
 
     public void sendStartRecordingMessage(String aMatchType, String aMatchNumber, String aMatchMode)
     {
-        send(new SetRecordingMessage(true, aMatchType, aMatchNumber, aMatchMode).asJson());
+        String baseName = aMatchType + "_" + aMatchNumber + "_" + aMatchMode;
+        send(new SetRecordingMessage(true, baseName).asJson());
     }
 
     public void sendStopRecordingMessage()

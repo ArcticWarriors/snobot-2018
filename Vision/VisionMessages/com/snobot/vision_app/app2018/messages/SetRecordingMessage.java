@@ -8,38 +8,37 @@ public class SetRecordingMessage implements IVisionMessage
     public static final String sMESSAGE_TYPE = "record_images";
 
     private static final String sRECORD_KEY = "record";
-    private static final String sMATCH_TYPE_KEY = "match_type";
-    private static final String sMATCH_NUMBER_KEY = "match_number";
-    private static final String sMATCH_MODE_KEY = "match_mode";
+    private static final String sBASE_NAME_KEY = "base_name";
 
     private final boolean mRecord;
-    private final String mMatchType;
-    private final String mMatchNumber;
-    private final String mMatchMode;
+    private final String mBaseName;
 
+    /**
+     * Constructor.
+     * 
+     * @param aJson
+     *            The JSON contents
+     * @throws JSONException
+     *             if there is an exception
+     */
     public SetRecordingMessage(JSONObject aJson) throws JSONException
     {
         this(
                 (Boolean) aJson.get(sRECORD_KEY),
-                (String) aJson.get(sMATCH_TYPE_KEY), 
-                (String) aJson.get(sMATCH_NUMBER_KEY), 
-                (String) aJson.get(sMATCH_MODE_KEY));
+                (String) aJson.get(sBASE_NAME_KEY));
     }
 
     public SetRecordingMessage(boolean aRecord)
     {
-        this(aRecord, "", "", "");
+        this(aRecord, "");
     }
+
     public SetRecordingMessage(
             boolean aRecord, 
-            String aMatchType, 
-            String aMatchNumber, 
-            String aMatchMode)
+            String aBaseName)
     {
         mRecord = aRecord;
-        mMatchType = aMatchType;
-        mMatchNumber = aMatchNumber;
-        mMatchMode = aMatchMode;
+        mBaseName = aBaseName;
     }
 
     public boolean shouldRecord()
@@ -47,19 +46,9 @@ public class SetRecordingMessage implements IVisionMessage
         return mRecord;
     }
 
-    public String getMatchType()
+    public String getBaseName()
     {
-        return mMatchType;
-    }
-
-    public String getMatchMode()
-    {
-        return mMatchMode;
-    }
-
-    public String getMatchNumber()
-    {
-        return mMatchNumber;
+        return mBaseName;
     }
 
     @Override
@@ -67,11 +56,9 @@ public class SetRecordingMessage implements IVisionMessage
     {
         JSONObject output = new JSONObject();
 
-        output.put(sTYPE_KEY, "record_images");
+        output.put(sTYPE_KEY, sMESSAGE_TYPE);
         output.put(sRECORD_KEY, mRecord);
-        output.put(sMATCH_TYPE_KEY, mMatchType);
-        output.put(sMATCH_NUMBER_KEY, mMatchNumber);
-        output.put(sMATCH_MODE_KEY, mMatchMode);
+        output.put(sBASE_NAME_KEY, mBaseName);
 
         return output;
     }
