@@ -85,7 +85,7 @@ public class JavaVisionAlgorithmInterface
 
         mVisionAlgorithm = new VisionAlgorithm(debugLogger, tfFactory);
         // TODO temp
-        mVisionAlgorithm.setCameraMode(CameraMode.Tensorflow);
+        mVisionAlgorithm.setCameraMode(CameraMode.NoAlgorithm);
     }
 
     public VisionAlgorithmPreferences getActivePreferences() {
@@ -137,7 +137,7 @@ public class JavaVisionAlgorithmInterface
         Bitmap bitmap = Bitmap.createBitmap(aMat.cols(), aMat.rows(), Bitmap.Config.ARGB_8888);
         Utils.matToBitmap(aMat, bitmap);
 
-        if(mRecordingImages /*&& mRobotConnected*/) {
+        if(true) {
             writeImage(bitmap);
         }
         return mVisionAlgorithm.processImage(bitmap, aMat, aSystemTimeNs);
