@@ -4,3 +4,5 @@ GoToHeightCommand SCALE_HIGH
 DriveStraightPath 12 24 60
 Claw true
 Parallel DriveStraightPath -12 -24 -60 | GoToHeightCommand FLOOR
+DriveTurnPath 180 180 180
+TrajectoryAutonomous SwitchandScaleToCube/LeftScaleToCube.csv
