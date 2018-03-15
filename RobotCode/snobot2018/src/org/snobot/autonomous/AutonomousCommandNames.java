@@ -33,4 +33,5 @@ public class AutonomousCommandNames
 
     // GoToHeight
     public static final String sGO_TO_HEIGHT_COMMAND = "GoToHeightCommand";
+    public static final String sWAIT_THEN_GO_TO_HEIGHT = "WaitThenGoToHeight";
 }

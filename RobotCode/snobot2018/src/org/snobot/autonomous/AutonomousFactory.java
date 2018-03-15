@@ -18,6 +18,7 @@ import org.snobot.lib.PropertyManager.StringProperty;
 import org.snobot.lib.autonomous.ObservableSendableChooser;
 import org.snobot.lib.autonomous.SnobotAutonCrawler;
 import org.snobot.lib.modules.ISmartDashboardUpdaterModule;
+import org.snobot.lib.modules.IUpdateableModule;
 import org.snobot.positioner.IPositioner;
 
 import edu.wpi.first.networktables.NetworkTable;
@@ -29,7 +30,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class AutonomousFactory implements ISmartDashboardUpdaterModule
+public class AutonomousFactory implements ISmartDashboardUpdaterModule, IUpdateableModule
 {
     protected static final Logger sLOGGER = Logger.getLogger(AutonomousFactory.class);
 
@@ -217,14 +218,14 @@ public class AutonomousFactory implements ISmartDashboardUpdaterModule
         }
 
         CommandGroup outputA = this.tryLoadFile(planAFile, scalePosition, switchPosition, mCommandParserA);
+        CommandGroup outputB = this.tryLoadFile(planBFile, scalePosition, switchPosition, mCommandParserB);
         if (outputA != null)
         {
             mLedManager.setAutoSelection(AutonSelectionType.PlanA);
             sLOGGER.log(Level.INFO, "Using Plan A");
             return outputA;
         }
-
-        CommandGroup outputB = this.tryLoadFile(planBFile, scalePosition, switchPosition, mCommandParserB);
+        
         if (outputB != null)
         {
             mLedManager.setAutoSelection(AutonSelectionType.PlanB);
@@ -373,5 +374,28 @@ public class AutonomousFactory implements ISmartDashboardUpdaterModule
     {
         SmartDashboard.putNumber(SmartDashboardNames.sAUTON_MODE_SWITCH, getAutonModeSwitchPosition());
         SmartDashboard.putNumber(SmartDashboardNames.sAUTON_POSITION_SWITCH, getPositonChooserSwitch());
+    }
+
+    private int lastMode = 0;
+    private int lastPosition = 0;
+
+    @Override
+    public void update()
+    {
+        boolean changed = false;
+
+        int position = getPositonChooserSwitch();
+        int mode = getAutonModeSwitchPosition();
+
+        changed |= mode != lastMode;
+        changed |= position != lastPosition;
+        if (changed)
+        {
+            lastMode = mode;
+            lastPosition = position;
+            sLOGGER.log(Level.INFO, "Mode changed in update");
+            createAutonMode();
+        }
+
     }
 }

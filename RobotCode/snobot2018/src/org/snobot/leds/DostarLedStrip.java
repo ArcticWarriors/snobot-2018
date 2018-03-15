@@ -11,7 +11,7 @@ public class DostarLedStrip implements IAddressableLedStrip
     private static final int sSPI_CLK_RATE = 13000000;
     private static final int sMAX_BYTES_PER_MESSAGE = 124; // Max size the hardware supports is 127.  Rounding down to an 4 byte boundary
 
-    private static final double sMAX_BRIGHTNESS = 1; // Brightness scaling factor, 0-1
+    private static final double sMAX_BRIGHTNESS = .6; // Brightness scaling factor, 0-1
 
     private static final int sBYTES_PER_LED = 4;
     private static final int sLED_ZERO_OFFSET = 4;

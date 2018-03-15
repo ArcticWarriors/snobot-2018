@@ -48,11 +48,15 @@ public class AutonChooserSwitch
         double voltage = mAnalogInput.getVoltage();
         Entry<Double, Integer> pair = mVoltageToModeMapping.lowerEntry(voltage);
 
+//        System.out.print("Voltage : " + voltage);
+
         if (pair != null)
         {
+//            System.out.println(" " + pair);
             return pair.getValue();
         }
-
+        
+//        System.out.println("Nothing found, using default");;
         return Properties2018.sDEFAULT_SWITCH_POSITION.getValue();
     }
 }

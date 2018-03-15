@@ -32,7 +32,7 @@ public class PortMappings2018
     
     //Analog
     public static final int sGYRO_PORT = 0;
-    public static final int sPOSITION_CHOOSER_SWITCH = 0;
+    public static final int sPOSITION_CHOOSER_SWITCH = 2;
     public static final int sMODE_CHOOSER_SWITCH = 1;
 
     // Solenoid
