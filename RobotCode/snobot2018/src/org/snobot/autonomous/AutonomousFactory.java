@@ -1,17 +1,23 @@
 package org.snobot.autonomous;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.snobot.PortMappings2018;
 import org.snobot.Properties2018;
+import org.snobot.PropertiesAutonomousDefaults;
 import org.snobot.SmartDashboardNames;
 import org.snobot.Snobot2018;
 import org.snobot.commands.StupidDriveStraight;
 import org.snobot.leds.ILedManager;
+import org.snobot.lib.PropertyManager.StringProperty;
 import org.snobot.lib.autonomous.ObservableSendableChooser;
 import org.snobot.lib.autonomous.SnobotAutonCrawler;
+import org.snobot.lib.modules.ISmartDashboardUpdaterModule;
 import org.snobot.positioner.IPositioner;
 
 import edu.wpi.first.networktables.NetworkTable;
@@ -23,7 +29,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class AutonomousFactory
+public class AutonomousFactory implements ISmartDashboardUpdaterModule
 {
     protected static final Logger sLOGGER = Logger.getLogger(AutonomousFactory.class);
 
@@ -33,17 +39,22 @@ public class AutonomousFactory
     private static final double sX_CENTER = 0;
     private static final double sX_LEFT = 9 * 12;
 
-    protected ObservableSendableChooser<File> mAutonModeChooserA;
-    protected ObservableSendableChooser<File> mAutonModeChooserB;
-    protected ObservableSendableChooser<StartingPositions> mPositionChooser;
+    protected final ObservableSendableChooser<File> mAutonModeChooserA;
+    protected final ObservableSendableChooser<File> mAutonModeChooserB;
+    protected final ObservableSendableChooser<StartingPositions> mPositionChooser;
 
-    protected CommandParser mCommandParserA;
-    protected CommandParser mCommandParserB;
+    protected final CommandParser mCommandParserA;
+    protected final CommandParser mCommandParserB;
 
-    protected ILedManager mLedManager;
+    protected final ILedManager mLedManager;
 
-    protected IPositioner mPositioner;
-    protected Snobot2018 mSnobot;
+    protected final IPositioner mPositioner;
+    protected final Snobot2018 mSnobot;
+
+    protected final AutonChooserSwitch mModeChooserSwitch;
+    protected final AutonChooserSwitch mPositionChooserSwitch;
+    protected final Map<Integer, StringProperty> mPresetAutonModesA;
+    protected final Map<Integer, StringProperty> mPresetAutonModesB;
 
     /**
      * Starting positions.
@@ -90,6 +101,8 @@ public class AutonomousFactory
     {
         mLedManager = aLedManager;
         mSnobot = aSnobot;
+        mModeChooserSwitch = new AutonChooserSwitch(6, PortMappings2018.sMODE_CHOOSER_SWITCH);
+        mPositionChooserSwitch = new AutonChooserSwitch(3, PortMappings2018.sPOSITION_CHOOSER_SWITCH);
 
         mPositionChooser = new ObservableSendableChooser<StartingPositions>();
         for (StartingPositions pos : StartingPositions.values())
@@ -122,6 +135,46 @@ public class AutonomousFactory
         addListeners(autoModeTableA, mAutonModeChooserA, mCommandParserA);
         addListeners(autoModeTableB, mAutonModeChooserB, mCommandParserB);
         addPositionLister();
+
+        mPresetAutonModesA = new HashMap<>();
+        // 0 is reserved for SD
+        mPresetAutonModesA.put(1, PropertiesAutonomousDefaults.sAUTON_MODE_A_1_FILE);
+        mPresetAutonModesA.put(2, PropertiesAutonomousDefaults.sAUTON_MODE_A_2_FILE);
+        mPresetAutonModesA.put(3, PropertiesAutonomousDefaults.sAUTON_MODE_A_3_FILE);
+        mPresetAutonModesA.put(4, PropertiesAutonomousDefaults.sAUTON_MODE_A_4_FILE);
+        mPresetAutonModesA.put(5, PropertiesAutonomousDefaults.sAUTON_MODE_A_5_FILE);
+        // 6 is reserved for SD
+        mPresetAutonModesA.put(7, PropertiesAutonomousDefaults.sAUTON_MODE_A_7_FILE);
+        mPresetAutonModesA.put(8, PropertiesAutonomousDefaults.sAUTON_MODE_A_8_FILE);
+        mPresetAutonModesA.put(9, PropertiesAutonomousDefaults.sAUTON_MODE_A_9_FILE);
+        mPresetAutonModesA.put(10, PropertiesAutonomousDefaults.sAUTON_MODE_A_10_FILE);
+        // 12 is reserved for SD
+        mPresetAutonModesA.put(11, PropertiesAutonomousDefaults.sAUTON_MODE_A_11_FILE);
+        mPresetAutonModesA.put(13, PropertiesAutonomousDefaults.sAUTON_MODE_A_13_FILE);
+        mPresetAutonModesA.put(14, PropertiesAutonomousDefaults.sAUTON_MODE_A_14_FILE);
+        mPresetAutonModesA.put(15, PropertiesAutonomousDefaults.sAUTON_MODE_A_15_FILE);
+        mPresetAutonModesA.put(16, PropertiesAutonomousDefaults.sAUTON_MODE_A_16_FILE);
+        mPresetAutonModesA.put(17, PropertiesAutonomousDefaults.sAUTON_MODE_A_17_FILE);
+        
+        mPresetAutonModesB = new HashMap<>();
+        // 0 is reserved for SD
+        mPresetAutonModesB.put(1, PropertiesAutonomousDefaults.sAUTON_MODE_B_1_FILE);
+        mPresetAutonModesB.put(2, PropertiesAutonomousDefaults.sAUTON_MODE_B_2_FILE);
+        mPresetAutonModesB.put(3, PropertiesAutonomousDefaults.sAUTON_MODE_B_3_FILE);
+        mPresetAutonModesB.put(4, PropertiesAutonomousDefaults.sAUTON_MODE_B_4_FILE);
+        mPresetAutonModesB.put(5, PropertiesAutonomousDefaults.sAUTON_MODE_B_5_FILE);
+        // 6 is reserved for SD
+        mPresetAutonModesB.put(7, PropertiesAutonomousDefaults.sAUTON_MODE_B_7_FILE);
+        mPresetAutonModesB.put(8, PropertiesAutonomousDefaults.sAUTON_MODE_B_8_FILE);
+        mPresetAutonModesB.put(9, PropertiesAutonomousDefaults.sAUTON_MODE_B_9_FILE);
+        mPresetAutonModesB.put(10, PropertiesAutonomousDefaults.sAUTON_MODE_B_10_FILE);
+        mPresetAutonModesB.put(11, PropertiesAutonomousDefaults.sAUTON_MODE_B_11_FILE);
+        // 12 is reserved for SD
+        mPresetAutonModesB.put(13, PropertiesAutonomousDefaults.sAUTON_MODE_B_13_FILE);
+        mPresetAutonModesB.put(14, PropertiesAutonomousDefaults.sAUTON_MODE_B_14_FILE);
+        mPresetAutonModesB.put(15, PropertiesAutonomousDefaults.sAUTON_MODE_B_15_FILE);
+        mPresetAutonModesB.put(16, PropertiesAutonomousDefaults.sAUTON_MODE_B_16_FILE);
+        mPresetAutonModesB.put(17, PropertiesAutonomousDefaults.sAUTON_MODE_B_17_FILE);
     }
 
     /**
@@ -141,23 +194,46 @@ public class AutonomousFactory
         String switchPosition = String.valueOf(gameSpecificMessage.charAt(0));
         String scalePosition = String.valueOf(gameSpecificMessage.charAt(1));
 
-        CommandGroup outputA = this.tryLoadFile(mAutonModeChooserA.getSelected(), scalePosition, switchPosition, mCommandParserA);
-        CommandGroup outputB = this.tryLoadFile(mAutonModeChooserB.getSelected(), scalePosition, switchPosition, mCommandParserB); // NOPMD
+        int modeSwitchPosition = this.getAutonModeSwitchPosition();
+        int positionSwitchPosition = this.getPositonChooserSwitch();
+
+        File planAFile;
+        File planBFile;
+
+        if (mPresetAutonModesA.containsKey(modeSwitchPosition))
+        {
+            int modePlusSixPos = modeSwitchPosition + (6 * positionSwitchPosition);
+            sLOGGER.log(Level.INFO,
+                    "Using auton switches: mode switch=" + modeSwitchPosition + ", pos switch=" + positionSwitchPosition + " -> " + modePlusSixPos);
+            planAFile = new File(Properties2018.sAUTON_DIRECTORY.getValue(), mPresetAutonModesA.get(modePlusSixPos).getValue());
+            planBFile = new File(Properties2018.sAUTON_DIRECTORY.getValue(), mPresetAutonModesB.get(modePlusSixPos).getValue());
+            setPosition();
+        }
+        else
+        {
+            sLOGGER.log(Level.INFO, "Using auton choosers ");
+            planAFile = mAutonModeChooserA.getSelected();
+            planBFile = mAutonModeChooserB.getSelected();
+        }
+
+        CommandGroup outputA = this.tryLoadFile(planAFile, scalePosition, switchPosition, mCommandParserA);
         if (outputA != null)
         {
             mLedManager.setAutoSelection(AutonSelectionType.PlanA);
             sLOGGER.log(Level.INFO, "Using Plan A");
             return outputA;
         }
+
+        CommandGroup outputB = this.tryLoadFile(planBFile, scalePosition, switchPosition, mCommandParserB);
         if (outputB != null)
         {
             mLedManager.setAutoSelection(AutonSelectionType.PlanB);
             sLOGGER.log(Level.INFO, "Using Plan B");
             return outputB;
         }
+
         mLedManager.setAutoSelection(AutonSelectionType.Default);
         sLOGGER.log(Level.WARN, "Using default autonomous");
-
         return getDefaultCommand();
     }
 
@@ -251,9 +327,51 @@ public class AutonomousFactory
     {
         StartingPositions startingPosition = mPositionChooser.getSelected();
 
-        if (startingPosition != null)
+        if (getAutonModeSwitchPosition() != Properties2018.sDEFAULT_SWITCH_POSITION.getValue() || startingPosition == null)
         {
-            mPositioner.setPosition(startingPosition.mX, startingPosition.mY, startingPosition.mAngle);
+            int positionChooser = getPositonChooserSwitch();
+
+            switch (positionChooser)
+            {
+            case 0:
+                startingPosition = StartingPositions.Left;
+                break;
+            case 1:
+                startingPosition = StartingPositions.Center;
+                break;
+            case 2:
+                startingPosition = StartingPositions.Right;
+                break;
+            default:
+                startingPosition = StartingPositions.Center;
+                sLOGGER.log(Level.WARN, "Unsupported position chooser " + positionChooser);
+                break;
+            }
         }
+
+        setPosition(startingPosition);
+    }
+
+    private void setPosition(StartingPositions aPosition)
+    {
+        mPositioner.setPosition(aPosition.mX, aPosition.mY, aPosition.mAngle);
+    }
+
+
+    public int getAutonModeSwitchPosition()
+    {
+        return mModeChooserSwitch.getPosition();
+    }
+
+    public int getPositonChooserSwitch()
+    {
+        return mPositionChooserSwitch.getPosition();
+    }
+
+    @Override
+    public void updateSmartDashboard()
+    {
+        SmartDashboard.putNumber(SmartDashboardNames.sAUTON_MODE_SWITCH, getAutonModeSwitchPosition());
+        SmartDashboard.putNumber(SmartDashboardNames.sAUTON_POSITION_SWITCH, getPositonChooserSwitch());
     }
 }

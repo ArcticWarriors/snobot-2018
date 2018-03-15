@@ -25,7 +25,13 @@ public class Properties2018
     public static final DoubleProperty sAUTON_DEFAULT_SPEED = new DoubleProperty("AutonDefaultSpeed", .5);
     public static final DoubleProperty sGO_TO_XY_KPD = new DoubleProperty("GoToXYKPD", 0.015);
     public static final DoubleProperty sGO_TO_XY_KPA = new DoubleProperty("GoToXYKPA", .05);
+    public static final DoubleProperty sMIN_VOLTAGE = new DoubleProperty("MinVoltage", 0);
+    public static final DoubleProperty sMAX_VOLTAGE = new DoubleProperty("MaxVoltage", 5);
+    
+    //Autonomous Switch Modes A1-A15
+    public static final IntegerProperty sDEFAULT_SWITCH_POSITION = new IntegerProperty("DefaultSwitchPosition", 0); // Use
 
+    
     // DriveTrain
     public static final DoubleProperty sLEFT_ENCODER_DIST_PER_PULSE = new DoubleProperty("DriveEncoderLeftDPP", -0.074223);
     public static final DoubleProperty sRIGHT_ENCODER_DIST_PER_PULSE = new DoubleProperty("DriveEncoderRightDPP", 0.0530035);

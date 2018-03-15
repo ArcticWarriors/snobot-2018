@@ -37,6 +37,8 @@ public class SmartDashboardNames
 
     // Autonomous Factory
     public static final String sPOSITION_CHOOSER = "Position Chooser";
+    public static final String sAUTON_MODE_SWITCH = "Auton Mode Switch";
+    public static final String sAUTON_POSITION_SWITCH = "Auton Position Switch";
 
     // Winch
     public static final String sWINCH_SPEED = "WinchSpeed";
