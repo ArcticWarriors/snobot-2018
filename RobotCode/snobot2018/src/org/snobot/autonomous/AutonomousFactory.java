@@ -378,11 +378,7 @@ public class AutonomousFactory implements ISmartDashboardUpdaterModule, IUpdatea
     {
         SmartDashboard.putNumber(SmartDashboardNames.sAUTON_MODE_SWITCH, getAutonModeSwitchPosition());
         SmartDashboard.putNumber(SmartDashboardNames.sAUTON_POSITION_SWITCH, getPositonChooserSwitch());
-    }
 
-    @Override
-    public void update()
-    {
         boolean changed = false;
 
         int position = getPositonChooserSwitch();
@@ -397,6 +393,12 @@ public class AutonomousFactory implements ISmartDashboardUpdaterModule, IUpdatea
             sLOGGER.log(Level.INFO, "Mode changed in update");
             createAutonMode();
         }
+
+    }
+
+    @Override
+    public void update()
+    {
 
     }
 }
