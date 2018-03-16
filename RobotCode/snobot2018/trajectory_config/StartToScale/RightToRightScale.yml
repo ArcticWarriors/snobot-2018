@@ -11,5 +11,5 @@ waypoints:
   mY: -25.75
 - !!org.snobot.coordinate_gui.model.Coordinate
   mAngle: -30.0
-  mX: 7.25
-  mY: -3.5
+  mX: 9.25
+  mY: -5.5
