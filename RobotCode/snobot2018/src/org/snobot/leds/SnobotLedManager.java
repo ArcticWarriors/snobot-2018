@@ -19,6 +19,7 @@ import org.snobot.leds.patterns.SmoothRainbow;
 import org.snobot.leds.patterns.SolidColorPattern;
 import org.snobot.leds.patterns.TestPattern;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -128,7 +129,14 @@ public class SnobotLedManager implements ILedManager
     {
         if (mRobot.isDisabled())
         {
-            mGameDataPattern.update();
+            if(DriverStation.getInstance().isFMSAttached())
+            {
+                mGameDataPattern.update();
+            }
+            else
+            {
+                mPatternMap.get(SnobotLedPatterns.TestPattern);
+            }
         }
         else if (mRobot.isAutonomous())
         {
