@@ -1,4 +1,4 @@
-#Scale R
+Scale R
 TrajectoryAutonomous StartToScale/RightToRightScale.csv
 GoToHeightCommand SCALE_HIGH
 DriveStraightPath 30 24 60

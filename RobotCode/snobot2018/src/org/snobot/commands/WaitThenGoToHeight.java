@@ -10,9 +10,22 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 
-public class WaitThenGoToHeight
+public final class WaitThenGoToHeight
 {
-    
+    private WaitThenGoToHeight()
+    {
+
+    }
+
+    /**
+     * Parses the args for the command.
+     * 
+     * @param aArgs
+     *            The arguments
+     * @param aSnobot
+     *            The robot
+     * @return The command
+     */
     public static CommandGroup parseCommand(List<String> aArgs, Snobot2018 aSnobot)
     {
         double height;
