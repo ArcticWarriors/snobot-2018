@@ -46,7 +46,7 @@ public class Snobot2018 extends ASnobot
 
     public Snobot2018(boolean aUseCan)
     {
-        mUseCan = aUseCan;
+        mUseCan = false;
     }
 
     /**

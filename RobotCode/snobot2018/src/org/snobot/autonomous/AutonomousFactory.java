@@ -12,7 +12,6 @@ import org.snobot.Properties2018;
 import org.snobot.PropertiesAutonomousDefaults;
 import org.snobot.SmartDashboardNames;
 import org.snobot.Snobot2018;
-import org.snobot.commands.StupidDriveStraight;
 import org.snobot.leds.ILedManager;
 import org.snobot.lib.PropertyManager.StringProperty;
 import org.snobot.lib.autonomous.ObservableSendableChooser;
@@ -269,12 +268,15 @@ public class AutonomousFactory implements ISmartDashboardUpdaterModule, IUpdatea
      */
     private CommandGroup getDefaultCommand()
     {
-        CommandGroup output = new CommandGroup();
+        // return mCommandParserA
+        // .readFile(Properties2018.sAUTON_PATH_DIRECTORY.getValue() +
+        // "/RealAutonomous/ScoreOnScaleTrajectory/ScoreOnHighScale_RightToLeft");
+        //
+        // return mCommandParserA
+        // .readFile(Properties2018.sAUTON_DIRECTORY.getValue() +
+        // "/RealAutonomous/ScoreOnScaleTrajectory/ScoreOnHighScale_LeftToRight");
 
-        output.addSequential(new StupidDriveStraight(mSnobot.getDrivetrain(), Properties2018.sAUTON_DEFAULT_TIME.getValue(),
-                Properties2018.sAUTON_DEFAULT_SPEED.getValue()));
-        return output;
-
+        return new CommandGroup();
     }
 
     private void addPositionLister()
