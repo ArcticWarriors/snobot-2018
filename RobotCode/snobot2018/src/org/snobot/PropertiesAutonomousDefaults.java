@@ -59,23 +59,4 @@ public class PropertiesAutonomousDefaults
     // Scale always
     public static final StringProperty sAUTON_MODE_A_17_FILE = new StringProperty("AutonMode_17A", sLEFT_SCALE_TO_LEFT_MODE);
     public static final StringProperty sAUTON_MODE_B_17_FILE = new StringProperty("AutonMode_17B", sLEFT_SCALE_TO_RIGHT_MODE);
-
-//  //********************************************************************
-//  // Center
-//  //********************************************************************
-//  public static final StringProperty sAUTON_MODE_A_7_FILE = new StringProperty("AutonMode_07A", sSWITCH_CENTER_TO_LEFT_MODE);
-//  public static final StringProperty sAUTON_MODE_B_7_FILE = new StringProperty("AutonMode_07B", sSWITCH_CENTER_TO_RIGHT_MODE);
-//  
-//  public static final StringProperty sAUTON_MODE_A_8_FILE = new StringProperty("AutonMode_08A", sSWITCH_CENTER_TO_LEFT_MODE);
-//  public static final StringProperty sAUTON_MODE_B_8_FILE = new StringProperty("AutonMode_08B", sSWITCH_CENTER_TO_RIGHT_MODE);
-//  
-//  public static final StringProperty sAUTON_MODE_A_9_FILE = new StringProperty("AutonMode_09A", sSWITCH_CENTER_TO_LEFT_MODE);
-//  public static final StringProperty sAUTON_MODE_B_9_FILE = new StringProperty("AutonMode_09B", sSWITCH_CENTER_TO_RIGHT_MODE);
-//  
-//  public static final StringProperty sAUTON_MODE_A_10_FILE = new StringProperty("AutonMode_10A", sSWITCH_CENTER_TO_LEFT_MODE);
-//  public static final StringProperty sAUTON_MODE_B_10_FILE = new StringProperty("AutonMode_10B", sSWITCH_CENTER_TO_RIGHT_MODE);
-//  
-//  public static final StringProperty sAUTON_MODE_A_11_FILE = new StringProperty("AutonMode_11A", sSWITCH_CENTER_TO_LEFT_MODE);
-//  public static final StringProperty sAUTON_MODE_B_11_FILE = new StringProperty("AutonMode_11B", sSWITCH_CENTER_TO_RIGHT_MODE);
-    
 }

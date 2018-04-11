@@ -17,7 +17,6 @@ import org.snobot.lib.PropertyManager.StringProperty;
 import org.snobot.lib.autonomous.ObservableSendableChooser;
 import org.snobot.lib.autonomous.SnobotAutonCrawler;
 import org.snobot.lib.modules.ISmartDashboardUpdaterModule;
-import org.snobot.lib.modules.IUpdateableModule;
 import org.snobot.positioner.IPositioner;
 
 import edu.wpi.first.networktables.NetworkTable;
@@ -29,7 +28,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class AutonomousFactory implements ISmartDashboardUpdaterModule, IUpdateableModule
+public class AutonomousFactory implements ISmartDashboardUpdaterModule
 {
     protected static final Logger sLOGGER = Logger.getLogger(AutonomousFactory.class);
 
@@ -146,12 +145,7 @@ public class AutonomousFactory implements ISmartDashboardUpdaterModule, IUpdatea
         mPresetAutonModesA.put(3, PropertiesAutonomousDefaults.sAUTON_MODE_A_3_FILE);
         mPresetAutonModesA.put(4, PropertiesAutonomousDefaults.sAUTON_MODE_A_4_FILE);
         mPresetAutonModesA.put(5, PropertiesAutonomousDefaults.sAUTON_MODE_A_5_FILE);
-//        // 6 is reserved for SD
-//        mPresetAutonModesA.put(7, PropertiesAutonomousDefaults.sAUTON_MODE_A_7_FILE);
-//        mPresetAutonModesA.put(8, PropertiesAutonomousDefaults.sAUTON_MODE_A_8_FILE);
-//        mPresetAutonModesA.put(9, PropertiesAutonomousDefaults.sAUTON_MODE_A_9_FILE);
-//        mPresetAutonModesA.put(10, PropertiesAutonomousDefaults.sAUTON_MODE_A_10_FILE);
-//        mPresetAutonModesA.put(11, PropertiesAutonomousDefaults.sAUTON_MODE_A_11_FILE);
+
         // 12 is reserved for SD
         mPresetAutonModesA.put(13, PropertiesAutonomousDefaults.sAUTON_MODE_A_13_FILE);
         mPresetAutonModesA.put(14, PropertiesAutonomousDefaults.sAUTON_MODE_A_14_FILE);
@@ -166,12 +160,7 @@ public class AutonomousFactory implements ISmartDashboardUpdaterModule, IUpdatea
         mPresetAutonModesB.put(3, PropertiesAutonomousDefaults.sAUTON_MODE_B_3_FILE);
         mPresetAutonModesB.put(4, PropertiesAutonomousDefaults.sAUTON_MODE_B_4_FILE);
         mPresetAutonModesB.put(5, PropertiesAutonomousDefaults.sAUTON_MODE_B_5_FILE);
-//        // 6 is reserved for SD
-//        mPresetAutonModesB.put(7, PropertiesAutonomousDefaults.sAUTON_MODE_B_7_FILE);
-//        mPresetAutonModesB.put(8, PropertiesAutonomousDefaults.sAUTON_MODE_B_8_FILE);
-//        mPresetAutonModesB.put(9, PropertiesAutonomousDefaults.sAUTON_MODE_B_9_FILE);
-//        mPresetAutonModesB.put(10, PropertiesAutonomousDefaults.sAUTON_MODE_B_10_FILE);
-//        mPresetAutonModesB.put(11, PropertiesAutonomousDefaults.sAUTON_MODE_B_11_FILE);
+
         // 12 is reserved for SD
         mPresetAutonModesB.put(13, PropertiesAutonomousDefaults.sAUTON_MODE_B_13_FILE);
         mPresetAutonModesB.put(14, PropertiesAutonomousDefaults.sAUTON_MODE_B_14_FILE);
@@ -268,14 +257,6 @@ public class AutonomousFactory implements ISmartDashboardUpdaterModule, IUpdatea
      */
     private CommandGroup getDefaultCommand()
     {
-        // return mCommandParserA
-        // .readFile(Properties2018.sAUTON_PATH_DIRECTORY.getValue() +
-        // "/RealAutonomous/ScoreOnScaleTrajectory/ScoreOnHighScale_RightToLeft");
-        //
-        // return mCommandParserA
-        // .readFile(Properties2018.sAUTON_DIRECTORY.getValue() +
-        // "/RealAutonomous/ScoreOnScaleTrajectory/ScoreOnHighScale_LeftToRight");
-
         return new CommandGroup();
     }
 
@@ -395,12 +376,6 @@ public class AutonomousFactory implements ISmartDashboardUpdaterModule, IUpdatea
             sLOGGER.log(Level.INFO, "Mode changed in update");
             createAutonMode();
         }
-
-    }
-
-    @Override
-    public void update()
-    {
 
     }
 }

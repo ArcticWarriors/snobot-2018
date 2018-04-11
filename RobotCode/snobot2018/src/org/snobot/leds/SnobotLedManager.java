@@ -129,13 +129,17 @@ public class SnobotLedManager implements ILedManager
     {
         if (mRobot.isDisabled())
         {
-            if(DriverStation.getInstance().isFMSAttached())
+            if (DriverStation.getInstance().isFMSAttached())
             {
                 mGameDataPattern.update();
             }
             else
             {
-                mPatternMap.get(SnobotLedPatterns.TestPattern);
+                IAddressableLedStripPattern defaultPattern = mPatternMap.get(SnobotLedPatterns.TestPattern);
+                if (defaultPattern != null)
+                {
+                    defaultPattern.update();
+                }
             }
         }
         else if (mRobot.isAutonomous())
