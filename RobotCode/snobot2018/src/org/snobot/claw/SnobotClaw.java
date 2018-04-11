@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SnobotClaw implements IClaw
 {
-    private static final DoubleSolenoid.Value sCLAW_OPEN_VALUE = Value.kReverse;
-    private static final DoubleSolenoid.Value sCLAW_CLOSE_VALUE = Value.kForward;
+    private static final DoubleSolenoid.Value sCLAW_OPEN_VALUE = Value.kForward;
+    private static final DoubleSolenoid.Value sCLAW_CLOSE_VALUE = Value.kReverse;
 
     private final DoubleSolenoid mDoubleSolenoid;
     private final ILogger mLogger;

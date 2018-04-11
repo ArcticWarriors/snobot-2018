@@ -1,6 +1,8 @@
 Scale R
 TrajectoryAutonomous StartToScale/RightToRightScale.csv
 GoToHeightCommand SCALE_HIGH
-DriveStraightPath 12 24 60
+DriveStraightPath 30 24 60
 Claw true
 Parallel DriveStraightPath -12 -24 -60 | GoToHeightCommand FLOOR
+DriveTurnPath 180 180 180
+TrajectoryAutonomous SwitchandScaleToCube/RightScaleToCube.csv

@@ -1,0 +1,15 @@
+config: !!com.team254.lib.trajectory.gen.TrajectoryGenerator$Config
+  dt: 0.02
+  isBackwards: false
+  max_acc : 180.0
+  max_jerk: 120.0
+  max_vel : 84.0
+waypoints:
+- !!org.snobot.coordinate_gui.model.Coordinate
+  mAngle: 0.0
+  mX: 0.0
+  mY: -26.0
+- !!org.snobot.coordinate_gui.model.Coordinate
+  mAngle: 0.0
+  mX: 4.75
+  mY: -16.5

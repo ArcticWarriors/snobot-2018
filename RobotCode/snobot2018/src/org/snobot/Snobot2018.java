@@ -101,6 +101,7 @@ public class Snobot2018 extends ASnobot
 
         // This should be done last
         mAutonFactory = new AutonomousFactory(this, mLedManager);
+        addModule(mAutonFactory);
 
         // initialize the default auton command
         mAutonFactory.createAutonMode();
