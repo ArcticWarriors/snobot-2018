@@ -75,7 +75,7 @@ public class DrivetrainTest extends BaseSimulatorTest
 
         Assert.assertTrue(sBAD_LEFT_DISTANCE_ERROR + drivetrain.getLeftDistance(), drivetrain.getLeftDistance() > 0);
         Assert.assertTrue(sBAD_RIGHT_DISTANCE_ERROR + drivetrain.getRightDistance(), drivetrain.getRightDistance() < 0);
-        Assert.assertTrue("Angle is wrong", drivetrain.getHeading() > 0);
+        Assert.assertTrue("Angle is wrong (" + drivetrain.getHeading() + ")", drivetrain.getHeading() > 0);
     }
 
     @Test
@@ -94,7 +94,7 @@ public class DrivetrainTest extends BaseSimulatorTest
 
         Assert.assertTrue(sBAD_LEFT_DISTANCE_ERROR + drivetrain.getLeftDistance(), drivetrain.getLeftDistance() < 0);
         Assert.assertTrue(sBAD_RIGHT_DISTANCE_ERROR + drivetrain.getRightDistance(), drivetrain.getRightDistance() > 0);
-        Assert.assertTrue("Angle is wrong", drivetrain.getHeading() < 0);
+        Assert.assertTrue("Angle is wrong (" + drivetrain.getHeading() + ")", drivetrain.getHeading() < 0);
     }
 
     @Parameters(name = "Test: {index} IsCan={0}")

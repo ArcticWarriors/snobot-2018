@@ -64,7 +64,7 @@ public class AutonChooserSwitchTest extends BaseSimulatorTest
     {
         for (double voltage = aMin; voltage < aMax; voltage += aIncrement)
         {
-            SensorActuatorRegistry.get().getAnalog().get(sANALOG_PORT).setVoltage(voltage);
+            SensorActuatorRegistry.get().getAnalogIn().get(sANALOG_PORT).setVoltage(voltage);
 
             int position = aSwitch.getPosition();
             Assert.assertEquals("Voltage=" + sDF.format(voltage), aExpected, position);

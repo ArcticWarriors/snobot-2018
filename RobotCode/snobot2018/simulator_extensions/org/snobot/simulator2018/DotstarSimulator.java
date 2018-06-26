@@ -5,14 +5,17 @@ import java.nio.ByteOrder;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.snobot.simulator.jni.standard_components.SpiCallbackJni;
-import com.snobot.simulator.simulator_components.ISpiWrapper;
+import com.snobot.simulator.module_wrapper.ASensorWrapper;
+import com.snobot.simulator.module_wrapper.interfaces.ISpiWrapper;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.sim.ConstBufferCallback;
+import edu.wpi.first.wpilibj.sim.SPISim;
 
-public class DotstarSimulator implements ISpiWrapper
+public class DotstarSimulator extends ASensorWrapper implements ISpiWrapper, ConstBufferCallback
 {
+    protected final SPISim mWpiWrapper;
     protected final NetworkTableEntry mNetworkTableEntry;
     protected final List<Integer> mValueBuffer;
 
@@ -24,21 +27,17 @@ public class DotstarSimulator implements ISpiWrapper
      */
     public DotstarSimulator(int aPort)
     {
-        SpiCallbackJni.registerSpiReadWriteCallback(aPort, this);
+        super("Dotstar");
+
+        mWpiWrapper = new SPISim(aPort);
+        mWpiWrapper.registerWriteCallback(this);
 
         NetworkTableInstance.getDefault().getTable("LedSimulator").getEntry(".type").setString("LedSimulator");
         mNetworkTableEntry = NetworkTableInstance.getDefault().getTable("LedSimulator").getEntry("Values");
         mValueBuffer = new LinkedList<>();
     }
 
-    @Override
-    public void handleRead(ByteBuffer aBuffer)
-    {
-        // Nothing to do
-    }
-
-    @Override
-    public void handleWrite(ByteBuffer aBuffer)
+    private void translateWrite(ByteBuffer aBuffer)
     {
         // arg0.order(ByteOrder.BIG_ENDIAN);
         aBuffer.order(ByteOrder.LITTLE_ENDIAN);
@@ -68,9 +67,12 @@ public class DotstarSimulator implements ISpiWrapper
     }
 
     @Override
-    public void shutdown()
+    public void callback(String aName, ByteBuffer aBuffer)
     {
-        // Nothing to do
+        if ("Read".equals(aName))
+        {
+            translateWrite(aBuffer);
+        }
     }
 
 

@@ -1,37 +1,53 @@
-!!com.snobot.simulator.config.SimulatorConfig
+!!com.snobot.simulator.config.v1.SimulatorConfigV1
 mAccelerometers: []
-mAnalogIO: []
-mDefaultI2CWrappers:
-  0: None
-  1: None
+mAnalogIn:
+- mHandle: 0
+  mName: Auto Position
+  mType: com.snobot.simulator.module_wrapper.wpi.WpiAnalogInWrapper
+- mHandle: 1
+  mName: Auto Mode
+  mType: com.snobot.simulator.module_wrapper.wpi.WpiAnalogInWrapper
+mAnalogOut: []
+mDefaultI2CWrappers: {}
 mDefaultSpiWrappers:
   0: ADXRS450
-  1: Dotstar
-  2: Dotstar
-  3: Dotstar
   4: Dotstar
 mDigitalIO:
 - mHandle: 6
   mName: Digital Source6
+  mType: com.snobot.simulator.module_wrapper.wpi.WpiDigitalIoWrapper
 - mHandle: 7
   mName: Digital Source7
+  mType: com.snobot.simulator.module_wrapper.wpi.WpiDigitalIoWrapper
 - mHandle: 8
   mName: Digital Source8
+  mType: com.snobot.simulator.module_wrapper.wpi.WpiDigitalIoWrapper
 - mHandle: 9
   mName: Digital Source9
+  mType: com.snobot.simulator.module_wrapper.wpi.WpiDigitalIoWrapper
+- mHandle: 10
+  mName: Digital IO 10
+  mType: com.snobot.simulator.module_wrapper.wpi.WpiDigitalIoWrapper
+- mHandle: 11
+  mName: Digital IO 11
+  mType: com.snobot.simulator.module_wrapper.wpi.WpiDigitalIoWrapper
 mEncoders:
 - mConnectedSpeedControllerHandle: 0
   mHandle: 0
   mName: drive right
+  mType: com.snobot.simulator.module_wrapper.wpi.WpiEncoderWrapper
 - mConnectedSpeedControllerHandle: 1
   mHandle: 1
   mName: drive left
+  mType: com.snobot.simulator.module_wrapper.wpi.WpiEncoderWrapper
 - mConnectedSpeedControllerHandle: 2
   mHandle: 2
   mName: Elevator
+  mType: com.snobot.simulator.module_wrapper.wpi.WpiEncoderWrapper
 mGyros:
 - mHandle: 100
-  mName: SPI ADXRS450
+  mName: ADXRS450 Gyro
+  mType: com.snobot.simulator.simulator_components.adx_family.ADXRS450GyroWrapper
 mPwm:
 - mHandle: 0
   mMotorModelConfig:
@@ -45,6 +61,7 @@ mPwm:
     mConversionFactor: 3.0
     mLoad: 0.6
   mName: Drive Left
+  mType: com.snobot.simulator.module_wrapper.wpi.WpiPwmWrapper
 - mHandle: 1
   mMotorModelConfig:
     mGearReduction: 12.0
@@ -57,20 +74,29 @@ mPwm:
     mConversionFactor: 3.0
     mLoad: 0.6
   mName: Drive Right
+  mType: com.snobot.simulator.module_wrapper.wpi.WpiPwmWrapper
 - mHandle: 2
   mMotorModelConfig: null
   mMotorSimConfig: !!com.snobot.simulator.motor_sim.SimpleMotorSimulationConfig
     mMaxSpeed: 20.0
   mName: Elevator
+  mType: com.snobot.simulator.module_wrapper.wpi.WpiPwmWrapper
+- mHandle: 3
+  mMotorModelConfig: null
+  mMotorSimConfig: null
+  mName: Speed Controller 3
+  mType: com.snobot.simulator.module_wrapper.wpi.WpiPwmWrapper
 mRelays: []
 mSimulatorComponents:
-- !!com.snobot.simulator.simulator_components.TankDriveGyroSimulator$TankDriveConfig
+- !!com.snobot.simulator.simulator_components.config.TankDriveConfig
   mGyroHandle: 100
   mLeftEncoderHandle: 0
   mRightEncoderHandle: 1
-  mTurnKp: 33.33
+  mTurnKp: 33.33333
 mSolenoids:
 - mHandle: 1
   mName: Claw (A)
+  mType: com.snobot.simulator.module_wrapper.wpi.WpiSolenoidWrapper
 - mHandle: 2
   mName: Claw (B)
+  mType: com.snobot.simulator.module_wrapper.wpi.WpiSolenoidWrapper

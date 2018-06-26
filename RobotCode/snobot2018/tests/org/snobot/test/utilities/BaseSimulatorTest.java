@@ -34,8 +34,6 @@ public class BaseSimulatorTest
         mSnobot = new Snobot2018(aUseCan);
         mSnobot.robotInit();
         mSnobot.initializeLogHeaders();
-
-        mSimulator.createSimulatorComponents();
     }
 
     private final void setup()

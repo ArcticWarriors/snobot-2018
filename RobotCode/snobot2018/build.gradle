@@ -16,17 +16,21 @@ plugins {
     id "pmd"
     id "findbugs"
     id "jaci.openrio.gradle.GradleRIO" version "2018.01.21"
-    id "com.snobot.simulator.plugin.SnobotSimulatorPlugin" version "2018.01.10"
+    id "com.snobot.simulator.plugin.SnobotSimulatorPlugin" version "2018-1.0.0"
 }
+
+
 
 apply plugin: com.snobot.simulator.plugin.SnobotSimulatorPlugin
 snobotSimVersions {
-    snobotSimVersion = "0.9.0"
+    snobotSimVersion = "2018-1.0.0"
+    snobotSimCtreVersion = "V0_5.1.2.1"
 }
 
 wpi {
     wpilibVersion = '2018.4.1'
     shuffleboardVersion = '1.2.2'
+    ctreVersion = "5.1.2.1"
 }
 /////////////////////////////////////////////////////////////////////////////////
 // Style/Formatting stuff
