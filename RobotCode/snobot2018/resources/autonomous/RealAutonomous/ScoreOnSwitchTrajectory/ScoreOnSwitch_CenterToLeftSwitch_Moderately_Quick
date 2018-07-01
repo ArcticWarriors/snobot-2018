@@ -1,0 +1,5 @@
+Switch R
+Parallel TrajectoryAutonomous StartToSwitch/CenterToLeftSwitch_6ftsec.csv | GoToHeightCommand SWITCH
+Claw true
+Parallel TrajectoryAutonomous SwitchandScaleToCube/BackwardLeftSwitchToCube.csv | WaitThenGoToHeight .5 FLOOR
+TrajectoryAutonomous SwitchandScaleToCube/ForwardLeftSwitchToCube.csv

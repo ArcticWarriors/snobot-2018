@@ -17,6 +17,7 @@ import org.snobot.commands.GoToXY;
 import org.snobot.commands.StupidDriveStraight;
 import org.snobot.commands.StupidGoToXY;
 import org.snobot.commands.StupidTurn;
+import org.snobot.commands.WaitThenGoToHeight;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -66,6 +67,7 @@ public class AutonomousCommandCreator
         mCommandCreatorMap.put(AutonomousCommandNames.sGO_TO_XY_COMMAND, GoToXY::parseCommand);
         mCommandCreatorMap.put(AutonomousCommandNames.sGO_TO_HEIGHT_COMMAND, GoToHeightCommand::parseCommand);
         mCommandCreatorMap.put(AutonomousCommandNames.sCLAW_COMMAND, ClawCommand::parseCommand);
+        mCommandCreatorMap.put(AutonomousCommandNames.sWAIT_THEN_GO_TO_HEIGHT, WaitThenGoToHeight::parseCommand);
 
     }
 

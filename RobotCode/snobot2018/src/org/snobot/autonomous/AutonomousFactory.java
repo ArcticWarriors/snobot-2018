@@ -12,7 +12,6 @@ import org.snobot.Properties2018;
 import org.snobot.PropertiesAutonomousDefaults;
 import org.snobot.SmartDashboardNames;
 import org.snobot.Snobot2018;
-import org.snobot.commands.StupidDriveStraight;
 import org.snobot.leds.ILedManager;
 import org.snobot.lib.PropertyManager.StringProperty;
 import org.snobot.lib.autonomous.ObservableSendableChooser;
@@ -55,6 +54,9 @@ public class AutonomousFactory implements ISmartDashboardUpdaterModule
     protected final AutonChooserSwitch mPositionChooserSwitch;
     protected final Map<Integer, StringProperty> mPresetAutonModesA;
     protected final Map<Integer, StringProperty> mPresetAutonModesB;
+
+    protected int mLastMode = 0;
+    protected int mLastPosition = 0;
 
     /**
      * Starting positions.
@@ -143,13 +145,8 @@ public class AutonomousFactory implements ISmartDashboardUpdaterModule
         mPresetAutonModesA.put(3, PropertiesAutonomousDefaults.sAUTON_MODE_A_3_FILE);
         mPresetAutonModesA.put(4, PropertiesAutonomousDefaults.sAUTON_MODE_A_4_FILE);
         mPresetAutonModesA.put(5, PropertiesAutonomousDefaults.sAUTON_MODE_A_5_FILE);
-        // 6 is reserved for SD
-        mPresetAutonModesA.put(7, PropertiesAutonomousDefaults.sAUTON_MODE_A_7_FILE);
-        mPresetAutonModesA.put(8, PropertiesAutonomousDefaults.sAUTON_MODE_A_8_FILE);
-        mPresetAutonModesA.put(9, PropertiesAutonomousDefaults.sAUTON_MODE_A_9_FILE);
-        mPresetAutonModesA.put(10, PropertiesAutonomousDefaults.sAUTON_MODE_A_10_FILE);
+
         // 12 is reserved for SD
-        mPresetAutonModesA.put(11, PropertiesAutonomousDefaults.sAUTON_MODE_A_11_FILE);
         mPresetAutonModesA.put(13, PropertiesAutonomousDefaults.sAUTON_MODE_A_13_FILE);
         mPresetAutonModesA.put(14, PropertiesAutonomousDefaults.sAUTON_MODE_A_14_FILE);
         mPresetAutonModesA.put(15, PropertiesAutonomousDefaults.sAUTON_MODE_A_15_FILE);
@@ -163,12 +160,7 @@ public class AutonomousFactory implements ISmartDashboardUpdaterModule
         mPresetAutonModesB.put(3, PropertiesAutonomousDefaults.sAUTON_MODE_B_3_FILE);
         mPresetAutonModesB.put(4, PropertiesAutonomousDefaults.sAUTON_MODE_B_4_FILE);
         mPresetAutonModesB.put(5, PropertiesAutonomousDefaults.sAUTON_MODE_B_5_FILE);
-        // 6 is reserved for SD
-        mPresetAutonModesB.put(7, PropertiesAutonomousDefaults.sAUTON_MODE_B_7_FILE);
-        mPresetAutonModesB.put(8, PropertiesAutonomousDefaults.sAUTON_MODE_B_8_FILE);
-        mPresetAutonModesB.put(9, PropertiesAutonomousDefaults.sAUTON_MODE_B_9_FILE);
-        mPresetAutonModesB.put(10, PropertiesAutonomousDefaults.sAUTON_MODE_B_10_FILE);
-        mPresetAutonModesB.put(11, PropertiesAutonomousDefaults.sAUTON_MODE_B_11_FILE);
+
         // 12 is reserved for SD
         mPresetAutonModesB.put(13, PropertiesAutonomousDefaults.sAUTON_MODE_B_13_FILE);
         mPresetAutonModesB.put(14, PropertiesAutonomousDefaults.sAUTON_MODE_B_14_FILE);
@@ -197,12 +189,13 @@ public class AutonomousFactory implements ISmartDashboardUpdaterModule
         int modeSwitchPosition = this.getAutonModeSwitchPosition();
         int positionSwitchPosition = this.getPositonChooserSwitch();
 
+        int modePlusSixPos = modeSwitchPosition + (6 * positionSwitchPosition);
+
         File planAFile;
         File planBFile;
 
-        if (mPresetAutonModesA.containsKey(modeSwitchPosition))
+        if (mPresetAutonModesA.containsKey(modePlusSixPos))
         {
-            int modePlusSixPos = modeSwitchPosition + (6 * positionSwitchPosition);
             sLOGGER.log(Level.INFO,
                     "Using auton switches: mode switch=" + modeSwitchPosition + ", pos switch=" + positionSwitchPosition + " -> " + modePlusSixPos);
             planAFile = new File(Properties2018.sAUTON_DIRECTORY.getValue(), mPresetAutonModesA.get(modePlusSixPos).getValue());
@@ -217,14 +210,14 @@ public class AutonomousFactory implements ISmartDashboardUpdaterModule
         }
 
         CommandGroup outputA = this.tryLoadFile(planAFile, scalePosition, switchPosition, mCommandParserA);
+        CommandGroup outputB = this.tryLoadFile(planBFile, scalePosition, switchPosition, mCommandParserB); // NOPMD
         if (outputA != null)
         {
             mLedManager.setAutoSelection(AutonSelectionType.PlanA);
             sLOGGER.log(Level.INFO, "Using Plan A");
             return outputA;
         }
-
-        CommandGroup outputB = this.tryLoadFile(planBFile, scalePosition, switchPosition, mCommandParserB);
+        
         if (outputB != null)
         {
             mLedManager.setAutoSelection(AutonSelectionType.PlanB);
@@ -264,12 +257,7 @@ public class AutonomousFactory implements ISmartDashboardUpdaterModule
      */
     private CommandGroup getDefaultCommand()
     {
-        CommandGroup output = new CommandGroup();
-
-        output.addSequential(new StupidDriveStraight(mSnobot.getDrivetrain(), Properties2018.sAUTON_DEFAULT_TIME.getValue(),
-                Properties2018.sAUTON_DEFAULT_SPEED.getValue()));
-        return output;
-
+        return new CommandGroup();
     }
 
     private void addPositionLister()
@@ -373,5 +361,21 @@ public class AutonomousFactory implements ISmartDashboardUpdaterModule
     {
         SmartDashboard.putNumber(SmartDashboardNames.sAUTON_MODE_SWITCH, getAutonModeSwitchPosition());
         SmartDashboard.putNumber(SmartDashboardNames.sAUTON_POSITION_SWITCH, getPositonChooserSwitch());
+
+        boolean changed = false;
+
+        int position = getPositonChooserSwitch();
+        int mode = getAutonModeSwitchPosition();
+
+        changed |= mode != mLastMode;
+        changed |= position != mLastPosition;
+        if (changed)
+        {
+            mLastMode = mode;
+            mLastPosition = position;
+            sLOGGER.log(Level.INFO, "Mode changed in update");
+            createAutonMode();
+        }
+
     }
 }

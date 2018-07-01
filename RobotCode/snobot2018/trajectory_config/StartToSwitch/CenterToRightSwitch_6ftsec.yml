@@ -7,9 +7,9 @@ config: !!com.team254.lib.trajectory.gen.TrajectoryGenerator$Config
 waypoints:
 - !!org.snobot.coordinate_gui.model.Coordinate
   mAngle: 0.0
-  mX: 4.75
-  mY: -16.5
+  mX: 0.0
+  mY: -26.0
 - !!org.snobot.coordinate_gui.model.Coordinate
   mAngle: 0.0
-  mX: 0.0
-  mY: -22.75
+  mX: 4.75
+  mY: -16.5
