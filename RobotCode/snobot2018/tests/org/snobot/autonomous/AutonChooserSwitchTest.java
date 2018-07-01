@@ -10,7 +10,7 @@ import com.snobot.simulator.SensorActuatorRegistry;
 
 public class AutonChooserSwitchTest extends BaseSimulatorTest
 {
-    private static final int sANALOG_PORT = 2;
+    private static final int sANALOG_PORT = 4;
     private static final DecimalFormat sDF = new DecimalFormat("0.000");
 
     public AutonChooserSwitchTest()

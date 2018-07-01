@@ -1,4 +1,5 @@
 temp/
 simulator_config/joystick_config.properties
 simulator_config/networktables.ini.bak
+auto_bakup
 rollingtest.log

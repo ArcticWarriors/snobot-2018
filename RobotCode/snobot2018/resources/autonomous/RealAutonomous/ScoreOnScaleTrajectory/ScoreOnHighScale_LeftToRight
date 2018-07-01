@@ -1,6 +1,5 @@
 Scale R
-TrajectoryAutonomous StartToScale/LeftToRightScale.csv
-GoToHeightCommand SCALE_HIGH 
+Parallel TrajectoryAutonomous StartToScale/LeftToRightScale.csv | WaitThenGoToHeight 6 SCALE_HIGH
 DriveStraightPath 12 24 60
 Claw true
 Parallel DriveStraightPath -12 -24 -60 | GoToHeightCommand FLOOR

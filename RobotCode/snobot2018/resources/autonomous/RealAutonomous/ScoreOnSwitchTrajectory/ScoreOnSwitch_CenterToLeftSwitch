@@ -1,5 +1,3 @@
 Switch L
 Parallel TrajectoryAutonomous StartToSwitch/CenterToLeftSwitch.csv | GoToHeightCommand SWITCH
 Claw true
-TrajectoryAutonomous SwitchandScaleToCube/BackwardLeftSwitchToCube.csv
-TrajectoryAutonomous SwitchandScaleToCube/ForwardLeftSwitchToCube.csv

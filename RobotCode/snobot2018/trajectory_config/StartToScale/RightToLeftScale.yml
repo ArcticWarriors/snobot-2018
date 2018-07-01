@@ -10,62 +10,14 @@ waypoints:
   mX: 10.0
   mY: -27.0
 - !!org.snobot.coordinate_gui.model.Coordinate
-  mAngle: 0.0
-  mX: 10.0
-  mY: -24.5
-- !!org.snobot.coordinate_gui.model.Coordinate
-  mAngle: 5.710593137499643
-  mX: 10.25
-  mY: -22.0
-- !!org.snobot.coordinate_gui.model.Coordinate
-  mAngle: 0.0
-  mX: 10.25
-  mY: -19.5
-- !!org.snobot.coordinate_gui.model.Coordinate
-  mAngle: 0.0
-  mX: 10.25
-  mY: -17.0
-- !!org.snobot.coordinate_gui.model.Coordinate
-  mAngle: 0.0
-  mX: 10.25
-  mY: -14.5
-- !!org.snobot.coordinate_gui.model.Coordinate
-  mAngle: 5.710593137499643
-  mX: 10.5
-  mY: -12.0
-- !!org.snobot.coordinate_gui.model.Coordinate
-  mAngle: -23.962488974578182
+  mAngle: -30.0
   mX: 9.5
-  mY: -9.75
-- !!org.snobot.coordinate_gui.model.Coordinate
-  mAngle: -60.94539590092286
-  mX: 7.25
-  mY: -8.5
-- !!org.snobot.coordinate_gui.model.Coordinate
-  mAngle: -73.30075576600638
-  mX: 4.75
-  mY: -7.75
-- !!org.snobot.coordinate_gui.model.Coordinate
-  mAngle: -84.28940686250037
-  mX: 2.25
-  mY: -7.5
-- !!org.snobot.coordinate_gui.model.Coordinate
-  mAngle: -84.28940686250037
-  mX: -0.25
-  mY: -7.25
+  mY: -12.75
 - !!org.snobot.coordinate_gui.model.Coordinate
   mAngle: -90.0
-  mX: -2.75
-  mY: -7.25
+  mX: 3.0
+  mY: -10.5
 - !!org.snobot.coordinate_gui.model.Coordinate
-  mAngle: -78.69006752597979
-  mX: -5.25
-  mY: -6.75
-- !!org.snobot.coordinate_gui.model.Coordinate
-  mAngle: -49.39870535499554
-  mX: -7.0
-  mY: -5.25
-- !!org.snobot.coordinate_gui.model.Coordinate
-  mAngle: 0.0
-  mX: -7.0
-  mY: -3.0
+  mAngle: -60.0
+  mX: -3.0
+  mY: -10.0

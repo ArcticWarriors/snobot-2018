@@ -1,6 +1,6 @@
 config: !!com.team254.lib.trajectory.gen.TrajectoryGenerator$Config
   dt: 0.02
-  isBackwards: false
+  isBackwards: true
   max_acc: 120.0
   max_jerk: 60.0
   max_vel: 60.0
