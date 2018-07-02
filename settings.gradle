@@ -1,1 +1,5 @@
-rootProject.name="Root Directory"
+rootProject.name="Snobot2018Repo"
+
+include 'RobotCode:snobot2018'
+include 'NetworkTableViewer:2018ShuffleboardWidgets'
+include 'NetworkTableViewer:2018SmartDashboardWidgets'

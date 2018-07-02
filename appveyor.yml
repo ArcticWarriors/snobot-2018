@@ -1,6 +1,10 @@
 version: 1.0.{build}
 image: Visual Studio 2015
 
+platform:
+- x86
+- x64
+
 clone_script:
 - cmd: >-
     git clone -q --branch=%APPVEYOR_REPO_BRANCH% https://github.com/%APPVEYOR_REPO_NAME%.git %APPVEYOR_BUILD_FOLDER%
@@ -12,49 +16,7 @@ clone_script:
     git submodule update --init --recursive
 
 build_script:
-- ps: >-
-    
-    dir
-    
-    dir RobotCode
-    
-    dir RobotCode\snobot2018
-    
-    dir RobotCode\SnobotRobotLibs
-    
-    dir RobotCode\SnobotRobotLibs\src
-
-    # Build Robot Code
-    
-    cd RobotCode\snobot2018
-    
-    dir
-    
-    cmd /c gradlew.bat build jacocoTestReport
-
-    # Build Shuffleboard plugin
-    
-    cd ..\..\NetworkTableViewer\2018ShuffleboardWidgets
-    
-    dir
-    
-    cmd /c gradlew.bat build
-
-    # Build SmartDashboard extension
-    
-    cd ..\..\NetworkTableViewer\2018SmartDashboardWidgets
-    
-    dir
-    
-    cmd /c gradlew.bat build
-
-    # # Build Vision App
-    # 
-    # cd ..\..\Vision\VisionApp
-    # 
-    # dir
-    # 
-    # cmd /c gradlew.bat build
+- cmd: gradlew.bat build jacocoTestReport
     
 after_build:
 - cmd: "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
@@ -62,5 +24,13 @@ after_build:
 - cmd: cd ../..
 - cmd: dir
 - cmd: codecov -f "RobotCode/snobot2018/build/reports/jacoco/test/jacocoTestReport.xml"
-
  
+artifacts:
+- path: NetworkTableViewer/2018ShuffleboardWidgets/build/libs/*.jar
+  name: Shuffleboard
+  
+- path: NetworkTableViewer/2018SmartDashboardWidgets/build/libs/*.jar
+  name: SmartDashboard
+  
+- path: RobotCode/snobot2018/build/libs/*.jar
+  name: Robot

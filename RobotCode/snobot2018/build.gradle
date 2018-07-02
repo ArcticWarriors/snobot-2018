@@ -1,27 +1,14 @@
-buildscript {
-    repositories {
-        mavenLocal()
-        jcenter()
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
-}
-plugins {
-    id "java"
-    id "eclipse"
-    id "idea"
-    id "jacoco"
-    id "checkstyle"
-    id "pmd"
-    id "findbugs"
-    id "jaci.openrio.gradle.GradleRIO" version "2018.01.21"
-    id "com.snobot.simulator.plugin.SnobotSimulatorPlugin" version "2018-1.0.0"
-}
 
+apply plugin: "jaci.openrio.gradle.GradleRIO"
+apply plugin: "com.snobot.simulator.plugin.SnobotSimulatorPlugin"
+apply plugin: "java"
 
+apply plugin: "eclipse"
+apply plugin: "jacoco"
+apply plugin: "checkstyle"
+apply plugin: "pmd"
+apply plugin: "findbugs"
 
-apply plugin: com.snobot.simulator.plugin.SnobotSimulatorPlugin
 snobotSimVersions {
     snobotSimVersion = "2018-1.0.0"
     snobotSimCtreVersion = "V0_5.1.2.1"
@@ -36,7 +23,7 @@ wpi {
 // Style/Formatting stuff
 checkstyle {
     toolVersion = "8.1"
-    configFile = new File(rootDir, "styleguide/checkstyle.xml")
+    configFile = new File(projectDir, "styleguide/checkstyle.xml")
 }
 
 pmd {
@@ -82,12 +69,6 @@ deploy {
 
 /////////////////////////////////////////////////////////////////////////////////
 
-
-repositories {
-    mavenLocal()
-    mavenCentral()
-}
-
 sourceSets {
     main {
         java {
@@ -102,11 +83,6 @@ sourceSets {
             srcDirs = ["tests", "simulator_extensions"]
         }
     }
-}
-
-configurations {
-    native3rdPartyDeps
-    testRuntime.extendsFrom(native3rdPartyDeps)
 }
 
 dependencies {
@@ -149,14 +125,9 @@ jar {
     from "src/log4j.xml"
     manifest jaci.openrio.gradle.GradleRIOPlugin.javaManifest(ROBOT_CLASS)
 }
-
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.2.1'
-}
-
-build.dependsOn snobotSimUnzipNativeTools
-
+//
+//build.dependsOn snobotSimUnzipNativeTools
+//
 eclipse.classpath.file {
     withXml {
         provider ->
@@ -172,5 +143,5 @@ test {
 }
 
 tasks.withType(Test) {
-    systemProperty "java.library.path", "$rootDir/build/native_libs"
+    systemProperty "java.library.path", "$projectDir/build/native_libs"
 }

@@ -7,11 +7,8 @@ apply plugin: 'pmd'
 apply plugin: 'findbugs'
 
 repositories {
+    mavenCentral()
     maven {
-        url "https://plugins.gradle.org/m2/"
-    }
-    maven {
-        name = "WPI"
         url = "http://first.wpi.edu/FRC/roborio/maven/release"
     }
 }
@@ -70,7 +67,7 @@ dependencies {
 // Style/Formatting stuff
 checkstyle {
     toolVersion = "8.1"
-    configFile = new File(rootDir, "../styleguide/checkstyle.xml")
+    configFile = new File(projectDir, "../styleguide/checkstyle.xml")
 }
 
 pmd {
@@ -91,7 +88,3 @@ tasks.withType(FindBugs) {
     }
 }
 /////////////////////////////////////////////////////////////////////////////////
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.1'
-}

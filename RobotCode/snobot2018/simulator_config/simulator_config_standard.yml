@@ -1,7 +1,7 @@
 !!com.snobot.simulator.config.v1.SimulatorConfigV1
 mAccelerometers: []
 mAnalogIn:
-- mHandle: 0
+- mHandle: 2
   mName: Auto Position
   mType: com.snobot.simulator.module_wrapper.wpi.WpiAnalogInWrapper
 - mHandle: 1
