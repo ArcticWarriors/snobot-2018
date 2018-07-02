@@ -167,6 +167,10 @@ eclipse.classpath.file {
     }
 }
 
+test {
+    ignoreFailures = org.gradle.internal.os.OperatingSystem.current().isMacOsX()
+}
+
 tasks.withType(Test) {
     systemProperty "java.library.path", "$rootDir/build/native_libs"
 }
