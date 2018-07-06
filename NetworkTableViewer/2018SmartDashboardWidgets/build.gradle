@@ -1,10 +1,6 @@
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
-apply plugin: 'checkstyle'
-apply plugin: 'pmd'
-apply plugin: 'findbugs'
+apply from: "$rootDir/shared_styleguide.gradle"
 
 repositories {
     mavenCentral()
@@ -18,7 +14,7 @@ sourceSets {
         java {
             srcDirs = ["src", 
                        "../2018NetworkTableViewer/src", 
-                       "../SmartDashboardLibs/src", 
+                       "../SmartDashboardLibs/src/main/java", 
                        "../CoordinateViewerGui/src/BaseYearSpecificGui", 
                        "../CoordinateViewerGui/src/2018Gui", 
                        "../CoordinateViewerGui/src/lib"]
@@ -51,6 +47,9 @@ task install_depencies_to_plugin_dir(type: Copy) {
 }
 
 task install_to_plugin_dir(type: Copy, dependsOn: install_depencies_to_plugin_dir) {
+    group = "Network Table GUI"
+    description ="Installs the jar to the plugin area"
+    
     from jar.outputs
     into System.getProperty("user.home") + "/SmartDashboard/extensions"
 }
@@ -58,33 +57,9 @@ task install_to_plugin_dir(type: Copy, dependsOn: install_depencies_to_plugin_di
 dependencies {
     compile 'jfree:jfreechart:1.0.13'
     compile 'org.yaml:snakeyaml:1.18'
+    compile 'org.apache.logging.log4j:log4j-api:2.11.0'
+    compile 'org.apache.logging.log4j:log4j-core:2.11.0'
     compile 'log4j:log4j:1.2.16'
     
     compile 'edu.wpi.first.wpilib:SmartDashboard:3.0.0'
 }
-
-/////////////////////////////////////////////////////////////////////////////////
-// Style/Formatting stuff
-checkstyle {
-    toolVersion = "8.1"
-    configFile = new File(projectDir, "../styleguide/checkstyle.xml")
-}
-
-pmd {
-    consoleOutput  = true
-    reportsDir = file("${project.buildDir}/reports/pmd")
-    ruleSetFiles = files(file("../styleguide/pmd-ruleset.xml"))
-    ruleSets = []
-}
-
-findbugs {
-    excludeFilter = file("../styleguide/findbugs_suppressions.xml")
-    effort = "max"
-}
-tasks.withType(FindBugs) {
-    reports {
-        xml.enabled false
-        html.enabled true
-    }
-}
-/////////////////////////////////////////////////////////////////////////////////

@@ -3,8 +3,9 @@ package org.snobot.autonomous.trajectory;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.snobot.Properties2018;
 import org.snobot.SmartDashboardNames;
 import org.snobot.Snobot2018;
@@ -27,7 +28,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class TrajectoryPathCommand extends Command 
 {
-    protected static final Logger sLOGGER = Logger.getLogger(TrajectoryPathCommand.class);
+    protected static final Logger sLOGGER = LogManager.getLogger(TrajectoryPathCommand.class);
 
     private static final NetworkTable sTRAJECTORY_NETWORK_TABLE = NetworkTableInstance.getDefault()
             .getTable(SmartDashboardNames.sSPLINE_NAMESPACE);

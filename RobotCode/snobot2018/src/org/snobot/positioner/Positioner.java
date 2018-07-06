@@ -3,7 +3,8 @@ package org.snobot.positioner;
 import org.snobot.SmartDashboardNames;
 import org.snobot.drivetrain.IDriveTrain;
 import org.snobot.lib.Utilities;
-import org.snobot.lib.logging.ILogger;
+import org.snobot.lib.logging.CsvLogEntry;
+import org.snobot.lib.logging.CsvLogger;
 import org.snobot.lib.modules.ISubsystem;
 
 import edu.wpi.first.networktables.NetworkTable;
@@ -24,7 +25,11 @@ public class Positioner implements ISubsystem, IPositioner
 
     private final Timer mTimer;
     private final IDriveTrain mDriveTrain;
-    private final ILogger mLogger;
+
+    protected final CsvLogEntry mXLog;
+    protected final CsvLogEntry mYLog;
+    protected final CsvLogEntry mAngleLog;
+    protected final CsvLogEntry mSpeedLog;
 
     private double mXPosition;
     private double mYPosition;
@@ -44,7 +49,7 @@ public class Positioner implements ISubsystem, IPositioner
      * @param aLogger
      *            The robot's Logger.
      */
-    public Positioner(IDriveTrain aDriveTrain, ILogger aLogger)
+    public Positioner(IDriveTrain aDriveTrain, CsvLogger aLogger)
     {
         mXPosition = 0;
         mYPosition = 0;
@@ -55,25 +60,22 @@ public class Positioner implements ISubsystem, IPositioner
         mSpeed = 0;
         mDriveTrain = aDriveTrain;
         mTimer = new Timer();
-        mLogger = aLogger;
         mStartAngle = 0;
 
         mPositionTable = NetworkTableInstance.getDefault().getTable(SmartDashboardNames.sROBOT_POSITION_TABLE);
         mPositionTable.getEntry(".type").setString(SmartDashboardNames.sROBOT_POSITION_TABLE);
-    }
 
-    /**
-     * Starts timer and adds headers to Logger.
-     */
-    @Override
-    public void initializeLogHeaders()
-    {
         mTimer.start();
+        
+        mXLog = new CsvLogEntry("Positioner.X");
+        mYLog = new CsvLogEntry("Positioner.Y");
+        mAngleLog = new CsvLogEntry("Positioner.Angle");
+        mSpeedLog = new CsvLogEntry("Positioner.Speed");
 
-        mLogger.addHeader("X-coordinate");
-        mLogger.addHeader("Y-coordinate");
-        mLogger.addHeader("Orientation");
-        mLogger.addHeader("Speed");
+        aLogger.addEntry(mXLog);
+        aLogger.addEntry(mYLog);
+        aLogger.addEntry(mAngleLog);
+        aLogger.addEntry(mSpeedLog);
     }
 
     /**
@@ -101,6 +103,11 @@ public class Positioner implements ISubsystem, IPositioner
         mSpeed = dt == 0 ? 0 : deltaDistance;
         mLastTime = mTimer.get();
         mLastDistance = mTotalDistance;
+
+        mXLog.update(mXPosition);
+        mYLog.update(mYPosition);
+        mAngleLog.update(mOrientation);
+        mSpeedLog.update(mSpeed);
     }
 
     @Override
@@ -170,19 +177,6 @@ public class Positioner implements ISubsystem, IPositioner
         mPositionTable.getEntry(SmartDashboardNames.sX_POSITION).setDouble(mXPosition);
         mPositionTable.getEntry(SmartDashboardNames.sY_POSITION).setDouble(mYPosition);
         mPositionTable.getEntry(SmartDashboardNames.sORIENTATION).setDouble(boundedAngle);
-    }
-
-    /**
-     * Sends the robot's X/Y-position, orientation, total distance traveled,
-     * change in distance traveled, and speed to the logger.
-     */
-    @Override
-    public void updateLog()
-    {
-        mLogger.updateLogger(mXPosition);
-        mLogger.updateLogger(mYPosition);
-        mLogger.updateLogger(mOrientation);
-        mLogger.updateLogger(mSpeed);
     }
 
     @Override

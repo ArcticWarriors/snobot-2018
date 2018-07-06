@@ -1,12 +1,13 @@
 package org.snobot.elevator;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.snobot.PortMappings2018;
 import org.snobot.Properties2018;
 import org.snobot.joystick.IOperatorJoystick;
 import org.snobot.leds.ILedManager;
-import org.snobot.lib.logging.ILogger;
+import org.snobot.lib.logging.CsvLogger;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -15,7 +16,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class SnobotCtreElevator extends ASnobotElevator<WPI_TalonSRX>
 {
-    protected static final Logger sLOGGER = Logger.getLogger(SnobotCtreElevator.class);
+    protected static final Logger sLOGGER = LogManager.getLogger(SnobotCtreElevator.class);
 
     private static final int sDEFAULT_PID_SLOT = 0;
     private static final int sTIMEOUT = PortMappings2018.sDEFAULT_CTRE_TIMEOUT;
@@ -33,7 +34,7 @@ public class SnobotCtreElevator extends ASnobotElevator<WPI_TalonSRX>
      * @param aLogger
      *            logs the actions of the elevator in the log file.
      */
-    public SnobotCtreElevator(ILedManager aLedManager, WPI_TalonSRX aElevatorMotor, IOperatorJoystick aJoystick, ILogger aLogger)
+    public SnobotCtreElevator(ILedManager aLedManager, WPI_TalonSRX aElevatorMotor, IOperatorJoystick aJoystick, CsvLogger aLogger)
     {
         super(aLedManager, aElevatorMotor, aJoystick, aLogger);
 

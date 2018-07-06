@@ -2,7 +2,8 @@ package org.snobot.winch;
 
 import org.snobot.SmartDashboardNames;
 import org.snobot.joystick.IOperatorJoystick;
-import org.snobot.lib.logging.ILogger;
+import org.snobot.lib.logging.CsvLogEntry;
+import org.snobot.lib.logging.CsvLogger;
 import org.snobot.lib.modules.ISubsystem;
 
 import edu.wpi.first.wpilibj.SpeedController;
@@ -13,7 +14,8 @@ public class SnobotWinch implements IWinch, ISubsystem
     private final SpeedController mWinchMotor;
     private double mWinchSpeed = 0;
     private final IOperatorJoystick mJoystick;
-    private final ILogger mLogger;
+
+    private final CsvLogEntry mSpeedLog;
 
     /**
      * This is the constructor for the SnobotWinch.
@@ -25,11 +27,13 @@ public class SnobotWinch implements IWinch, ISubsystem
      * @param aLogger
      *            logs the actions of the winch.
      */
-    public SnobotWinch(SpeedController aWinchMotor, IOperatorJoystick aJoystick, ILogger aLogger)
+    public SnobotWinch(SpeedController aWinchMotor, IOperatorJoystick aJoystick, CsvLogger aLogger)
     {
         mWinchMotor = aWinchMotor;
         mJoystick = aJoystick;
-        mLogger = aLogger;
+
+        mSpeedLog = new CsvLogEntry("Winch.speed");
+        aLogger.addEntry(mSpeedLog);
     }
 
     @Override
@@ -61,18 +65,7 @@ public class SnobotWinch implements IWinch, ISubsystem
     public void update()
     {
         mWinchSpeed = mJoystick.getWinchSpeed();
-    }
-
-    @Override
-    public void initializeLogHeaders()
-    {
-        mLogger.addHeader("WinchSpeed");
-    }
-
-    @Override
-    public void updateLog()
-    {
-        mLogger.updateLogger(mWinchSpeed);
+        mSpeedLog.update(mWinchSpeed);
     }
 
     @Override

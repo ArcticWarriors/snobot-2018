@@ -2,7 +2,7 @@ package org.snobot.drivetrain;
 
 import org.snobot.PortMappings2018;
 import org.snobot.joystick.IDriveJoystick;
-import org.snobot.lib.logging.ILogger;
+import org.snobot.lib.logging.CsvLogger;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
@@ -41,7 +41,7 @@ public class SnobotCanDriveTrain extends ASnobotDrivetrain<WPI_TalonSRX>
     public SnobotCanDriveTrain(
             WPI_TalonSRX aLeftMotor, WPI_TalonSRX aRightMotor,
             SnobotADXRS450_Gyro aGyro,
-            IDriveJoystick aDriverJoystick, ILogger aLogger)
+            IDriveJoystick aDriverJoystick, CsvLogger aLogger)
     {
         super(aLeftMotor, aRightMotor, aGyro, aDriverJoystick, aLogger);
 
@@ -73,6 +73,11 @@ public class SnobotCanDriveTrain extends ASnobotDrivetrain<WPI_TalonSRX>
     {
         mRightMotorDistance = mRightMotor.getSelectedSensorPosition(sDEFAULT_PID_SLOT) * sTICKS_PER_INCH * sRIGHT_MULTIPLIER;
         mLeftMotorDistance = mLeftMotor.getSelectedSensorPosition(sDEFAULT_PID_SLOT) * sTICKS_PER_INCH;
+
+        mLeftDistanceLog.update(mLeftMotorDistance);
+        mRightDistanceLog.update(mRightMotorDistance);
+        mLeftSpeedLog.update(mLeftMotorSpeed);
+        mRightSpeedLog.update(mRightMotorSpeed);
     }
 
     @Override

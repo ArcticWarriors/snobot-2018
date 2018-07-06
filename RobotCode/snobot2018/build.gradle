@@ -3,11 +3,8 @@ apply plugin: "jaci.openrio.gradle.GradleRIO"
 apply plugin: "com.snobot.simulator.plugin.SnobotSimulatorPlugin"
 apply plugin: "java"
 
-apply plugin: "eclipse"
 apply plugin: "jacoco"
-apply plugin: "checkstyle"
-apply plugin: "pmd"
-apply plugin: "findbugs"
+apply from: "$rootDir/shared_styleguide.gradle"
 
 snobotSimVersions {
     snobotSimVersion = "2018-1.0.0"
@@ -19,31 +16,6 @@ wpi {
     shuffleboardVersion = '1.2.2'
     ctreVersion = "5.1.2.1"
 }
-/////////////////////////////////////////////////////////////////////////////////
-// Style/Formatting stuff
-checkstyle {
-    toolVersion = "8.1"
-    configFile = new File(projectDir, "styleguide/checkstyle.xml")
-}
-
-pmd {
-    consoleOutput  = true
-    reportsDir = file("${project.buildDir}/reports/pmd")
-    ruleSetFiles = files(file("styleguide/pmd-ruleset.xml"))
-    ruleSets = []
-}
-
-findbugs {
-    excludeFilter = file("styleguide/findbugs_suppressions.xml")
-    effort = "max"
-}
-tasks.withType(FindBugs) {
-    reports {
-        xml.enabled false
-        html.enabled true
-    }
-}
-/////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////
 // GradleRIO setup
@@ -73,7 +45,7 @@ sourceSets {
     main {
         java {
             srcDirs = ["src", 
-                       "../SnobotRobotLibs/src",
+                       "../SnobotRobotLibs/src/main/java",
                        "../SnobotRobotLibs/CheesyPoofsLibs"
                       ]
         }
@@ -91,13 +63,16 @@ dependencies {
     compile wpilib()
     compile ctre()
     
-    compile 'log4j:log4j:1.2.16'
+    compile 'org.apache.logging.log4j:log4j-api:2.11.0'
+    compile 'org.apache.logging.log4j:log4j-core:2.11.0'
     
     // Third Party without maven
     compile files('../SnobotRobotLibs/dependencies/RIOdroid.jar')
     
     // Simulator
-    testCompile 'junit:junit:4.12'
+    testCompile 'org.junit.jupiter:junit-jupiter-params:5.2.0'
+    testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.2.0'
+    testRuntime 'org.junit.platform:junit-platform-launcher:1.2.0'
     testCompile snobotSimCompile()
     testCompile snobotSimJavaCompile()
 }
@@ -125,9 +100,7 @@ jar {
     from "src/log4j.xml"
     manifest jaci.openrio.gradle.GradleRIOPlugin.javaManifest(ROBOT_CLASS)
 }
-//
-//build.dependsOn snobotSimUnzipNativeTools
-//
+
 eclipse.classpath.file {
     withXml {
         provider ->
@@ -139,6 +112,11 @@ eclipse.classpath.file {
 }
 
 test {
+    useJUnitPlatform()
+    testLogging {
+        events "failed"
+        exceptionFormat "full"
+    }
     ignoreFailures = org.gradle.internal.os.OperatingSystem.current().isMacOsX()
 }
 

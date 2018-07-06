@@ -3,7 +3,8 @@ package org.snobot.drivetrain;
 import org.snobot.Properties2018;
 import org.snobot.SmartDashboardNames;
 import org.snobot.joystick.IDriveJoystick;
-import org.snobot.lib.logging.ILogger;
+import org.snobot.lib.logging.CsvLogEntry;
+import org.snobot.lib.logging.CsvLogger;
 
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -11,7 +12,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public abstract class ASnobotDrivetrain<SpeedControllerType extends SpeedController> implements IDriveTrain
 {
-    protected final ILogger mLogger;
     protected final IDriveJoystick mDriverJoystick;
 
     protected final SpeedControllerType mLeftMotor;
@@ -23,6 +23,11 @@ public abstract class ASnobotDrivetrain<SpeedControllerType extends SpeedControl
     protected double mLeftMotorDistance;
     protected double mLeftMotorSpeed;
     protected double mRightMotorSpeed;
+
+    protected final CsvLogEntry mLeftDistanceLog;
+    protected final CsvLogEntry mRightDistanceLog;
+    protected final CsvLogEntry mLeftSpeedLog;
+    protected final CsvLogEntry mRightSpeedLog;
 
     /**
      * This class is where all the motors stuff are set so that they work.
@@ -40,24 +45,24 @@ public abstract class ASnobotDrivetrain<SpeedControllerType extends SpeedControl
     public ASnobotDrivetrain(
             SpeedControllerType aLeftMotor, SpeedControllerType aRightMotor,
             SnobotADXRS450_Gyro aGyro,
-            IDriveJoystick aDriverJoystick, ILogger aLogger)
+            IDriveJoystick aDriverJoystick, CsvLogger aLogger)
     {
         mLeftMotor = aLeftMotor;
         mRightMotor = aRightMotor;
-        mLogger = aLogger;
         mGyro = aGyro;
         mDriverJoystick = aDriverJoystick;
         mRobotDrive = new DifferentialDrive(aLeftMotor, aRightMotor);
         mRobotDrive.setSafetyEnabled(false);
-    }
 
-    @Override
-    public void initializeLogHeaders()
-    {
-        mLogger.addHeader("LeftEncoderDistance");
-        mLogger.addHeader("RightEncoderDistance");
-        mLogger.addHeader("LeftMotorSpeed");
-        mLogger.addHeader("RightMotorSpeed");
+        mLeftDistanceLog = new CsvLogEntry("Drivetrain.LeftEncoderDistance");
+        mRightDistanceLog = new CsvLogEntry("Drivetrain.RightEncoderDistance");
+        mLeftSpeedLog = new CsvLogEntry("Drivetrain.LeftMotorSpeed");
+        mRightSpeedLog = new CsvLogEntry("Drivetrain.RightMotorSpeed");
+
+        aLogger.addEntry(mLeftDistanceLog);
+        aLogger.addEntry(mRightDistanceLog);
+        aLogger.addEntry(mLeftSpeedLog);
+        aLogger.addEntry(mRightSpeedLog);
     }
 
     @Override
@@ -87,15 +92,6 @@ public abstract class ASnobotDrivetrain<SpeedControllerType extends SpeedControl
         SmartDashboard.putNumber(SmartDashboardNames.sLEFT_DRIVE_ENCODER_DISTANCE, mLeftMotorDistance);
         SmartDashboard.putNumber(SmartDashboardNames.sRIGHT_DRIVE_ENCODER_DISTANCE, mRightMotorDistance);
         SmartDashboard.putBoolean(SmartDashboardNames.sGYRO_DETECTED, isGyroConnected());
-    }
-
-    @Override
-    public void updateLog()
-    {
-        mLogger.updateLogger(mLeftMotorDistance);
-        mLogger.updateLogger(mRightMotorDistance);
-        mLogger.updateLogger(mLeftMotorSpeed);
-        mLogger.updateLogger(mRightMotorSpeed);
     }
 
     @Override

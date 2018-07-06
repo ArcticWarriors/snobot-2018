@@ -1,7 +1,8 @@
 package org.snobot;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.snobot.lib.PropertyManager.BooleanProperty;
 import org.snobot.lib.PropertyManager.DoubleProperty;
 import org.snobot.lib.PropertyManager.IntegerProperty;
@@ -11,8 +12,11 @@ import edu.wpi.first.wpilibj.RobotBase;
 
 public class Properties2018
 {
-    // Logger
-    private static final Logger sLOGGER = Logger.getLogger(Properties2018.class);
+    // Error Logger
+    private static final Logger sLOGGER = LogManager.getLogger(Properties2018.class);
+
+    // CSV Logger
+    public static final StringProperty sCSV_LOG_DIRECTORY;
 
     // CTRE Detector
     public static final StringProperty sCTRE_FILE;
@@ -83,11 +87,13 @@ public class Properties2018
     {
         String resourcesDir;
         String homeDirectory;
+        String csvLogDirectory;
 
         if (RobotBase.isSimulation())
         {
             homeDirectory = "./";
             resourcesDir = "resources/";
+            csvLogDirectory = "logs";
 
             sLOGGER.log(Level.INFO, "Using simulation constants");
         }
@@ -95,6 +101,7 @@ public class Properties2018
         {
             homeDirectory = "/home/lvuser/";
             resourcesDir = homeDirectory + "/resources";
+            csvLogDirectory = homeDirectory + "/logs";
 
             sLOGGER.log(Level.INFO, "Using tactical constants");
         }
@@ -103,6 +110,7 @@ public class Properties2018
 
         sAUTON_DIRECTORY = new StringProperty("AutonDir", resourcesDir + "autonomous/");
         sAUTON_PATH_DIRECTORY = new StringProperty("AutonDirPaths", resourcesDir + "trajectories");
+        sCSV_LOG_DIRECTORY = new StringProperty("CsvLogger", csvLogDirectory);
     }
 
 }

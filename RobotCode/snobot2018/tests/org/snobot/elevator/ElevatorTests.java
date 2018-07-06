@@ -3,26 +3,21 @@ package org.snobot.elevator;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.snobot.Properties2018;
 import org.snobot.test.utilities.BaseSimulatorTest;
 
 
-@RunWith(value = Parameterized.class)
 public class ElevatorTests extends BaseSimulatorTest
 {
-    public ElevatorTests(boolean aUseCan)
+    @ParameterizedTest
+    @MethodSource("getData")
+    public void testMoveElevatorUp(boolean aUseCan)
     {
-        super(aUseCan);
-    }
+        initializeRobotAndSimulator(aUseCan);
 
-    @Test
-    public void testMoveElevatorUp()
-    {
         IElevator elevator = mSnobot.getElevator();
 
         simulateForTime(1.5, () ->
@@ -30,28 +25,31 @@ public class ElevatorTests extends BaseSimulatorTest
             runSnobotLoopWithoutControl();
             elevator.setMotorSpeed(1.0);
 
-            Assert.assertEquals(1.0, elevator.getSpeed(), 0.0001);
+            Assertions.assertEquals(1.0, elevator.getSpeed(), 0.0001);
         });
 
         double heightAfterUp = elevator.getHeight();
-        Assert.assertTrue(heightAfterUp > 0);
+        Assertions.assertTrue(heightAfterUp > 0);
 
         simulateForTime(.5, () ->
         {
             runSnobotLoopWithoutControl();
             elevator.setMotorSpeed(-1.0);
 
-            Assert.assertEquals(-1.0, elevator.getSpeed(), 0.0001);
+            Assertions.assertEquals(-1.0, elevator.getSpeed(), 0.0001);
         });
 
         double heightAfterDown = elevator.getHeight();
-        Assert.assertTrue(heightAfterDown > 0);
-        Assert.assertTrue(heightAfterDown < heightAfterUp);
+        Assertions.assertTrue(heightAfterDown > 0);
+        Assertions.assertTrue(heightAfterDown < heightAfterUp);
     }
 
-    @Test
-    public void testLimits()
+    @ParameterizedTest
+    @MethodSource("getData")
+    public void testLimits(boolean aUseCan)
     {
+        initializeRobotAndSimulator(aUseCan);
+
         IElevator elevator = mSnobot.getElevator();
 
         // Can't move the elevator down if it is down
@@ -60,8 +58,8 @@ public class ElevatorTests extends BaseSimulatorTest
             runSnobotLoopWithoutControl();
             elevator.setMotorSpeed(-1.0);
 
-            Assert.assertEquals(0, elevator.getSpeed(), 0.0001);
-            Assert.assertEquals(0, elevator.getHeight(), 0.0001);
+            Assertions.assertEquals(0, elevator.getSpeed(), 0.0001);
+            Assertions.assertEquals(0, elevator.getHeight(), 0.0001);
         });
         
         // Move up for a dumb amount of time
@@ -72,7 +70,7 @@ public class ElevatorTests extends BaseSimulatorTest
         });
 
         double maxHeight = Properties2018.sELEVATOR_MAX_HEIGHT.getValue();
-        Assert.assertTrue(elevator.getHeight() <= maxHeight);
+        Assertions.assertTrue(elevator.getHeight() <= maxHeight);
 
         // If its all the way up, can't go up no mo
         simulateForTime(1.5, () ->
@@ -80,14 +78,17 @@ public class ElevatorTests extends BaseSimulatorTest
             runSnobotLoopWithoutControl();
             elevator.setMotorSpeed(1.0);
 
-            Assert.assertEquals(0, elevator.getSpeed(), 0.0001);
-            Assert.assertTrue(elevator.getHeight() <= maxHeight);
+            Assertions.assertEquals(0, elevator.getSpeed(), 0.0001);
+            Assertions.assertTrue(elevator.getHeight() <= maxHeight);
         });
     }
 
-    @Test
-    public void testGoToHeight()
+    @ParameterizedTest
+    @MethodSource("getData")
+    public void testGoToHeight(boolean aUseCan)
     {
+        initializeRobotAndSimulator(aUseCan);
+
         IElevator elevator = mSnobot.getElevator();
 
         double deadband = Properties2018.sELEVATOR_HEIGHT_DEADBAND.getValue();
@@ -100,8 +101,8 @@ public class ElevatorTests extends BaseSimulatorTest
             elevator.gotoHeight(height0);
         });
 
-        Assert.assertEquals(height0, elevator.getHeight(), deadband);
-        Assert.assertTrue(elevator.gotoHeight(height0));
+        Assertions.assertEquals(height0, elevator.getHeight(), deadband);
+        Assertions.assertTrue(elevator.gotoHeight(height0));
 
         // Go back down
         double height1 = 10;
@@ -111,8 +112,8 @@ public class ElevatorTests extends BaseSimulatorTest
             elevator.gotoHeight(height1);
         });
 
-        Assert.assertEquals(height1, elevator.getHeight(), deadband);
-        Assert.assertTrue(elevator.gotoHeight(height1));
+        Assertions.assertEquals(height1, elevator.getHeight(), deadband);
+        Assertions.assertTrue(elevator.gotoHeight(height1));
 
         // Go up to the max
         double height2 = Properties2018.sELEVATOR_MAX_HEIGHT.getValue();
@@ -122,12 +123,11 @@ public class ElevatorTests extends BaseSimulatorTest
             elevator.gotoHeight(height2);
         });
 
-        Assert.assertTrue(elevator.gotoHeight(height2));
-        Assert.assertEquals(height2, elevator.getHeight(), deadband);
+        Assertions.assertTrue(elevator.gotoHeight(height2));
+        Assertions.assertEquals(height2, elevator.getHeight(), deadband);
     }
 
-    @Parameters(name = "Test: {index} IsCan={0}")
-    public static Collection<Boolean> data()
+    public static Collection<Boolean> getData()
     {
         return Arrays.asList(false);
     }

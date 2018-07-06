@@ -3,7 +3,7 @@ package org.snobot.elevator;
 import org.snobot.Properties2018;
 import org.snobot.joystick.IOperatorJoystick;
 import org.snobot.leds.ILedManager;
-import org.snobot.lib.logging.ILogger;
+import org.snobot.lib.logging.CsvLogger;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -27,7 +27,7 @@ public class SnobotStandardElevator extends ASnobotElevator<SpeedController>
      *            logs the actions of the elevator in the log file.
      */
     public SnobotStandardElevator(ILedManager aLedManager, SpeedController aElevatorMotor, Encoder aElevatorEncoder, IOperatorJoystick aJoystick,
-            ILogger aLogger)
+            CsvLogger aLogger)
     {
         super(aLedManager, aElevatorMotor, aJoystick, aLogger);
 

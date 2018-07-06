@@ -1,7 +1,8 @@
 package org.snobot.joystick;
 
 import org.snobot.Properties2018;
-import org.snobot.lib.logging.ILogger;
+import org.snobot.lib.logging.CsvLogEntry;
+import org.snobot.lib.logging.CsvLogger;
 import org.snobot.lib.ui.ToggleButton;
 import org.snobot.lib.ui.XboxButtonMap;
 
@@ -10,12 +11,12 @@ import edu.wpi.first.wpilibj.Joystick;
 public class SnobotDriveOperatorJoystick implements IOperatorJoystick
 {
     private final Joystick mOperatorJoystick;
-    private final ILogger mLogger;
     private double mElevatorSpeed;
-    // private final ToggleButton mClawButton;
     private Double mRequestedHeight = null;
 
     private final ToggleButton mUseLedChooser;
+
+    private final CsvLogEntry mHeightLog;
 
     /**
      * The joystick constructor.
@@ -25,12 +26,13 @@ public class SnobotDriveOperatorJoystick implements IOperatorJoystick
      * @param aLogger
      *            Logs the elevator status.
      */
-    public SnobotDriveOperatorJoystick(Joystick aElevatorJoystick, ILogger aLogger)
+    public SnobotDriveOperatorJoystick(Joystick aElevatorJoystick, CsvLogger aLogger)
     {
         mOperatorJoystick = aElevatorJoystick;
-        mLogger = aLogger;
-        // mClawButton = new ToggleButton(false);
         mUseLedChooser = new ToggleButton(false);
+
+        mHeightLog = new CsvLogEntry("OperatorJoystick.ElevatorSpeed");
+        aLogger.addEntry(mHeightLog);
     }
 
     public enum ElevatorHeights
@@ -85,18 +87,8 @@ public class SnobotDriveOperatorJoystick implements IOperatorJoystick
         {
             mRequestedHeight = null;
         }
-    }
 
-    @Override
-    public void initializeLogHeaders()
-    {
-        mLogger.addHeader("ElevatorJoystickSpeed");
-    }
-
-    @Override
-    public void updateLog()
-    {
-        mLogger.updateLogger(mElevatorSpeed);
+        mHeightLog.update(mElevatorSpeed);
     }
 
     @Override

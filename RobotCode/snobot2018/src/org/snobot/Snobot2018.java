@@ -1,5 +1,9 @@
 package org.snobot;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import org.snobot.autonomous.AutonomousFactory;
 import org.snobot.claw.IClaw;
 import org.snobot.claw.SnobotClaw;
@@ -12,13 +16,14 @@ import org.snobot.joystick.SnobotDriveXbaxJoystick;
 import org.snobot.leds.ILedManager;
 import org.snobot.leds.SnobotLedManager;
 import org.snobot.lib.ASnobot;
-import org.snobot.lib.logging.ILogger;
+import org.snobot.lib.logging.CsvLogger;
 import org.snobot.positioner.IPositioner;
 import org.snobot.positioner.Positioner;
 import org.snobot.winch.IWinch;
 import org.snobot.winch.WinchFactory;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DriverStation.MatchType;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -55,7 +60,7 @@ public class Snobot2018 extends ASnobot
      */
     public void robotInit()
     {
-        ILogger logger = getLogger();
+        CsvLogger logger = getLogger();
 
         // Joystick
         Joystick driverJoystickRaw = new Joystick(PortMappings2018.sDRIVER_JOYSTICK_PORT);
@@ -102,6 +107,31 @@ public class Snobot2018 extends ASnobot
 
         // initialize the default auton command
         mAutonFactory.createAutonMode();
+
+        startCsvLogger();
+    }
+
+    private void startCsvLogger()
+    {
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
+        StringBuilder nameBuilder = new StringBuilder(64);
+        nameBuilder.append("RobotLog_").append(format.format(new Date()));
+
+        if (mLastMatchType != null && mLastMatchType != MatchType.None)
+        {
+            nameBuilder.append('_').append(mLastMatchType).append("Match").append(mLastMatchNumber);
+        }
+
+        nameBuilder.append(".csv");
+
+        getLogger().startLogging(nameBuilder.toString(), new SimpleDateFormat(), Properties2018.sCSV_LOG_DIRECTORY.getValue());
+    }
+
+    @Override
+    protected void relaunchLogging()
+    {
+        super.relaunchLogging();
+        startCsvLogger();
     }
 
     @Override

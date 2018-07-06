@@ -46,8 +46,9 @@ public class DotstarSimulatorPanel extends JPanel
             int ledValue = mLedValues.get(i);
 
             int r = ((ledValue & 0xFF000000) >> 24) & 0xFF;
-            int b = (ledValue & 0x00FF0000) >> 16;
-            int g = (ledValue & 0x0000FF00) >> 8; // Note: Blue is not in right order
+            int g = (ledValue & 0x00FF0000) >> 16;
+            int b = (ledValue & 0x0000FF00) >> 8; // Note: Blue is not in right
+                                                  // order
 
             Color color = new Color(r, g, b);
             aGraphics.setColor(color);

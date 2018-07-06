@@ -5,8 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.snobot.PortMappings2018;
 import org.snobot.Properties2018;
 import org.snobot.PropertiesAutonomousDefaults;
@@ -30,7 +31,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutonomousFactory implements ISmartDashboardUpdaterModule
 {
-    protected static final Logger sLOGGER = Logger.getLogger(AutonomousFactory.class);
+    protected static final Logger sLOGGER = LogManager.getLogger(AutonomousFactory.class);
 
     private static final double sY_START = 336 - 3 * 12;
 

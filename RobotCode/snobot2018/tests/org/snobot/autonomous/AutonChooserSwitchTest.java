@@ -2,8 +2,8 @@ package org.snobot.autonomous;
 
 import java.text.DecimalFormat;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.snobot.test.utilities.BaseSimulatorTest;
 
 import com.snobot.simulator.SensorActuatorRegistry;
@@ -13,14 +13,11 @@ public class AutonChooserSwitchTest extends BaseSimulatorTest
     private static final int sANALOG_PORT = 4;
     private static final DecimalFormat sDF = new DecimalFormat("0.000");
 
-    public AutonChooserSwitchTest()
-    {
-        super(false);
-    }
-
     @Test
     public void testSixPosition()
     {
+        initializeRobotAndSimulator(false);
+
         // We expect the thresholds to be at 5/6 increments, i.e.
         // 0: 0.000 - 0.833
         // 1: 0.833 - 1.666
@@ -67,7 +64,7 @@ public class AutonChooserSwitchTest extends BaseSimulatorTest
             SensorActuatorRegistry.get().getAnalogIn().get(sANALOG_PORT).setVoltage(voltage);
 
             int position = aSwitch.getPosition();
-            Assert.assertEquals("Voltage=" + sDF.format(voltage), aExpected, position);
+            Assertions.assertEquals(aExpected, position, "Voltage=" + sDF.format(voltage));
         }
     }
 

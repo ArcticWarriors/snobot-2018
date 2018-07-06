@@ -39,7 +39,6 @@ public class DotstarSimulator extends ASensorWrapper implements ISpiWrapper, Con
 
     private void translateWrite(ByteBuffer aBuffer)
     {
-        // arg0.order(ByteOrder.BIG_ENDIAN);
         aBuffer.order(ByteOrder.LITTLE_ENDIAN);
         int firstNumber = aBuffer.getInt();
         
@@ -69,7 +68,7 @@ public class DotstarSimulator extends ASensorWrapper implements ISpiWrapper, Con
     @Override
     public void callback(String aName, ByteBuffer aBuffer)
     {
-        if ("Read".equals(aName))
+        if ("Write".equals(aName))
         {
             translateWrite(aBuffer);
         }
