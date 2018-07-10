@@ -2,22 +2,10 @@
 apply plugin: 'java'
 apply from: "$rootDir/shared_styleguide.gradle"
 
-repositories {
-    mavenCentral()
-    maven {
-        url = "http://first.wpi.edu/FRC/roborio/maven/release"
-    }
-}
-
 sourceSets {
     main {
         java {
-            srcDirs = ["src", 
-                       "../2018NetworkTableViewer/src", 
-                       "../SmartDashboardLibs/src/main/java", 
-                       "../CoordinateViewerGui/src/BaseYearSpecificGui", 
-                       "../CoordinateViewerGui/src/2018Gui", 
-                       "../CoordinateViewerGui/src/lib"]
+            srcDirs = ["src"]
         }
     }
     main {
@@ -25,18 +13,6 @@ sourceSets {
             srcDirs = ["resources"]
         }
     }
-}
-
-jar {
-   from("../CoordinateViewerGui/src/2018Gui/") {
-      include  "**/*.png"
-   }
-   from("../CoordinateViewerGui/src/lib/") {
-      include  "**/*.png"
-   }
-   from("../2018NetworkTableViewer/src/") {
-      include  "**/*-test.xml"
-   }
 }
 
 ext.getShuffleboardVersion = {
@@ -52,6 +28,10 @@ dependencies {
     
 	compile 'edu.wpi.first.shuffleboard:api:' + getShuffleboardVersion()
 	compile 'edu.wpi.first.shuffleboard.plugin:networktables:' + getShuffleboardVersion()
+    
+    compile project("$coordinateGuiBase:CoordinateGui2018")
+    compile project(":NetworkTableViewer:SmartDashboardLibs")
+    compile project(":NetworkTableViewer:2018NetworkTableViewer")
 }
 
 task customFatJar(type: Jar) {
@@ -113,7 +93,17 @@ task customFatJar(type: Jar) {
             
             filtered
         }
-        else { [] }
+        else if(
+            it.toString().contains("CoordinateViewerGui") ||
+            it.toString().contains("NetworkTableViewer"))
+        {
+            FileTree filtered = zipTree(it).matching { }
+            filtered
+        }
+        else { 
+            // println "Ignoring: " + it
+            [] 
+        }
     }
     
     with jar

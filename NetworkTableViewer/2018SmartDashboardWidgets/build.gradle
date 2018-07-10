@@ -12,12 +12,7 @@ repositories {
 sourceSets {
     main {
         java {
-            srcDirs = ["src", 
-                       "../2018NetworkTableViewer/src", 
-                       "../SmartDashboardLibs/src/main/java", 
-                       "../CoordinateViewerGui/src/BaseYearSpecificGui", 
-                       "../CoordinateViewerGui/src/2018Gui", 
-                       "../CoordinateViewerGui/src/lib"]
+            srcDirs = ["src"]
         }
     }
 }
@@ -25,33 +20,6 @@ sourceSets {
 compileJava {
     options.encoding = 'UTF-8'
     options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
-}
-
-jar {
-   from("../CoordinateViewerGui/src/2018Gui/") {
-      include  "**/*.png"
-   }
-   from("../CoordinateViewerGui/src/lib/") {
-      include  "**/*.png"
-   }
-   from("src/") {
-      include  "**/*.properties"
-   }
-}
-
-task install_depencies_to_plugin_dir(type: Copy) {
-    from configurations.compile {
-        include "log4j*.jar"
-    }
-    into System.getProperty("user.home") + "/SmartDashboard/extensions"
-}
-
-task install_to_plugin_dir(type: Copy, dependsOn: install_depencies_to_plugin_dir) {
-    group = "Network Table GUI"
-    description ="Installs the jar to the plugin area"
-    
-    from jar.outputs
-    into System.getProperty("user.home") + "/SmartDashboard/extensions"
 }
 
 dependencies {
@@ -62,4 +30,28 @@ dependencies {
     compile 'log4j:log4j:1.2.16'
     
     compile 'edu.wpi.first.wpilib:SmartDashboard:3.0.0'
+    
+    compile project("$coordinateGuiBase:CoordinateGui2018")
+    compile project(":NetworkTableViewer:SmartDashboardLibs")
+    compile project(":NetworkTableViewer:2018NetworkTableViewer")
+}
+
+task install_depencies_to_plugin_dir(type: Copy) {
+    from configurations.compile {
+        include "log4j*.jar"
+        include "2018NetworkTableViewer.jar"
+        include "SmartDashboardLibs.jar"
+        include "CoordinateGui2018.jar"
+        include "CoordinateGuiCore.jar"
+    }
+    outputs.upToDateWhen { false }
+    into System.getProperty("user.home") + "/SmartDashboard/extensions"
+}
+
+task install_to_plugin_dir(type: Copy, dependsOn: install_depencies_to_plugin_dir) {
+    group = "Network Table GUI"
+    description ="Installs the jar to the plugin area"
+    
+    from jar.outputs
+    into System.getProperty("user.home") + "/SmartDashboard/extensions"
 }

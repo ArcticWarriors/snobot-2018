@@ -1,5 +1,26 @@
 rootProject.name="Snobot2018Repo"
 
 include 'RobotCode:snobot2018'
-include 'NetworkTableViewer:2018ShuffleboardWidgets'
+
 include 'NetworkTableViewer:2018SmartDashboardWidgets'
+include 'NetworkTableViewer:2018ShuffleboardWidgets'
+include 'NetworkTableViewer:2018NetworkTableViewer'
+
+// From Submodules
+include 'RobotCode:SnobotRobotLibs:SnobotRobotLibsCore'
+include 'RobotCode:SnobotRobotLibs:CheesyPoofsLibs'
+include 'NetworkTableViewer:SmartDashboardLibs'
+include 'NetworkTableViewer:CoordinateViewerGui:CoordinateGuiCore'
+include 'NetworkTableViewer:CoordinateViewerGui:CoordinateGui2018'
+include 'NetworkTableViewer:CoordinateViewerGui:CoordinateGuiStandalone'
+
+// Hack the top level gradle script in the submodule to "not exist"
+rootProject.children.each { project ->
+    if(project.name == "RobotCode") {
+        project.children.each { robotCodeProject ->
+            if(robotCodeProject.name == "SnobotRobotLibs") {
+                robotCodeProject.buildFileName = "doesntexist.gradle"
+            }
+        }
+    }
+}
