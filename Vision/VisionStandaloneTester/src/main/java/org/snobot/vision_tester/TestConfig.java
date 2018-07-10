@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
 import org.yaml.snakeyaml.Yaml;
 
 import com.snobot.vision_app.app2018.CameraMode;
@@ -112,7 +112,7 @@ public class TestConfig
         }
         catch (IOException ex)
         {
-            Logger.getLogger(TestConfig.class).log(Level.ERROR, ex);
+            LogManager.getLogger(TestConfig.class).log(Level.ERROR, ex);
         }
 
         return output;

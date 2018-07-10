@@ -10,8 +10,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.opencv.core.Mat;
 import org.snobot.vision_tester.utils.OpenCvUtilities;
 import org.tensorflow.DataType;
@@ -48,7 +47,7 @@ public class TensorflowAlgorithm extends MachineLearningDetector<BufferedImage>
         }
         catch (IOException ex)
         {
-            Logger.getLogger(TensorflowAlgorithm.class).log(Level.ERROR, ex);
+            LogManager.getLogger(TensorflowAlgorithm.class).error(ex);
         }
 
         mSession = new Session(graph);
@@ -141,7 +140,7 @@ public class TensorflowAlgorithm extends MachineLearningDetector<BufferedImage>
         }
         catch (Exception ex)
         {
-            Logger.getLogger(TensorflowAlgorithm.class).log(Level.ERROR, ex);
+            LogManager.getLogger(TensorflowAlgorithm.class).error(ex);
         }
 
         return output;

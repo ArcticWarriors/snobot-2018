@@ -6,8 +6,9 @@ include 'NetworkTableViewer:2018SmartDashboardWidgets'
 include 'NetworkTableViewer:2018ShuffleboardWidgets'
 include 'NetworkTableViewer:2018NetworkTableViewer'
 
-include "Vision:SharedVisionAlgorithm"
+include "Vision:VisionAlgorithmCore"
 include "Vision:VisionMessages"
+include "Vision:VisionStandaloneTester"
 
 // From Submodules
 include 'RobotCode:SnobotRobotLibs:SnobotRobotLibsCore'

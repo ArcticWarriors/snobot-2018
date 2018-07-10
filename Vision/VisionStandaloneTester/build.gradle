@@ -1,61 +1,17 @@
 
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'checkstyle'
-apply plugin: 'pmd'
+apply plugin: "java"
 
-repositories {
-    maven {
-        name = "WPI"
-        url = "http://first.wpi.edu/FRC/roborio/maven/release"
-    }
-    
-    maven {
-        url "https://plugins.gradle.org/m2/"
-    }
-    
-    mavenCentral()
-}
+apply from: "$rootDir/shared_styleguide.gradle"
 
-sourceSets {
-    main {
-        java {
-            srcDirs = ["src",
-                       
-                       "../SharedVisionAlgorithm", 
-                       "../VisionMessages", 
-                      ]
-        }
-    }
-}
 
 dependencies {
-    compile 'log4j:log4j:1.2.16'
-    compile 'org.yaml:snakeyaml:1.18'
-    compile 'org.json:json:20180130'
-    
+    compile 'org.apache.logging.log4j:log4j-api:2.11.0'
+    compile 'org.apache.logging.log4j:log4j-core:2.11.0'
     compile 'org.opencv:opencv-java:3.2.0'
     runtime 'org.opencv:opencv-jni:3.2.0:all'
-
     compile 'org.tensorflow:tensorflow:1.6.0-rc1'
+    compile 'org.yaml:snakeyaml:1.18'
     
-}
-
-/////////////////////////////////////////////////////////////////////////////////
-// Style/Formatting stuff
-checkstyle {
-    toolVersion = "8.1"
-    configFile = new File(rootDir, "styleguide/checkstyle.xml")
-}
-
-pmd {
-    consoleOutput  = true
-    reportsDir = file("${project.buildDir}/reports/pmd")
-    ruleSetFiles = files(file("styleguide/pmd-ruleset.xml"))
-    ruleSets = []
-}
-/////////////////////////////////////////////////////////////////////////////////
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.1'
+    compile project(":Vision:VisionAlgorithmCore")
+    compile project(":Vision:VisionMessages")
 }

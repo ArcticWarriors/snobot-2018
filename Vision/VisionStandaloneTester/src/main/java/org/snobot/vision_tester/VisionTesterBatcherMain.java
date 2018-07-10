@@ -8,15 +8,16 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.opencv.core.Core;
 import org.snobot.vision_tester.java_algorithm.StandaloneVisionAlgorithm;
 import org.snobot.vision_tester.utils.OpenCvUtilities;
 
 public class VisionTesterBatcherMain
 {
-    private static final Logger sLOGGER = Logger.getLogger(VisionTesterBatcherMain.class);
+    private static final Logger sLOGGER = LogManager.getLogger(VisionTesterBatcherMain.class);
 
     private void testImages(String aConfigFile, String aDumpDirectory, boolean aOneAtATime) throws IOException
     {

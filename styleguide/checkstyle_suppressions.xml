@@ -8,4 +8,7 @@
     <suppress files="ADXRS450_Gyro" checks="[a-zA-Z0-9]*"/>
     
     <suppress checks="JavadocMethod" files=".*[\\/]snobot2018[\\/]tests"/>
+    
+    <suppress files="com.snobot.vision_app.app2018.grip" checks="[a-zA-Z0-9]*"/>
+    <suppress files="com.snobot.vision_app.app2018.TargetLocation" checks="[a-zA-Z0-9]*"/>
 </suppressions>

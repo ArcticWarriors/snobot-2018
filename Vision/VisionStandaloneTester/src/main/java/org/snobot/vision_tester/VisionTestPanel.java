@@ -5,8 +5,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.opencv.core.Mat;
 import org.snobot.vision_tester.java_algorithm.StandaloneVisionAlgorithm;
 import org.snobot.vision_tester.utils.OpenCvUtilities;
@@ -53,7 +52,7 @@ public class VisionTestPanel extends JPanel
         }
         catch (Exception ex)
         {
-            Logger.getLogger(VisionTestPanel.class).log(Level.ERROR, ex);
+            LogManager.getLogger(VisionTestPanel.class).error(ex);
         }
     }
 }

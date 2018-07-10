@@ -2,8 +2,9 @@ package org.snobot.vision_tester.java_algorithm;
 
 import java.awt.image.BufferedImage;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.opencv.core.Mat;
 import org.snobot.vision_tester.TestConfig;
 import org.snobot.vision_tester.utils.OpenCvUtilities;
@@ -15,7 +16,7 @@ import com.snobot.vision_app.app2018.detectors.ITensorFlowDetectorFactory;
 
 public class StandaloneVisionAlgorithm
 {
-    private static final Logger sLOGGER = Logger.getLogger(StandaloneVisionAlgorithm.class);
+    private static final Logger sLOGGER = LogManager.getLogger(StandaloneVisionAlgorithm.class);
     private final VisionAlgorithm<BufferedImage> mVisionAlgorithm;
 
     /**
