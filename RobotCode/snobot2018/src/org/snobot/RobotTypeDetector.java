@@ -5,12 +5,13 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.Properties;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public final class RobotTypeDetector
 {
-    private static final Logger sLOGGER = Logger.getLogger(RobotTypeDetector.class);
+    private static final Logger sLOGGER = LogManager.getLogger(RobotTypeDetector.class);
 
     private static final String sMAGIC_FILE = Properties2018.sCTRE_FILE.getValue();
 

@@ -2,8 +2,9 @@ package org.snobot.autonomous.trajectory;
 
 import java.text.DecimalFormat;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.team254.lib.trajectory.Trajectory;
 import com.team254.lib.trajectory.Trajectory.Segment;
@@ -18,7 +19,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
  */
 public class TrajectoryFollower
 {
-    protected static final Logger sLOGGER = Logger.getLogger(TrajectoryFollower.class);
+    protected static final Logger sLOGGER = LogManager.getLogger(TrajectoryFollower.class);
 
     private final NetworkTable mFollowerTable;
 

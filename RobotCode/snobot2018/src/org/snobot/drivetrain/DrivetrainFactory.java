@@ -2,7 +2,7 @@ package org.snobot.drivetrain;
 
 import org.snobot.PortMappings2018;
 import org.snobot.joystick.IDriveJoystick;
-import org.snobot.lib.logging.ILogger;
+import org.snobot.lib.logging.CsvLogger;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -24,7 +24,7 @@ public class DrivetrainFactory
      *            The logger
      * @return The appropriately created drivetrain
      */
-    public IDriveTrain createDrivetrain(boolean aUseCan, IDriveJoystick aJoystick, ILogger aLogger)
+    public IDriveTrain createDrivetrain(boolean aUseCan, IDriveJoystick aJoystick, CsvLogger aLogger)
     {
         SnobotADXRS450_Gyro gyro = new SnobotADXRS450_Gyro();
 

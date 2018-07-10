@@ -1,6 +1,7 @@
 package org.snobot.joystick;
 
-import org.snobot.lib.logging.ILogger;
+import org.snobot.lib.logging.CsvLogEntry;
+import org.snobot.lib.logging.CsvLogger;
 import org.snobot.lib.ui.XboxButtonMap;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -8,7 +9,8 @@ import edu.wpi.first.wpilibj.Joystick;
 public class SnobotDriveXbaxJoystick implements IDriveJoystick
 {
     private final Joystick mJoystick;
-    private final ILogger mLogger;
+    private final CsvLogEntry mLeftSpeedLog;
+    private final CsvLogEntry mRightSpeedLog;
 
     // Driving Stuff
     private double mRightSpeed;
@@ -23,11 +25,15 @@ public class SnobotDriveXbaxJoystick implements IDriveJoystick
      * @param aLogger
      *            The logger
      */
-    public SnobotDriveXbaxJoystick(Joystick aJoystick, ILogger aLogger)
+    public SnobotDriveXbaxJoystick(Joystick aJoystick, CsvLogger aLogger)
     {
         mJoystick = aJoystick;
-        mLogger = aLogger;
 
+        mLeftSpeedLog = new CsvLogEntry("DrivetrainJoystick.LeftJoystick");
+        mRightSpeedLog = new CsvLogEntry("DrivetrainJoystick.RightJoystick");
+
+        aLogger.addEntry(mLeftSpeedLog);
+        aLogger.addEntry(mRightSpeedLog);
     }
 
     @Override
@@ -36,20 +42,8 @@ public class SnobotDriveXbaxJoystick implements IDriveJoystick
         mLeftSpeed = -mJoystick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
         mRightSpeed = -mJoystick.getRawAxis(XboxButtonMap.RIGHT_Y_AXIS);
 
-    }
-
-    @Override
-    public void initializeLogHeaders()
-    {
-        mLogger.addHeader("XbaxLeftJoystickSpeed");
-        mLogger.addHeader("XbaxRightJoystickSpeed");
-    }
-
-    @Override
-    public void updateLog()
-    {
-        mLogger.updateLogger(mLeftSpeed);
-        mLogger.updateLogger(mRightSpeed);
+        mLeftSpeedLog.update(mLeftSpeed);
+        mRightSpeedLog.update(mRightSpeed);
     }
 
     @Override

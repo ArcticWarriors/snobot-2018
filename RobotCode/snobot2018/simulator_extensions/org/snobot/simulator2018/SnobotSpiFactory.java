@@ -3,21 +3,36 @@ package org.snobot.simulator2018;
 import java.util.Arrays;
 import java.util.Collection;
 
-import com.snobot.simulator.simulator_components.ISpiWrapper;
-import com.snobot.simulator.simulator_components.components_factory.DefaultSpiSimulatorFactory;
+import com.snobot.simulator.SensorActuatorRegistry;
+import com.snobot.simulator.module_wrapper.factories.DefaultSpiSimulatorFactory;
+import com.snobot.simulator.module_wrapper.interfaces.ISpiWrapper;
 
 public class SnobotSpiFactory extends DefaultSpiSimulatorFactory
 {
+    private static final String sDOTSTAR_TYPE = "Dotstar";
 
     @Override
-    protected ISpiWrapper createSimulator(int aPort, String aType)
+    public boolean create(int aPort, String aType)
     {
-        if ("Dotstar".equals(aType))
+        if (sDOTSTAR_TYPE.equals(aType))
         {
-            return new DotstarSimulator(aPort);
+            DotstarSimulator simulator = new DotstarSimulator(aPort);
+            SensorActuatorRegistry.get().register(simulator, aPort);
+            return true;
         }
 
-        return super.createSimulator(aPort, aType);
+        return super.create(aPort, aType);
+    }
+
+    @Override
+    protected String getNameForType(ISpiWrapper aType)
+    {
+        if (aType instanceof DotstarSimulator)
+        {
+            return sDOTSTAR_TYPE;
+        }
+
+        return super.getNameForType(aType);
     }
 
     @Override

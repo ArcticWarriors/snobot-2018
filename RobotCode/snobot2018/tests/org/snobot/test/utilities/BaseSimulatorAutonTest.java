@@ -10,18 +10,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public abstract class BaseSimulatorAutonTest extends BaseSimulatorTest
 {
-    /**
-     * Constructor.
-     * 
-     * @param aUseCan
-     *            If CTRE tools are being used. Used to create the simulator and
-     *            robot
-     */
-    public BaseSimulatorAutonTest(boolean aUseCan)
-    {
-        super(aUseCan);
-    }
-
     protected final CommandGroup setupCommand(String aAutonTestFile)
     {
         NetworkTable table = NetworkTableInstance.create().getTable("Test");

@@ -5,9 +5,10 @@ import org.snobot.RobotTypeDetector;
 
 import com.snobot.simulator.ASimulator;
 import com.snobot.simulator.SensorActuatorRegistry;
-import com.snobot.simulator.jni.standard_components.SpiCallbackJni;
-import com.snobot.simulator.module_wrapper.AnalogWrapper;
+import com.snobot.simulator.module_wrapper.interfaces.IAnalogInWrapper;
 import com.snobot.simulator.robot_container.IRobotClassContainer;
+import com.snobot.simulator.wrapper_accessors.DataAccessorFactory;
+import com.snobot.simulator.wrapper_accessors.java.JavaSimulatorDataAccessor;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -31,7 +32,8 @@ public class Snobot2018Simulator extends ASimulator
     {
         mUseCan = aUseCan;
 
-        SpiCallbackJni.setSpiFactory(new SnobotSpiFactory());
+        JavaSimulatorDataAccessor accessor = (JavaSimulatorDataAccessor) DataAccessorFactory.getInstance().getSimulatorDataAccessor();
+        accessor.setSpiFactory(new SnobotSpiFactory());
     }
 
     @Override
@@ -63,8 +65,8 @@ public class Snobot2018Simulator extends ASimulator
     public void update()
     {
 
-        AnalogWrapper modeWrapper = SensorActuatorRegistry.get().getAnalog().get(PortMappings2018.sMODE_CHOOSER_SWITCH);
-        AnalogWrapper positionWrapper = SensorActuatorRegistry.get().getAnalog().get(PortMappings2018.sPOSITION_CHOOSER_SWITCH);
+        IAnalogInWrapper modeWrapper = SensorActuatorRegistry.get().getAnalogIn().get(PortMappings2018.sMODE_CHOOSER_SWITCH);
+        IAnalogInWrapper positionWrapper = SensorActuatorRegistry.get().getAnalogIn().get(PortMappings2018.sPOSITION_CHOOSER_SWITCH);
 
         modeWrapper.setVoltage(SmartDashboard.getNumber("SIMULATOR.ModeSwitch", 2.5));
         positionWrapper.setVoltage(SmartDashboard.getNumber("SIMULATOR.PositionSwitch", 4));

@@ -6,12 +6,13 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class GameDataPanel extends JPanel
 {
-    private static final Logger sLOGGER = Logger.getLogger(GameDataPanel.class);
+    private static final Logger sLOGGER = LogManager.getLogger(GameDataPanel.class);
 
     private Color mOurColor;
     private Color mTheirColor;

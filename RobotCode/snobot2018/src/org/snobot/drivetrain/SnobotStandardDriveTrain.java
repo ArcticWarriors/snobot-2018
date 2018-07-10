@@ -2,7 +2,7 @@ package org.snobot.drivetrain;
 
 import org.snobot.Properties2018;
 import org.snobot.joystick.IDriveJoystick;
-import org.snobot.lib.logging.ILogger;
+import org.snobot.lib.logging.CsvLogger;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -33,7 +33,7 @@ public class SnobotStandardDriveTrain extends ASnobotDrivetrain<SpeedController>
             SpeedController aLeftMotor, SpeedController aRightMotor, 
             Encoder aLeftDriveEncoder, Encoder aRightDriveEncoder, 
             SnobotADXRS450_Gyro aGyro,
-            IDriveJoystick aDriverJoystick, ILogger aLogger)
+            IDriveJoystick aDriverJoystick, CsvLogger aLogger)
     {
         super(aLeftMotor, aRightMotor, aGyro, aDriverJoystick, aLogger);
         mLeftDriveEncoder = aLeftDriveEncoder;
@@ -50,6 +50,10 @@ public class SnobotStandardDriveTrain extends ASnobotDrivetrain<SpeedController>
         mLeftMotorDistance = mLeftDriveEncoder.getDistance();
         mRightMotorDistance = mRightDriveEncoder.getDistance();
 
+        mLeftDistanceLog.update(mLeftMotorDistance);
+        mRightDistanceLog.update(mRightMotorDistance);
+        mLeftSpeedLog.update(mLeftMotorSpeed);
+        mRightSpeedLog.update(mRightMotorSpeed);
     }
 
     @Override

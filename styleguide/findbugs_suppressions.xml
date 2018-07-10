@@ -1,4 +1,5 @@
 <FindBugsFilter>
+    <!-- Robot stuff -->
     <Match>
         <Package name="~com\.team254.*"/>
     </Match>
@@ -14,4 +15,19 @@
         <Class name="org.snobot.test.utilities.BaseSimulatorTest"/>
         <Bug pattern="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD" />
     </Match>
+    
+    <!-- GUI stuff -->
+    <Match>
+        <Class name="org.snobot.coordinate_gui.trajectory_gen.TrajectoryGeneratorPanel"/>
+        <Bug pattern="SE_BAD_FIELD_STORE" />
+    </Match>
+    <Match>
+        <Class name="org.snobot.coordinate_gui.ui.layers.LayerManager"/>
+        <Bug pattern="SE_BAD_FIELD_STORE" />
+    </Match>
+    <Match>
+        <Class name="org.snobot.sd.util.AutoUpdateWidget"/>
+        <Bug pattern="SC_START_IN_CTOR" />
+    </Match>
+    
 </FindBugsFilter>

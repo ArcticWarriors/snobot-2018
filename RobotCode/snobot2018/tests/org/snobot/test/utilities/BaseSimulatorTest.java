@@ -19,23 +19,19 @@ public class BaseSimulatorTest
 
     /**
      * Constructor.
-     * 
-     * @param aUseCan
-     *            If CTRE tools are being used. Used to create the simulator and
-     *            robot
      */
-    public BaseSimulatorTest(boolean aUseCan)
+    public BaseSimulatorTest()
     {
         setup();
+    }
 
+    protected void initializeRobotAndSimulator(boolean aUseCan)
+    {
         mSimulator = new Snobot2018Simulator(aUseCan);
         mSimulator.loadConfig("DoesntMatter");
 
         mSnobot = new Snobot2018(aUseCan);
         mSnobot.robotInit();
-        mSnobot.initializeLogHeaders();
-
-        mSimulator.createSimulatorComponents();
     }
 
     private final void setup()
@@ -56,7 +52,6 @@ public class BaseSimulatorTest
     protected void runSnobotLoopWithoutControl()
     {
         mSnobot.update();
-        mSnobot.updateLog();
         mSnobot.updateSmartDashboard();
     }
 

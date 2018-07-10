@@ -1,17 +1,10 @@
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
-apply plugin: 'checkstyle'
-apply plugin: 'pmd'
-apply plugin: 'findbugs'
+apply from: "$rootDir/shared_styleguide.gradle"
 
 repositories {
+    mavenCentral()
     maven {
-        url "https://plugins.gradle.org/m2/"
-    }
-    maven {
-        name = "WPI"
         url = "http://first.wpi.edu/FRC/roborio/maven/release"
     }
 }
@@ -19,12 +12,7 @@ repositories {
 sourceSets {
     main {
         java {
-            srcDirs = ["src", 
-                       "../2018NetworkTableViewer/src", 
-                       "../SmartDashboardLibs/src", 
-                       "../CoordinateViewerGui/src/BaseYearSpecificGui", 
-                       "../CoordinateViewerGui/src/2018Gui", 
-                       "../CoordinateViewerGui/src/lib"]
+            srcDirs = ["src"]
         }
     }
 }
@@ -34,64 +22,36 @@ compileJava {
     options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
 }
 
-jar {
-   from("../CoordinateViewerGui/src/2018Gui/") {
-      include  "**/*.png"
-   }
-   from("../CoordinateViewerGui/src/lib/") {
-      include  "**/*.png"
-   }
-   from("src/") {
-      include  "**/*.properties"
-   }
+dependencies {
+    compile 'jfree:jfreechart:1.0.13'
+    compile 'org.yaml:snakeyaml:1.18'
+    compile 'org.apache.logging.log4j:log4j-api:2.11.0'
+    compile 'org.apache.logging.log4j:log4j-core:2.11.0'
+    compile 'log4j:log4j:1.2.16'
+    
+    compile 'edu.wpi.first.wpilib:SmartDashboard:3.0.0'
+    
+    compile project("$coordinateGuiBase:CoordinateGui2018")
+    compile project(":NetworkTableViewer:SmartDashboardLibs")
+    compile project(":NetworkTableViewer:2018NetworkTableViewer")
 }
 
 task install_depencies_to_plugin_dir(type: Copy) {
     from configurations.compile {
         include "log4j*.jar"
+        include "2018NetworkTableViewer.jar"
+        include "SmartDashboardLibs.jar"
+        include "CoordinateGui2018.jar"
+        include "CoordinateGuiCore.jar"
     }
+    outputs.upToDateWhen { false }
     into System.getProperty("user.home") + "/SmartDashboard/extensions"
 }
 
 task install_to_plugin_dir(type: Copy, dependsOn: install_depencies_to_plugin_dir) {
+    group = "Network Table GUI"
+    description ="Installs the jar to the plugin area"
+    
     from jar.outputs
     into System.getProperty("user.home") + "/SmartDashboard/extensions"
-}
-
-dependencies {
-    compile 'jfree:jfreechart:1.0.13'
-    compile 'org.yaml:snakeyaml:1.18'
-    compile 'log4j:log4j:1.2.16'
-    
-    compile 'edu.wpi.first.wpilib:SmartDashboard:3.0.0'
-}
-
-/////////////////////////////////////////////////////////////////////////////////
-// Style/Formatting stuff
-checkstyle {
-    toolVersion = "8.1"
-    configFile = new File(rootDir, "../styleguide/checkstyle.xml")
-}
-
-pmd {
-    consoleOutput  = true
-    reportsDir = file("${project.buildDir}/reports/pmd")
-    ruleSetFiles = files(file("../styleguide/pmd-ruleset.xml"))
-    ruleSets = []
-}
-
-findbugs {
-    excludeFilter = file("../styleguide/findbugs_suppressions.xml")
-    effort = "max"
-}
-tasks.withType(FindBugs) {
-    reports {
-        xml.enabled false
-        html.enabled true
-    }
-}
-/////////////////////////////////////////////////////////////////////////////////
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.1'
 }

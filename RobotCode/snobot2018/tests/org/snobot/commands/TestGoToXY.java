@@ -1,7 +1,7 @@
 package org.snobot.commands;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.snobot.test.utilities.BaseSimulatorAutonTest;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -9,11 +9,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 
 public class TestGoToXY extends BaseSimulatorAutonTest
 {
-    public TestGoToXY()
-    {
-        super(false);
-    }
-
     @Test
     public void testGo10FeetStraight()
     {
@@ -58,6 +53,8 @@ public class TestGoToXY extends BaseSimulatorAutonTest
 
     private void runTest(String aFile)
     {
+        initializeRobotAndSimulator(false);
+
         CommandGroup group = setupCommand(aFile);
 
         mSnobot.getPositioner().setPosition(0, 0, 0);
@@ -68,7 +65,7 @@ public class TestGoToXY extends BaseSimulatorAutonTest
             runSnobotLoopWithoutControl();
         });
 
-        Assert.assertTrue(group.isCompleted());
+        Assertions.assertTrue(group.isCompleted());
     }
 
 }

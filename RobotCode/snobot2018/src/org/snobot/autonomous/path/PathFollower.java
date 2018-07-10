@@ -1,7 +1,8 @@
 package org.snobot.autonomous.path;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.snobot.SmartDashboardNames;
 import org.snobot.lib.motion_profile.ISetpointIterator;
 import org.snobot.lib.motion_profile.IdealPlotSerializer;
@@ -21,7 +22,7 @@ public class PathFollower
     private static final edu.wpi.first.networktables.NetworkTable sPATH_NETWORK_TABLE = NetworkTableInstance.getDefault()
             .getTable(SmartDashboardNames.sPATH_NAMESPACE);
 
-    protected static final Logger sLOGGER = Logger.getLogger(PathFollower.class);
+    protected static final Logger sLOGGER = LogManager.getLogger(PathFollower.class);
 
     private final ISetpointIterator mSetpointIterator;
     private final double mKv;

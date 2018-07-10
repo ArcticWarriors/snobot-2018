@@ -1,0 +1,23 @@
+// Note 'apply false' for each plugin. This ensures they aren't applied to the root project (here),
+// but it makes the plugins available for subprojects.
+plugins {
+    id "jaci.openrio.gradle.GradleRIO" version "2018.03.06" apply false
+    id "com.snobot.simulator.plugin.SnobotSimulatorPlugin" version "2018-1.0.0" apply false
+}
+
+allprojects
+{
+
+    repositories {
+        mavenCentral()
+        maven {
+            url = "http://first.wpi.edu/FRC/roborio/maven/release"
+        }
+    }
+    
+    ext.coordinateGuiBase = ":NetworkTableViewer:CoordinateViewerGui"
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.7'
+}

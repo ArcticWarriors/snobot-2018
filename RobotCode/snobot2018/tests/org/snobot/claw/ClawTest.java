@@ -1,19 +1,16 @@
 package org.snobot.claw;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.snobot.test.utilities.BaseSimulatorTest;
 
 public class ClawTest extends BaseSimulatorTest
 {
-    public ClawTest()
-    {
-        super(false);
-    }
-
     @Test
     public void testClawOpen()
     {
+        initializeRobotAndSimulator(false);
+
         IClaw claw = mSnobot.getClaw();
 
         simulateForTime(1, () ->
@@ -21,13 +18,15 @@ public class ClawTest extends BaseSimulatorTest
             runSnobotLoopWithoutControl();
             claw.open();
 
-            Assert.assertTrue(claw.isOpen());
+            Assertions.assertTrue(claw.isOpen());
         });
     }
 
     @Test
     public void testClawClosed()
     {
+        initializeRobotAndSimulator(false);
+
         IClaw claw = mSnobot.getClaw();
 
         simulateForTime(1, () ->
@@ -35,7 +34,7 @@ public class ClawTest extends BaseSimulatorTest
             runSnobotLoopWithoutControl();
             claw.close();
 
-            Assert.assertFalse(claw.isOpen());
+            Assertions.assertFalse(claw.isOpen());
         });
     }
 }

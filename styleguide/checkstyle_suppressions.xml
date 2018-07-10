@@ -6,4 +6,6 @@
 <suppressions>
     <suppress files="com.team254.*" checks="[a-zA-Z0-9]*"/>
     <suppress files="ADXRS450_Gyro" checks="[a-zA-Z0-9]*"/>
+    
+    <suppress checks="JavadocMethod" files=".*[\\/]snobot2018[\\/]tests"/>
 </suppressions>

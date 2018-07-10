@@ -3,7 +3,7 @@ package org.snobot.elevator;
 import org.snobot.PortMappings2018;
 import org.snobot.joystick.IOperatorJoystick;
 import org.snobot.leds.ILedManager;
-import org.snobot.lib.logging.ILogger;
+import org.snobot.lib.logging.CsvLogger;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -24,7 +24,7 @@ public class ElevatorFactory
      *            The logger
      * @return The created elevator
      */
-    public IElevator createDrivetrain(boolean aUseCan, IOperatorJoystick aJoystick, ILedManager aLedManager, ILogger aLogger)
+    public IElevator createDrivetrain(boolean aUseCan, IOperatorJoystick aJoystick, ILedManager aLedManager, CsvLogger aLogger)
     {
         if (aUseCan)
         {

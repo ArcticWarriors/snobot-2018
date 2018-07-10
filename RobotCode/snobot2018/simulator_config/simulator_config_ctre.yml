@@ -1,51 +1,42 @@
-!!com.snobot.simulator.config.SimulatorConfig
+!!com.snobot.simulator.config.v1.SimulatorConfigV1
 mAccelerometers: []
-mAnalogIO: []
-mDefaultI2CWrappers:
-  0: None
-  1: None
+mAnalogIn:
+- mHandle: 0
+  mName: Auto Position
+  mType: com.snobot.simulator.module_wrapper.wpi.WpiAnalogInWrapper
+- mHandle: 1
+  mName: Auto Mode
+  mType: com.snobot.simulator.module_wrapper.wpi.WpiAnalogInWrapper
+mAnalogOut: []
+mDefaultI2CWrappers: {}
 mDefaultSpiWrappers:
   0: ADXRS450
-  1: Dotstar
-  2: Dotstar
-  3: Dotstar
   4: Dotstar
 mDigitalIO: []
 mEncoders:
-- mConnectedSpeedControllerHandle: 103
-  mHandle: 103
-  mName: Drive Right
 - mConnectedSpeedControllerHandle: 101
   mHandle: 101
   mName: Drive Left
+  mType: com.snobot.simulator.simulator_components.ctre.CtreTalonSrxSpeedControllerSim$CtreEncoder
+- mConnectedSpeedControllerHandle: 103
+  mHandle: 103
+  mName: Drive Right
+  mType: com.snobot.simulator.simulator_components.ctre.CtreTalonSrxSpeedControllerSim$CtreEncoder
 - mConnectedSpeedControllerHandle: 105
   mHandle: 105
   mName: Elevator
+  mType: com.snobot.simulator.simulator_components.ctre.CtreTalonSrxSpeedControllerSim$CtreEncoder
 mGyros:
 - mHandle: 100
-  mName: SPI ADXRS450
+  mName: ADXRS450 Gyro
+  mType: com.snobot.simulator.simulator_components.adx_family.ADXRS450GyroWrapper
 mPwm:
 - mHandle: 3
   mMotorModelConfig: null
   mMotorSimConfig: !!com.snobot.simulator.motor_sim.SimpleMotorSimulationConfig
     mMaxSpeed: 0.0
   mName: Winch
-- mHandle: 103
-  mMotorModelConfig:
-    mGearReduction: 12.0
-    mGearboxEfficiency: 1.0
-    mHasBrake: false
-    mInverted: true
-    mMotorType: CIM
-    mNumMotors: 2
-  mMotorSimConfig: !!com.snobot.simulator.motor_sim.StaticLoadMotorSimulationConfig
-    mConversionFactor: 0.16666666666
-    mLoad: 0.6
-  mName: Drive Right (A)
-- mHandle: 104
-  mMotorModelConfig: null
-  mMotorSimConfig: null
-  mName: Drive Right (B)
+  mType: com.snobot.simulator.module_wrapper.wpi.WpiPwmWrapper
 - mHandle: 101
   mMotorModelConfig:
     mGearReduction: 12.0
@@ -58,29 +49,53 @@ mPwm:
     mConversionFactor: 0.16666666666
     mLoad: 0.6
   mName: Drive Left (A)
-- mHandle: 106
-  mMotorModelConfig: null
-  mMotorSimConfig: null
-  mName: Drive Left (B)
-- mHandle: 105
-  mMotorModelConfig: null
-  mMotorSimConfig: !!com.snobot.simulator.motor_sim.SimpleMotorSimulationConfig
-    mMaxSpeed: 20.0
-  mName: Elevator (A)
+  mType: com.snobot.simulator.simulator_components.ctre.CtreTalonSrxSpeedControllerSim
 - mHandle: 102
   mMotorModelConfig: null
   mMotorSimConfig: !!com.snobot.simulator.motor_sim.SimpleMotorSimulationConfig
     mMaxSpeed: 0.0
   mName: Elevator (B)
+  mType: com.snobot.simulator.simulator_components.ctre.CtreTalonSrxSpeedControllerSim
+- mHandle: 103
+  mMotorModelConfig:
+    mGearReduction: 12.0
+    mGearboxEfficiency: 1.0
+    mHasBrake: false
+    mInverted: true
+    mMotorType: CIM
+    mNumMotors: 2
+  mMotorSimConfig: !!com.snobot.simulator.motor_sim.StaticLoadMotorSimulationConfig
+    mConversionFactor: 0.16666666666
+    mLoad: 0.6
+  mName: Drive Right (A)
+  mType: com.snobot.simulator.simulator_components.ctre.CtreTalonSrxSpeedControllerSim
+- mHandle: 104
+  mMotorModelConfig: null
+  mMotorSimConfig: null
+  mName: Drive Right (B)
+  mType: com.snobot.simulator.simulator_components.ctre.CtreTalonSrxSpeedControllerSim
+- mHandle: 105
+  mMotorModelConfig: null
+  mMotorSimConfig: !!com.snobot.simulator.motor_sim.SimpleMotorSimulationConfig
+    mMaxSpeed: 20.0
+  mName: Elevator (A)
+  mType: com.snobot.simulator.simulator_components.ctre.CtreTalonSrxSpeedControllerSim
+- mHandle: 106
+  mMotorModelConfig: null
+  mMotorSimConfig: null
+  mName: Drive Left (B)
+  mType: com.snobot.simulator.simulator_components.ctre.CtreTalonSrxSpeedControllerSim
 mRelays: []
 mSimulatorComponents:
-- !!com.snobot.simulator.simulator_components.TankDriveGyroSimulator$TankDriveConfig
+- !!com.snobot.simulator.simulator_components.config.TankDriveConfig
   mGyroHandle: 100
   mLeftEncoderHandle: 101
   mRightEncoderHandle: 103
-  mTurnKp: 33.33
+  mTurnKp: 1.0
 mSolenoids:
 - mHandle: 1
   mName: Claw (A)
+  mType: com.snobot.simulator.module_wrapper.wpi.WpiSolenoidWrapper
 - mHandle: 2
   mName: Claw (B)
+  mType: com.snobot.simulator.module_wrapper.wpi.WpiSolenoidWrapper

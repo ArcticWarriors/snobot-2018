@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.snobot.nt.path_plotter.PathSetpoint;
 
 /**
@@ -17,7 +18,7 @@ import org.snobot.nt.path_plotter.PathSetpoint;
  */
 public final class IdealPlotSerializer
 {
-    private static final Logger sLOGGER = Logger.getLogger(IdealPlotSerializer.class);
+    private static final Logger sLOGGER = LogManager.getLogger(IdealPlotSerializer.class);
 
     /**
      * Constructor, private because they should be using the static functions.

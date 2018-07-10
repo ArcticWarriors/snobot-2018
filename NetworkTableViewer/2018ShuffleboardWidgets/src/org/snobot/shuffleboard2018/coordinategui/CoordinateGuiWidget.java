@@ -8,8 +8,9 @@ import java.util.StringTokenizer;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.fxmisc.easybind.EasyBind;
 import org.fxmisc.easybind.monadic.PropertyBinding;
 import org.snobot.SmartDashboardNames;
@@ -36,7 +37,7 @@ import javafx.scene.layout.Pane;
 @ParametrizedController("CoordinateGuiWidget.fxml")
 public class CoordinateGuiWidget extends AbstractWidget implements AnnotatedWidget
 {
-    private static final Logger sLOGGER = Logger.getLogger(CoordinateGuiWidget.class);
+    private static final Logger sLOGGER = LogManager.getLogger(CoordinateGuiWidget.class);
 
     @FXML
     private Pane mRoot;

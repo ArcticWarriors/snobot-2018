@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.snobot.nt.spline_plotter.SplineSegment;
 
 /**
@@ -16,7 +17,7 @@ import org.snobot.nt.spline_plotter.SplineSegment;
  */
 public final class IdealSplineSerializer
 {
-    private static final Logger sLOGGER = Logger.getLogger(IdealSplineSerializer.class);
+    private static final Logger sLOGGER = LogManager.getLogger(IdealSplineSerializer.class);
 
     /**
      * Constructor, private because the static functions should be used.

@@ -1,7 +1,7 @@
 package org.snobot.commands;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.snobot.claw.IClaw;
 import org.snobot.test.utilities.BaseSimulatorAutonTest;
 
@@ -10,16 +10,13 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 
 public class TestClawCommand extends BaseSimulatorAutonTest
 {
-    public TestClawCommand()
-    {
-        super(false);
-    }
-
     @Test
     public void testClawOpenCommand()
     {
+        initializeRobotAndSimulator(false);
+
         IClaw claw = mSnobot.getClaw();
-        Assert.assertFalse(claw.isOpen());
+        Assertions.assertFalse(claw.isOpen());
 
         CommandGroup group = setupCommand("resources/autonomous/TestAutonomous/TestClaw/TestOpenClaw.auto");
 
@@ -29,18 +26,20 @@ public class TestClawCommand extends BaseSimulatorAutonTest
             runSnobotLoopWithoutControl();
         });
 
-        Assert.assertTrue(group.isCompleted());
-        Assert.assertTrue(claw.isOpen());
+        Assertions.assertTrue(group.isCompleted());
+        Assertions.assertTrue(claw.isOpen());
     }
 
     @Test
     public void testClawCloseCommand()
     {
+        initializeRobotAndSimulator(false);
+
         IClaw claw = mSnobot.getClaw();
-        Assert.assertFalse(claw.isOpen());
+        Assertions.assertFalse(claw.isOpen());
 
         claw.open();
-        Assert.assertTrue(claw.isOpen());
+        Assertions.assertTrue(claw.isOpen());
 
         CommandGroup group = setupCommand("resources/autonomous/TestAutonomous/TestClaw/TestCloseClaw.auto");
 
@@ -50,7 +49,7 @@ public class TestClawCommand extends BaseSimulatorAutonTest
             runSnobotLoopWithoutControl();
         });
 
-        Assert.assertTrue(group.isCompleted());
-        Assert.assertFalse(claw.isOpen());
+        Assertions.assertTrue(group.isCompleted());
+        Assertions.assertFalse(claw.isOpen());
     }
 }

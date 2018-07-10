@@ -3,7 +3,8 @@ package org.snobot.claw;
 import org.snobot.SmartDashboardNames;
 import org.snobot.joystick.IOperatorJoystick;
 import org.snobot.leds.ILedManager;
-import org.snobot.lib.logging.ILogger;
+import org.snobot.lib.logging.CsvLogEntry;
+import org.snobot.lib.logging.CsvLogger;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -15,9 +16,10 @@ public class SnobotClaw implements IClaw
     private static final DoubleSolenoid.Value sCLAW_CLOSE_VALUE = Value.kReverse;
 
     private final DoubleSolenoid mDoubleSolenoid;
-    private final ILogger mLogger;
     private final IOperatorJoystick mOperatorJoystick;
     private final ILedManager mLedManager;
+
+    private final CsvLogEntry mSolenoidStateLog;
 
     /**
      * This is the Snobot Claw constructor.
@@ -29,13 +31,14 @@ public class SnobotClaw implements IClaw
      * @param aOperatorJoystick
      *            the claw joystick.
      */
-    public SnobotClaw(DoubleSolenoid aDoubleSolenoid, ILogger aLogger, IOperatorJoystick aOperatorJoystick, ILedManager aLedManager)
+    public SnobotClaw(DoubleSolenoid aDoubleSolenoid, CsvLogger aLogger, IOperatorJoystick aOperatorJoystick, ILedManager aLedManager)
     {
         mDoubleSolenoid = aDoubleSolenoid;
-        mLogger = aLogger;
         mOperatorJoystick = aOperatorJoystick;
         mLedManager = aLedManager;
 
+        mSolenoidStateLog = new CsvLogEntry("claw.state");
+        aLogger.addEntry(mSolenoidStateLog);
     }
 
     @Override
@@ -73,19 +76,7 @@ public class SnobotClaw implements IClaw
     public void update()
     {
         mLedManager.setClawState(isOpen());
-    }
-
-
-    @Override
-    public void initializeLogHeaders()
-    {
-        mLogger.addHeader("DoubleSolenoid");
-    }
-
-    @Override
-    public void updateLog()
-    {
-        mLogger.updateLogger(mDoubleSolenoid.get().toString());
+        mSolenoidStateLog.update(isOpen());
     }
 
     @Override

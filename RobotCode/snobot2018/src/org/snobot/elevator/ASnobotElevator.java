@@ -5,7 +5,8 @@ import org.snobot.SmartDashboardNames;
 import org.snobot.joystick.IOperatorJoystick;
 import org.snobot.leds.ILedManager;
 import org.snobot.lib.InDeadbandHelper;
-import org.snobot.lib.logging.ILogger;
+import org.snobot.lib.logging.CsvLogEntry;
+import org.snobot.lib.logging.CsvLogger;
 
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -15,7 +16,6 @@ public abstract class ASnobotElevator<SpeedControllerType extends SpeedControlle
     protected final ILedManager mLedManager;
     protected final SpeedControllerType mElevatorMotor;
     protected final IOperatorJoystick mJoystick;
-    protected final ILogger mLogger;
     
     protected double mActualHeight;
     protected double mJoystickSpeed;
@@ -26,6 +26,8 @@ public abstract class ASnobotElevator<SpeedControllerType extends SpeedControlle
     protected final InDeadbandHelper mDeadBandHelper;
     protected final ResetElevatorCommand mResetElevatorCommand;
 
+    protected final CsvLogEntry mHeightLog;
+    protected final CsvLogEntry mSpeedLog;
 
     /**
      * This is the constructor for the SnobotElevator.
@@ -38,12 +40,11 @@ public abstract class ASnobotElevator<SpeedControllerType extends SpeedControlle
      * @param aLogger
      *            logs the actions of the elevator in the log file.
      */
-    public ASnobotElevator(ILedManager aLedManager, SpeedControllerType aElevatorMotor, IOperatorJoystick aJoystick, ILogger aLogger)
+    public ASnobotElevator(ILedManager aLedManager, SpeedControllerType aElevatorMotor, IOperatorJoystick aJoystick, CsvLogger aLogger)
     {
         mLedManager = aLedManager;
         mElevatorMotor = aElevatorMotor;
         mJoystick = aJoystick;
-        mLogger = aLogger;
         mActualHeight = 0;
         mJoystickSpeed = 0;
         mHeightDeadband = Properties2018.sELEVATOR_HEIGHT_DEADBAND.getValue();
@@ -53,6 +54,12 @@ public abstract class ASnobotElevator<SpeedControllerType extends SpeedControlle
         mDeadBandHelper = new InDeadbandHelper(3);
 
         mResetElevatorCommand = new ResetElevatorCommand(this);
+
+        mHeightLog = new CsvLogEntry("Elevator.Height");
+        mSpeedLog = new CsvLogEntry("Elevator.Speed");
+
+        aLogger.addEntry(mHeightLog);
+        aLogger.addEntry(mSpeedLog);
     }
 
 
@@ -86,22 +93,9 @@ public abstract class ASnobotElevator<SpeedControllerType extends SpeedControlle
     {
         mActualHeight = caluculateHeight();
         mJoystickSpeed = mJoystick.getElevatorSpeed();
-    }
 
-    @Override
-    public void initializeLogHeaders()
-    {
-        mLogger.addHeader("ElevatorHeight");
-        mLogger.addHeader("ElevatorSpeed");
-
-    }
-
-    @Override
-    public void updateLog()
-    {
-        mLogger.updateLogger(mActualHeight);
-        mLogger.updateLogger(mJoystickSpeed);
-
+        mHeightLog.update(mActualHeight);
+        mSpeedLog.update(mJoystickSpeed);
     }
 
     @Override
