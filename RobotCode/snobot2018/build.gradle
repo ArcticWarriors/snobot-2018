@@ -1,58 +1,21 @@
-buildscript {
-    repositories {
-        mavenLocal()
-        jcenter()
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
-}
-plugins {
-    id "java"
-    id "eclipse"
-    id "idea"
-    id "jacoco"
-    id "checkstyle"
-    id "pmd"
-    id "findbugs"
-    id "jaci.openrio.gradle.GradleRIO" version "2018.01.21"
-    id "com.snobot.simulator.plugin.SnobotSimulatorPlugin" version "2018.01.10"
-}
 
-apply plugin: com.snobot.simulator.plugin.SnobotSimulatorPlugin
+apply plugin: "jaci.openrio.gradle.GradleRIO"
+apply plugin: "com.snobot.simulator.plugin.SnobotSimulatorPlugin"
+apply plugin: "java"
+
+apply plugin: "jacoco"
+apply from: "$rootDir/shared_styleguide.gradle"
+
 snobotSimVersions {
-    snobotSimVersion = "0.9.0"
+    snobotSimVersion = "2018-1.0.0"
+    snobotSimCtreVersion = "V0_5.1.2.1"
 }
 
 wpi {
     wpilibVersion = '2018.4.1'
     shuffleboardVersion = '1.2.2'
+    ctreVersion = "5.1.2.1"
 }
-/////////////////////////////////////////////////////////////////////////////////
-// Style/Formatting stuff
-checkstyle {
-    toolVersion = "8.1"
-    configFile = new File(rootDir, "styleguide/checkstyle.xml")
-}
-
-pmd {
-    consoleOutput  = true
-    reportsDir = file("${project.buildDir}/reports/pmd")
-    ruleSetFiles = files(file("styleguide/pmd-ruleset.xml"))
-    ruleSets = []
-}
-
-findbugs {
-    excludeFilter = file("styleguide/findbugs_suppressions.xml")
-    effort = "max"
-}
-tasks.withType(FindBugs) {
-    reports {
-        xml.enabled false
-        html.enabled true
-    }
-}
-/////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////
 // GradleRIO setup
@@ -78,20 +41,10 @@ deploy {
 
 /////////////////////////////////////////////////////////////////////////////////
 
-
-repositories {
-    mavenLocal()
-    mavenCentral()
-}
-
 sourceSets {
     main {
         java {
-            srcDirs = ["src", 
-                       "../SnobotRobotLibs/src",
-                       "../SnobotRobotLibs/CheesyPoofsLibs",
-                       "../../Vision/VisionMessages",
-                      ]
+            srcDirs = ["src"]
         }
     }
     test {
@@ -101,25 +54,24 @@ sourceSets {
     }
 }
 
-configurations {
-    native3rdPartyDeps
-    testRuntime.extendsFrom(native3rdPartyDeps)
-}
-
 dependencies {
 
     // GradleRIO
     compile wpilib()
     compile ctre()
     
-    compile 'log4j:log4j:1.2.16'
+    compile 'org.apache.logging.log4j:log4j-api:2.11.0'
+    compile 'org.apache.logging.log4j:log4j-core:2.11.0'
     compile 'org.json:json:20180130'
-    
-    // Third Party without maven
-    compile files('../SnobotRobotLibs/dependencies/RIOdroid.jar')
+    compile project(":RobotCode:SnobotRobotLibs:SnobotRobotLibsCore")
+    compile project(":RobotCode:SnobotRobotLibs:SnobotRobotLibsAndroid")
+    compile project(":RobotCode:SnobotRobotLibs:CheesyPoofsLibs")
+    compile project(":Vision:VisionMessages")
     
     // Simulator
-    testCompile 'junit:junit:4.12'
+    testCompile 'org.junit.jupiter:junit-jupiter-params:5.2.0'
+    testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.2.0'
+    testRuntime 'org.junit.platform:junit-platform-launcher:1.2.0'
     testCompile snobotSimCompile()
     testCompile snobotSimJavaCompile()
 }
@@ -148,13 +100,6 @@ jar {
     manifest jaci.openrio.gradle.GradleRIOPlugin.javaManifest(ROBOT_CLASS)
 }
 
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.2.1'
-}
-
-build.dependsOn snobotSimUnzipNativeTools
-
 eclipse.classpath.file {
     withXml {
         provider ->
@@ -165,6 +110,15 @@ eclipse.classpath.file {
     }
 }
 
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "failed"
+        exceptionFormat "full"
+    }
+    ignoreFailures = org.gradle.internal.os.OperatingSystem.current().isMacOsX()
+}
+
 tasks.withType(Test) {
-    systemProperty "java.library.path", "$rootDir/build/native_libs"
+    systemProperty "java.library.path", "$projectDir/build/native_libs"
 }

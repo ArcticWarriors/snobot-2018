@@ -1,0 +1,8 @@
+
+apply plugin: "java"
+
+apply from: "$rootDir/shared_styleguide.gradle"
+
+dependencies {
+    compile 'org.json:json:20180130'
+}

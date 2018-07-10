@@ -2,7 +2,7 @@ package org.snobot.vision;
 
 import java.nio.ByteBuffer;
 
-import org.apache.log4j.Level;
+import org.apache.logging.log4j.Level;
 import org.json.JSONObject;
 import org.snobot.Properties2018;
 import org.snobot.lib.adb.IAdbBridge;

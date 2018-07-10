@@ -1,5 +1,9 @@
 version: 1.0.{build}
-image: Visual Studio 2017
+image: Visual Studio 2015
+
+platform:
+- x86
+- x64
 
 environment:
   ANDROID_HOME: "C:\\Program Files (x86)\\Android\\android-sdk"
@@ -22,57 +26,14 @@ clone_script:
     git submodule update --init --recursive
 
 build_script:
+- cmd: gradlew.bat build jacocoTestReport
 - ps: >-
-    
-    dir
-    
-    dir RobotCode
-    
-    dir RobotCode\snobot2018
-    
-    dir RobotCode\SnobotRobotLibs
-    
-    dir RobotCode\SnobotRobotLibs\src
-
-    # Build Robot Code
-    
-    cd RobotCode\snobot2018
-    
-    dir
-    
-    cmd /c gradlew.bat build jacocoTestReport
-
-    # Build Shuffleboard plugin
-    
-    cd ..\..\NetworkTableViewer\2018ShuffleboardWidgets
-    
-    dir
-    
-    cmd /c gradlew.bat build
-
-    # Build SmartDashboard extension
-    
-    cd ..\..\NetworkTableViewer\2018SmartDashboardWidgets
-    
-    dir
-    
-    cmd /c gradlew.bat build
 
     # Build Vision App
     
-    cd ..\..\Vision\VisionApp
+    cd Vision\VisionApp
     
     dir
-    
-    cmd /c gradlew.bat build
-
-    # Build Standalone Vision Tester
-    
-    cd ..\..\Vision\StandaloneVisionTester
-    
-    dir
-    
-    cmd /c gradlew.bat build
     
 after_build:
 - cmd: "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
@@ -80,19 +41,17 @@ after_build:
 - cmd: cd ../..
 - cmd: dir
 - cmd: codecov -f "RobotCode/snobot2018/build/reports/jacoco/test/jacocoTestReport.xml"
-
  
-
 artifacts:
 
 - path: Vision/VisionApp/app/build/outputs/apk
   name: VisionApp
 
-- path: RobotCode/snobot2018/build/libs
-  name: Robot
-
-- path: NetworkTableViewer/2018ShuffleboardWidgets/build/libs
+- path: NetworkTableViewer/2018ShuffleboardWidgets/build/libs/*.jar
   name: Shuffleboard
-
-- path: NetworkTableViewer/2018SmartDashboardWidgets/build/libs
+  
+- path: NetworkTableViewer/2018SmartDashboardWidgets/build/libs/*.jar
   name: SmartDashboard
+  
+- path: RobotCode/snobot2018/build/libs/*.jar
+  name: Robot
